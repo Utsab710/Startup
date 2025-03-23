@@ -76,7 +76,7 @@ function Header() {
         </div>
 
         {/* Dropdown Menu - Only render if there are dropdown items */}
-        {hasDropdown && isHovered && (
+        {hasDropdown && dropdownItems.length > 0 && isHovered && (
           <div className="absolute left-0 mt-10 w-40 text-black bg-white shadow-md rounded-lg opacity-100 visible transition-all duration-300">
             <ul className="py-2">
               {dropdownItems.map((item, index) => (
@@ -90,6 +90,14 @@ function Header() {
             </ul>
           </div>
         )}
+
+        <div className="flex justify-center items-center ">
+          {hasDropdown && dropdownItems.length > 0 && (
+            <div className="ml-[-15px]">
+              <Dropdown />
+            </div>
+          )}
+        </div>
       </div>
     );
   };
