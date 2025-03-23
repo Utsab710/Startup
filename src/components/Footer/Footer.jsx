@@ -7,32 +7,38 @@ function Footer() {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
+
     const ctx = canvas.getContext("2d");
 
     // Set canvas dimensions to match parent container
     const resizeCanvas = () => {
-      canvas.width = canvas.parentElement.offsetWidth;
-      canvas.height = canvas.parentElement.offsetHeight;
+      const parent = canvas.parentElement;
+      if (!parent) return;
+
+      // Set to actual pixel dimensions
+      canvas.width = parent.offsetWidth;
+      canvas.height = parent.offsetHeight;
     };
 
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
-    // Dots configuration
+    // Dots configuration - increasing visibility
     const dots = [];
-    const dotsCount = 60;
-    const dotColor = "rgba(200, 240, 220, 0.7)";
-    const lineColor = "rgba(200, 240, 220, 0.3)";
-    const connectionDistance = 100;
+    const dotsCount = 60; // More dots
+    const dotColor = "rgba(240, 240, 240, 0.6)"; // More visible blue color
+    const lineColor = "rgba(240, 240, 240, 0.3)"; // More visible line color
+    const connectionDistance = 80; // Longer connection distance
 
     // Initialize dots
     for (let i = 0; i < dotsCount; i++) {
       dots.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        radius: Math.random() * 2 + 1,
-        vx: Math.random() * 1 - 0.5,
-        vy: Math.random() * 1 - 0.5,
+        radius: Math.random() * 3 + 2, // Bigger dots
+        vx: (Math.random() - 0.5) * 0.7, // Slightly slower
+        vy: (Math.random() - 0.5) * 0.7, // Slightly slower
       });
     }
 
@@ -69,7 +75,7 @@ function Footer() {
             ctx.moveTo(dots[i].x, dots[i].y);
             ctx.lineTo(dots[j].x, dots[j].y);
             ctx.strokeStyle = lineColor;
-            ctx.lineWidth = 0.5;
+            ctx.lineWidth = 1; // Thicker lines
             // Make lines more transparent the further apart dots are
             ctx.globalAlpha = 1 - distance / connectionDistance;
             ctx.stroke();
@@ -81,20 +87,23 @@ function Footer() {
       requestAnimationFrame(animate);
     };
 
-    animate();
+    // Start animation
+    const animationId = requestAnimationFrame(animate);
 
+    // Cleanup function
     return () => {
       window.removeEventListener("resize", resizeCanvas);
+      cancelAnimationFrame(animationId);
     };
   }, []);
 
   return (
-    <div className="bg-gray-100 relative flex justify-center items-center p-8">
-      {/* Canvas for animated background */}
+    <div className="relative bg-gray-800 flex justify-center items-center p-8 min-h-[300px]">
+      {/* Canvas for animated background - explicitly set to cover full container */}
       <canvas
         ref={canvasRef}
         className="absolute top-0 left-0 w-full h-full"
-        style={{ zIndex: 1 }}
+        style={{ zIndex: 1, display: "block" }}
       />
 
       {/* Original footer content with higher z-index */}
@@ -109,7 +118,7 @@ function Footer() {
         </div>
 
         {/* Text container takes 40% width */}
-        <div className="w-[40%] px-4">
+        <div className="w-[40%] px-4 text-white">
           <p>
             We're an innovative IT company providing tailored solutions in
             software development, web design, cybersecurity, cloud computing,
@@ -122,7 +131,7 @@ function Footer() {
                 href="https://www.facebook.com/FoundationSoftech"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-800 flex items-center justify-center rounded transition-colors duration-300 hover:bg-blue-600"
+                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-blue-600"
               >
                 <FaFacebook size={20} className="text-white" />
               </a>
@@ -130,7 +139,7 @@ function Footer() {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-800 flex items-center justify-center rounded transition-colors duration-300 hover:bg-blue-600"
+                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-blue-600"
               >
                 <FaXTwitter size={20} className="text-white" />
               </a>
@@ -138,7 +147,7 @@ function Footer() {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-800 flex items-center justify-center rounded transition-colors duration-300 hover:bg-blue-600"
+                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-blue-600"
               >
                 <FaLinkedin size={20} className="text-white" />
               </a>
@@ -146,7 +155,7 @@ function Footer() {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-800 flex items-center justify-center rounded transition-colors duration-300 hover:bg-blue-600"
+                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-blue-600"
               >
                 <FaYoutube size={20} className="text-white" />
               </a>
@@ -154,7 +163,7 @@ function Footer() {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-800 flex items-center justify-center rounded transition-colors duration-300 hover:bg-blue-600"
+                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-blue-600"
               >
                 <FaInstagram size={20} className="text-white" />
               </a>
@@ -171,7 +180,7 @@ function Footer() {
         </div>
 
         {/* Links container takes 20% width */}
-        <div className="w-[20%] px-4">
+        <div className="w-[20%] px-4 text-white">
           <ul>
             <h1 className="text-2xl font-semibold">About us</h1>
             <li>Company</li>
@@ -183,7 +192,7 @@ function Footer() {
         </div>
 
         {/* Innovation links container takes 20% width */}
-        <div className="w-[20%] px-4">
+        <div className="w-[20%] px-4 text-white">
           <ul>
             <h1 className="text-2xl font-semibold">Innovation</h1>
             <li>Corporate</li>
