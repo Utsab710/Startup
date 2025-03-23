@@ -183,11 +183,13 @@ function Footer() {
         <div className="w-[20%] px-4 text-white">
           <ul>
             <h1 className="text-2xl font-semibold">About us</h1>
-            <li>Company</li>
-            <li>Award</li>
-            <li>Careers</li>
-            <li>Startup</li>
-            <li>Programs</li>
+            <div className="cursor-pointer">
+              <li>Company</li>
+              <li>Award</li>
+              <li>Careers</li>
+              <li>Startup</li>
+              <li>Programs</li>
+            </div>
           </ul>
         </div>
 
@@ -195,12 +197,19 @@ function Footer() {
         <div className="w-[20%] px-4 text-white">
           <ul>
             <h1 className="text-2xl font-semibold">Innovation</h1>
-            <li>Corporate</li>
-            <li>Government</li>
-            <li>Value Partners</li>
-            <li>Client</li>
+            <div className="cursor-pointer">
+              <li>Corporate</li>
+              <li>Government</li>
+              <li>Value Partners</li>
+              <li>Client</li>
+            </div>
           </ul>
         </div>
+      </div>
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 pb-3">
+        <p className="text-white text-center">
+          Copyright © 2023 Softech Foundation Pvt. Ltd
+        </p>
       </div>
     </div>
   );
