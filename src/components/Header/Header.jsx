@@ -73,12 +73,11 @@ function Header() {
           >
             {text}
           </h1>
-          {hasDropdown && <Dropdown />}
         </div>
 
         {/* Dropdown Menu - Only render if there are dropdown items */}
-        {dropdownItems.length > 0 && (
-          <div className="absolute left-0 mt-2 w-40 bg-white shadow-md rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+        {hasDropdown && isHovered && (
+          <div className="absolute left-0 mt-10 w-40 text-black bg-white shadow-md rounded-lg opacity-100 visible transition-all duration-300">
             <ul className="py-2">
               {dropdownItems.map((item, index) => (
                 <li
