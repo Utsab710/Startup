@@ -98,7 +98,7 @@ function Footer() {
   }, []);
 
   return (
-    <div className="relative bg-gray-800 flex justify-center items-center p-8 min-h-[300px]">
+    <div className="relative bg-gray-800 flex justify-center items-center p-8 min-h-[400px]">
       {/* Canvas for animated background - explicitly set to cover full container */}
       <canvas
         ref={canvasRef}

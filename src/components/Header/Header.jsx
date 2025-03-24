@@ -52,7 +52,7 @@ function Header() {
       <div
         className={`relative flex cursor-pointer rounded-md transition-all duration-200 ${
           isActive
-            ? "bg-cyan-600 text-white shadow-lg"
+            ? "bg-blue-500/75 text-white shadow-lg"
             : isHovered
             ? "bg-cyan-50 text-cyan-600"
             : "bg-transparent text-gray-700"
@@ -77,7 +77,11 @@ function Header() {
 
         {/* Dropdown Menu - Only render if there are dropdown items */}
         {hasDropdown && dropdownItems.length > 0 && isHovered && (
-          <div className="absolute left-0 mt-10 w-40 text-black bg-white shadow-md rounded-lg opacity-100 visible transition-all duration-300">
+          <div
+            className="absolute left-0 top-full z-50 w-40 text-black bg-white shadow-md rounded-lg opacity-100 visible transition-all duration-300"
+            onMouseEnter={() => setHoveredItem(id)} // Keep the hover state when mouse enters dropdown
+            onMouseLeave={() => setHoveredItem(null)}
+          >
             <ul className="py-2">
               {dropdownItems.map((item, index) => (
                 <li
@@ -104,7 +108,9 @@ function Header() {
 
   return (
     <div>
-      <section>
+      <section className="mb-16">
+        {" "}
+        {/* Added mb-8 for bottom margin */}
         <div className="flex w-full py-3 bg-white shadow-md">
           <div className="ml-4">
             <img
@@ -125,7 +131,7 @@ function Header() {
             ))}
           </div>
           <div className="cursor-pointer ml-auto flex items-center mr-10">
-            <button className="bg-cyan-600 text-white font-semibold px-5 py-2 rounded-lg shadow-md hover:bg-cyan-700 transition-all duration-300">
+            <button className="bg-blue-500/75 text-white font-semibold px-5 py-2 rounded-lg shadow-md hover:bg-cyan-700 transition-all duration-300">
               <div className="flex items-center">
                 <span>Login</span>
                 <CiLogin size={20} />
