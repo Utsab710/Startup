@@ -5,11 +5,9 @@ function AboutUs() {
   return (
     <div className="p-10">
       <div>
-        <h1 className="text-4xl font-bold mb-4 text-center">
-          <span className="text-white bg-blue-900 text-outline bg-clip-text mr-2">
-            Why
-          </span>
-          <span className="gap-10 bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold mb-4 text-center m-20">
+          <span className="text-gray-900 md:text-5xl mr-2  ">Why</span>
+          <span className="gap-10 md:text-5xl bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent">
             choose us
           </span>
         </h1>
@@ -17,7 +15,7 @@ function AboutUs() {
         {/* Flex container to align text on the left and image on the right */}
         <div className="flex items-center justify-between">
           {/* Left side text */}
-          <div className="w-1/1 text-left text-gray-600 text-xl font-semibold mb-4">
+          <div className="text-gray-600 text-lg  leading-relaxed mb-6">
             <p>
               In an innovative, quick, and effective way. Because we are
               digitally awesome! Softech Foundation started its operations in

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 import { FaLinkedin, FaXTwitter } from "react-icons/fa6";
+import A2F from "../../Images/A2F.png";
 
 function Footer() {
   const canvasRef = useRef(null);
@@ -98,7 +99,7 @@ function Footer() {
   }, []);
 
   return (
-    <div className="relative bg-gray-800 flex justify-center items-center p-8 min-h-[400px]">
+    <div className="relative bg-black flex justify-center items-center p-8 min-h-[400px]">
       {/* Canvas for animated background - explicitly set to cover full container */}
       <canvas
         ref={canvasRef}
@@ -110,11 +111,7 @@ function Footer() {
       <div className="flex w-full py-3 ml-4 relative z-10">
         {/* Image container takes 20% width */}
         <div className="w-[10%] p-2">
-          <img
-            src="https://softechfoundation.com/upload_file/setting/1711949002_1167325993_1536148958_384808185_logo.png"
-            className="w-[-20%] h-8"
-            alt="Logo"
-          />
+          <img src={A2F} className="w-[-20%] h-30" alt="Logo" />
         </div>
 
         {/* Text container takes 40% width */}
@@ -131,7 +128,7 @@ function Footer() {
                 href="https://www.facebook.com/FoundationSoftech"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-blue-600"
+                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-orange-600"
               >
                 <FaFacebook size={20} className="text-white" />
               </a>
@@ -139,7 +136,7 @@ function Footer() {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-blue-600"
+                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-orange-600"
               >
                 <FaXTwitter size={20} className="text-white" />
               </a>
@@ -147,7 +144,7 @@ function Footer() {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-blue-600"
+                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-orange-600"
               >
                 <FaLinkedin size={20} className="text-white" />
               </a>
@@ -155,7 +152,7 @@ function Footer() {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-blue-600"
+                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-orange-600"
               >
                 <FaYoutube size={20} className="text-white" />
               </a>
@@ -163,7 +160,7 @@ function Footer() {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-blue-600"
+                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-orange-600"
               >
                 <FaInstagram size={20} className="text-white" />
               </a>

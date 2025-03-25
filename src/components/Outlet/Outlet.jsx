@@ -9,7 +9,7 @@ function Outlet() {
   return (
     <div className="w-full mx-auto overflow-hidden">
       <div className="px-2 sm:px-4">
-        <div className="flex flex-col md:flex-row gap-8 items-center">
+        <div className="flex flex-col md:flex-row gap-8 items-center p-8">
           <div className="md:w-1/2 space-y-6">
             <div className="bg-orange-50 p-2 inline-block rounded-full">
               <span className="text-orange-600 font-medium text-sm tracking-wide">

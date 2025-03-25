@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 
 const TestimonialCard = ({ quote, personName, companyInfo, imageSrc }) => {
   return (
-    <div className="relative w-full bg-gradient-to-r from-orange-50 to-orange-100 py-20">
+    <div className="relative w-full  bg-gradient-to-r from-orange-50 to-orange-100 py-20">
       <div className="container mx-auto px-4">
         <motion.div
-          className="flex flex-col md:flex-row bg-white rounded-2xl shadow-2xl overflow-hidden max-w-5xl mx-auto"
+          className="flex flex-col md:flex-row bg-white rounded-2xl shadow-2xl overflow-hidden max-w-3xl mx-auto"
           whileHover={{
             y: -5,
             boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
@@ -48,7 +48,7 @@ const TestimonialCard = ({ quote, personName, companyInfo, imageSrc }) => {
               Looking for Funding?
             </span>
           </h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-600 text-lg  leading-relaxed mb-6">
             A2FNexus connects innovative startups with the resources they need
             to thrive.
           </p>

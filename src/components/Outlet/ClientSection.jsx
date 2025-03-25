@@ -50,14 +50,14 @@ function ClientSection() {
     <div className="relative w-full py-16 mt-0">
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="w-full h-full bg-gradient-to-r from-blue-100 to-blue-50">
+        <div className="w-full h-full bg-gradient-to-r from-orange-100 to-orange-50">
           {[...Array(10)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute bg-blue-200 rounded-full opacity-20"
+              className="absolute bg-orange-600 rounded-full opacity-20"
               style={{
-                width: 50 + i * 10,
-                height: 50 + i * 10,
+                width: 20 + i * 10,
+                height: 20 + i * 10,
                 left: `${(i * 10) % 100}%`,
                 top: `${(i * 8) % 100}%`,
               }}
@@ -80,8 +80,9 @@ function ClientSection() {
         {/* Header with gradient */}
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
-              Our Top Clients
+            <span className="text-gray-900 md:text-5xl mr-2 ">Our</span>
+            <span className="gap-10 md:text-5xl bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent">
+              Top Clients
             </span>
           </h2>
         </div>
