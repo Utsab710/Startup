@@ -50,7 +50,7 @@ function ClientSection() {
     <div className="relative w-full py-16 mt-0">
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute w-full h-full bg-gradient-to-r from-blue-100 to-blue-50">
+        <div className="w-full h-full bg-gradient-to-r from-blue-100 to-blue-50">
           {[...Array(10)].map((_, i) => (
             <motion.div
               key={i}

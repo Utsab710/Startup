@@ -111,11 +111,11 @@ function Header() {
       <section className="mb-16">
         {" "}
         {/* Added mb-8 for bottom margin */}
-        <div className="flex w-full py-3 bg-white shadow-md">
-          <div className="ml-4">
+        <div className="flex w-full py-3 bg-white shadow-md h-16">
+          <div className="ml-4 flex items-center h-full">
             <img
-              src="https://softechfoundation.com/upload_file/setting/1711949002_1167325993_1536148958_384808185_logo.png"
-              className="w-full p-2 size-12"
+              src="https://scontent.fktm8-1.fna.fbcdn.net/v/t39.30808-6/463342823_122143508534301285_8203473577064132249_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=nzqfjOCX15cQ7kNvgHGEhFN&_nc_oc=Adn0V3uOKJ01HZmtnd5IQDW_CQMtcVvvoWMbjz9hHRy4rktU40DtYkzyBhT7H_fYtTNH4l0VY-wFW9s-udjmscFB&_nc_zt=23&_nc_ht=scontent.fktm8-1.fna&_nc_gid=9KOKDZoTuOTZprTiRcldnA&oh=00_AYHgtbmayHM1P2VRu_UtqR3rRv7-mkC_TPPPqZr1OplbNA&oe=67E82A76"
+              className="h-14 w-auto object-contain"
               alt="Logo"
             />
           </div>
@@ -131,7 +131,7 @@ function Header() {
             ))}
           </div>
           <div className="cursor-pointer ml-auto flex items-center mr-10">
-            <button className="bg-blue-500/75 text-white font-semibold px-5 py-2 rounded-lg shadow-md hover:bg-cyan-700 transition-all duration-300">
+            <button className="bg-orange-500 text-white font-semibold px-5 py-2 rounded-lg shadow-md hover:bg-orange-700 transition-all duration-300">
               <div className="flex items-center">
                 <span>Login</span>
                 <CiLogin size={20} />
