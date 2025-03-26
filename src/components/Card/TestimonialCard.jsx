@@ -1,12 +1,22 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useTheme } from "../ThemeToggle/ThemeContext";
 
 const TestimonialCard = ({ quote, personName, companyInfo, imageSrc }) => {
+  const { isDarkMode } = useTheme();
   return (
-    <div className="relative w-full  bg-gradient-to-r from-orange-50 to-orange-100 py-20">
-      <div className="container mx-auto px-4">
+    <div
+      className={`relative w-full py-20 ${
+        isDarkMode
+          ? "bg-gray-900"
+          : "bg-gradient-to-r from-orange-50 to-orange-100"
+      }`}
+    >
+      <div className="container mx-auto">
         <motion.div
-          className="flex flex-col md:flex-row bg-white rounded-2xl shadow-2xl overflow-hidden max-w-3xl mx-auto"
+          className={`flex flex-col md:flex-row rounded-2xl shadow-2xl overflow-hidden max-w-3xl mx-auto ${
+            isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+          }`}
           whileHover={{
             y: -5,
             boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
@@ -14,7 +24,11 @@ const TestimonialCard = ({ quote, personName, companyInfo, imageSrc }) => {
           transition={{ duration: 0.3 }}
         >
           {/* Image section */}
-          <div className="md:w-1/3 bg-orange-50">
+          <div
+            className={`md:w-1/3 ${
+              isDarkMode ? "bg-gray-700" : "bg-orange-50"
+            }`}
+          >
             <img
               src={imageSrc}
               alt={personName || "Anonymous testimonial"}
@@ -27,9 +41,19 @@ const TestimonialCard = ({ quote, personName, companyInfo, imageSrc }) => {
             <div className="text-orange-300 text-6xl font-serif mb-4 leading-none">
               "
             </div>
-            <p className="text-gray-700 text-xl font-medium mb-6">{quote}</p>
+            <p
+              className={`text-xl font-medium mb-6 ${
+                isDarkMode ? "text-gray-200" : "text-gray-700"
+              }`}
+            >
+              {quote}
+            </p>
             <div className="flex items-center">
-              <p className="text-gray-800 font-semibold mr-2">
+              <p
+                className={`font-semibold mr-2 ${
+                  isDarkMode ? "text-white" : "text-gray-800"
+                }`}
+              >
                 {personName || "Anonymous"}
               </p>
               {companyInfo && (
@@ -42,34 +66,44 @@ const TestimonialCard = ({ quote, personName, companyInfo, imageSrc }) => {
           </div>
         </motion.div>
 
-        <div className="mt-12 text-center max-w-xl mx-auto">
+        <div
+          className={`mt-12 text-center max-w-xl mx-auto ${
+            isDarkMode
+              ? "bg-gray-900 text-white"
+              : "bg-transparent text-gray-900"
+          }`}
+        >
           <h2 className="text-4xl font-bold mb-4">
             <span className="bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent">
               Looking for Funding?
             </span>
           </h2>
-          <p className="text-gray-600 text-lg  leading-relaxed mb-6">
+          <p
+            className={`text-lg leading-relaxed mb-6 ${
+              isDarkMode ? "text-gray-300" : "text-gray-600"
+            }`}
+          >
             A2FNexus connects innovative startups with the resources they need
             to thrive.
           </p>
           <div>
             <button
-              className="
-              px-8 
-              py-3 
-              rounded-lg 
-              bg-gradient-to-r 
-              from-orange-500 
-              to-orange-600 
-              text-white 
-              font-semibold 
-              hover:from-orange-600 
-              hover:to-orange-700 
-              transition-all 
-              duration-300 
-              shadow-lg 
-              hover:shadow-xl
-            "
+              className={`
+                px-8 
+                py-3 
+                rounded-lg 
+                text-white 
+                font-semibold 
+                transition-all 
+                duration-300 
+                shadow-lg 
+                hover:shadow-xl
+                ${
+                  isDarkMode
+                    ? "bg-orange-700 hover:bg-orange-800"
+                    : "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
+                }
+              `}
             >
               Learn More
             </button>
