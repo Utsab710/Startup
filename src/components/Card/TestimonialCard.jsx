@@ -8,14 +8,16 @@ const TestimonialCard = ({ quote, personName, companyInfo, imageSrc }) => {
     <div
       className={`relative w-full py-20 ${
         isDarkMode
-          ? "bg-gray-900"
+          ? "bg-gradient-to-r from-gray-800 to-gray-900"
           : "bg-gradient-to-r from-orange-50 to-orange-100"
       }`}
     >
       <div className="container mx-auto">
         <motion.div
           className={`flex flex-col md:flex-row rounded-2xl shadow-2xl overflow-hidden max-w-3xl mx-auto ${
-            isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+            isDarkMode
+              ? "bg-gradient-to-r from-gray-800 to-gray-900 text-white"
+              : "bg-white text-gray-900"
           }`}
           whileHover={{
             y: -5,
@@ -69,8 +71,8 @@ const TestimonialCard = ({ quote, personName, companyInfo, imageSrc }) => {
         <div
           className={`mt-12 text-center max-w-xl mx-auto ${
             isDarkMode
-              ? "bg-gray-900 text-white"
-              : "bg-transparent text-gray-900"
+              ? "bg-transparent bg-gradient-to-r from-gray-800 to-gray-900 text-white"
+              : "bg-transparent  text-gray-900"
           }`}
         >
           <h2 className="text-4xl font-bold mb-4">

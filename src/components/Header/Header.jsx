@@ -4,10 +4,12 @@ import { CiLogin } from "react-icons/ci";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { useTheme } from "../ThemeToggle/ThemeContext";
 import A2F from "../../Images/A2F.png";
+import { FaBars, FaTimes } from "react-icons/fa"; // For hamburger menu icon
 
 function Header() {
   const [activeItem, setActiveItem] = useState(null);
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State for hamburger menu
   const { isDarkMode } = useTheme();
 
   const navItems = [
@@ -45,6 +47,14 @@ function Header() {
       id: "contact",
       text: "Contact",
     },
+    {
+      id: "investor",
+      text: "Investor",
+    },
+    {
+      id: "startup",
+      text: "Startup",
+    },
   ];
 
   const NavItem = ({ id, text, hasDropdown = false, dropdownItems = [] }) => {
@@ -68,7 +78,10 @@ function Header() {
         }`}
         onMouseEnter={() => setHoveredItem(id)}
         onMouseLeave={() => setHoveredItem(null)}
-        onClick={() => setActiveItem(id)}
+        onClick={() => {
+          setActiveItem(id);
+          setIsMenuOpen(false); // Close menu on item click
+        }}
       >
         <div className="flex justify-center items-center py-2 px-4">
           <h1
@@ -108,6 +121,7 @@ function Header() {
                       ? "hover:bg-gray-700 text-gray-300"
                       : "hover:bg-gray-100"
                   }`}
+                  onClick={() => setIsMenuOpen(false)} // Close menu on dropdown item click
                 >
                   {item}
                 </li>
@@ -115,7 +129,7 @@ function Header() {
             </ul>
           </div>
         )}
-        <div className="flex justify-center items-center ">
+        <div className="flex justify-center items-center">
           {hasDropdown && dropdownItems.length > 0 && (
             <div className="ml-[-15px]">
               <Dropdown />
@@ -127,31 +141,59 @@ function Header() {
   };
 
   return (
-    <div>
-      <section className=" ">
+    <header
+      className={`sticky top-0 z-50 w-full shadow-md h-20 ${
+        isDarkMode ? "bg-gray-900 text-white" : "bg-white"
+      }`}
+    >
+      <div className="flex items-center h-full max-w-screen-xl mx-auto ml-8 px-4">
+        {/* Logo Section */}
+        <div className="flex items-center h-full min-w-[120px]">
+          <img src={A2F} className="h-14 w-auto object-contain" alt="Logo" />
+        </div>
+
+        {/* Hamburger Menu Icon (Visible on Small Screens) */}
+        <div className="md:hidden ml-auto">
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? (
+              <FaTimes
+                size={24}
+                className={isDarkMode ? "text-white" : "text-gray-900"}
+              />
+            ) : (
+              <FaBars
+                size={24}
+                className={isDarkMode ? "text-white" : "text-gray-900"}
+              />
+            )}
+          </button>
+        </div>
+
+        {/* Navigation Items (Hidden on Small Screens, Visible on Medium and Up) */}
         <div
-          className={`flex w-full py-3 shadow-md h-16 ${
-            isDarkMode ? "bg-gray-900 text-white" : "bg-white"
+          className={`${
+            isMenuOpen ? "flex" : "hidden"
+          } md:flex flex-col md:flex-row absolute md:static top-20 left-0 w-full md:w-auto bg-gray-900 md:bg-transparent p-4 md:p-0 md:ml-9 md:gap-8 ${
+            isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
           }`}
         >
-          <div className="ml-4 flex items-center h-full">
-            <img src={A2F} className="h-14 w-auto object-contain" alt="Logo" />
-          </div>
-          <div className="flex ml-9 justify-center gap-8 items-center">
-            {navItems.map((item) => (
-              <NavItem
-                key={item.id}
-                id={item.id}
-                text={item.text}
-                hasDropdown={item.hasDropdown}
-                dropdownItems={item.dropdownItems || []}
-              />
-            ))}
-          </div>
-          <div className="cursor-pointer ml-80 flex items-center ">
+          {navItems.map((item) => (
+            <NavItem
+              key={item.id}
+              id={item.id}
+              text={item.text}
+              hasDropdown={item.hasDropdown}
+              dropdownItems={item.dropdownItems || []}
+            />
+          ))}
+        </div>
+
+        {/* Right Side (Theme Toggle and Login) */}
+        <div className="hidden md:flex ml-auto items-center space-x-4 min-w-[200px]">
+          <div className="cursor-pointer">
             <ThemeToggle />
           </div>
-          <div className="cursor-pointer ml-auto flex items-center mr-10">
+          <div className="cursor-pointer">
             <button
               className={`font-semibold px-5 py-2 rounded-lg shadow-md transition-all duration-300 ${
                 isDarkMode
@@ -166,8 +208,8 @@ function Header() {
             </button>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </header>
   );
 }
 

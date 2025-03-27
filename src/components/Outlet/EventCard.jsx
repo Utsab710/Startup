@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useTheme } from "../ThemeToggle/ThemeContext";
 
 const EventCard = ({ events }) => {
   const [activeIndex, setActiveIndex] = useState(null);
+  const { isDarkMode } = useTheme();
 
   // Sample events if none provided
   const defaultEvents = [
@@ -46,19 +48,30 @@ const EventCard = ({ events }) => {
   };
 
   return (
-    <div className="relative w-full py-16">
-      {/* Full-width background */}
-      <div className="absolute inset-0 "></div>
-
+    <div
+      className={`relative w-full py-16 transition-colors duration-300 ${
+        isDarkMode ? "bg-gray-900" : "bg-white"
+      }`}
+    >
       {/* Content container */}
       <div className="relative z-10 max-w-6xl mx-auto p-8">
         <div className="flex flex-col md:flex-row gap-6 w-full">
           {/* Left side */}
-          <div className="w-full md:w-2/5 bg-white p-6 rounded-lg shadow-md">
+          <div
+            className={`w-full md:w-2/5 p-6 rounded-lg shadow-md transition-colors duration-300 ${
+              isDarkMode
+                ? "bg-gray-800 text-gray-200"
+                : "bg-white text-gray-900"
+            }`}
+          >
             <h2 className="text-3xl font-bold mb-2">
               Join a <span className="text-orange-600">Free Startup Event</span>
             </h2>
-            <p className="text-gray-700 mb-6">
+            <p
+              className={`leading-relaxed mb-6 transition-colors duration-300 ${
+                isDarkMode ? "text-gray-400" : "text-gray-700"
+              }`}
+            >
               We exist to help founders, so we run nearly 1000 free startup
               events per year where you can meet local entrepreneurs, network
               with investors, learn from advisors, and connect with co-founders.
@@ -83,7 +96,11 @@ const EventCard = ({ events }) => {
             {displayEvents.map((event, index) => (
               <div
                 key={index}
-                className={`bg-white rounded-lg shadow-md mb-4 p-4 transition-all duration-300 transform hover:scale-102 relative min-h-[120px]`}
+                className={`rounded-lg shadow-md mb-4 p-4 transition-all duration-300 transform hover:scale-102 relative min-h-[120px] ${
+                  isDarkMode
+                    ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
+                    : "bg-white text-gray-900 hover:bg-gray-50"
+                }`}
                 onMouseEnter={() => setActiveIndex(index)}
                 onMouseLeave={() => setActiveIndex(null)}
               >
@@ -97,7 +114,11 @@ const EventCard = ({ events }) => {
                   ></div>
                   <div className="flex-1">
                     <h3 className="text-xl font-bold mb-2">{event.title}</h3>
-                    <div className="flex items-center mt-2 text-gray-600 text-sm">
+                    <div
+                      className={`flex items-center mt-2 text-sm transition-colors duration-300 ${
+                        isDarkMode ? "text-gray-400" : "text-gray-600"
+                      }`}
+                    >
                       <svg
                         className="w-4 h-4 mr-1"
                         fill="none"
@@ -137,16 +158,28 @@ const EventCard = ({ events }) => {
                 <div
                   className={`mt-3 border-t pt-2 transition-opacity duration-300 ${
                     activeIndex === index ? "opacity-100" : "opacity-0"
-                  }`}
+                  } ${isDarkMode ? "border-gray-700" : "border-gray-200"}`}
                 >
-                  <button className="text-sm text-orange-600 hover:text-orange-800 font-medium">
+                  <button
+                    className={`text-sm font-medium transition-colors duration-300 ${
+                      isDarkMode
+                        ? "text-orange-400 hover:text-orange-500"
+                        : "text-orange-600 hover:text-orange-700"
+                    }`}
+                  >
                     Register for this event →
                   </button>
                 </div>
               </div>
             ))}
 
-            <button className="bg-orange-600 hover:bg-orange-700 text-white w-full rounded-lg py-3 px-4 mt-2 flex items-center justify-between transition-all duration-300">
+            <button
+              className={`w-full rounded-lg py-3 px-4 mt-2 flex items-center justify-between transition-all duration-300 ${
+                isDarkMode
+                  ? "bg-orange-700 text-white hover:bg-orange-600"
+                  : "bg-orange-600 text-white hover:bg-orange-700"
+              }`}
+            >
               <div className="flex items-center">
                 <svg
                   className="w-5 h-5 mr-2"
