@@ -8,6 +8,7 @@ import { useTheme } from "../ThemeToggle/ThemeContext";
 import OurImpact from "./OurImpact";
 import StartupSupportCards from "../Card/StartupSupportCards";
 import MentorCard from "../Card/MentorCard";
+import PartnerSection from "./PartnerSection";
 
 function Outlet() {
   const { isDarkMode } = useTheme();
@@ -151,7 +152,7 @@ function Outlet() {
           quote="The real question is: can the Founder Institute be game-changing for your business? The answer is yes. Without FI, Udemy may have never raised any money."
           personName="John Doe"
           companyInfo="Company Name (Details, 2023)"
-          imageSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/1200px-Unknown_person.jpg"
+          imageSrc="https://hips.hearstapps.com/hmg-prod/images/mark-zuckerberg-ceo-of-meta-testifies-before-the-senate-news-photo-1739998545.pjpeg?crop=0.553xw:0.827xh;0.283xw,0&resize=640:*"
         />
       </div>
 
@@ -211,7 +212,16 @@ function Outlet() {
             linkedinUrl="https://www.linkedin.com/in/john-doe"
           />
         </div>
+        <div className="flex justify-center mt-8">
+          <button className={`rounded-4xl bg-orange-500 p-2 cursor-pointer `}>
+            <h1 className={`${isDarkMode ? "text-white" : "text-black"}`}>
+              {" "}
+              See all Mentors
+            </h1>
+          </button>
+        </div>
       </div>
+      <PartnerSection />
     </div>
   );
 }

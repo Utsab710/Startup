@@ -5,12 +5,14 @@ import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { useTheme } from "../ThemeToggle/ThemeContext";
 import A2F from "../../Images/A2F.png";
 import { FaBars, FaTimes } from "react-icons/fa"; // For hamburger menu icon
+import { Link, useNavigate } from "react-router-dom";
 
 function Header() {
   const [activeItem, setActiveItem] = useState(null);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State for hamburger menu
   const { isDarkMode } = useTheme();
+  const navigate = useNavigate();
 
   const navItems = [
     {
@@ -83,7 +85,10 @@ function Header() {
           setIsMenuOpen(false); // Close menu on item click
         }}
       >
-        <div className="flex justify-center items-center py-2 px-4">
+        <Link
+          to={`/${id}`}
+          className="flex justify-center items-center py-2 px-4 w-full"
+        >
           <h1
             className={`font-semibold ${
               isDarkMode
@@ -101,7 +106,7 @@ function Header() {
           >
             {text}
           </h1>
-        </div>
+        </Link>
 
         {/* Dropdown Menu */}
         {hasDropdown && dropdownItems.length > 0 && isHovered && (
@@ -149,7 +154,19 @@ function Header() {
       <div className="flex items-center h-full max-w-screen-xl mx-auto ml-8 px-4">
         {/* Logo Section */}
         <div className="flex items-center h-full min-w-[120px]">
-          <img src={A2F} className="h-14 w-auto object-contain" alt="Logo" />
+          <Link
+            to="/"
+            onClick={() => {
+              setActiveItem(null); // Reset activeItem when logo is clicked
+              navigate("/"); // Navigate to home
+            }}
+          >
+            <img
+              src={A2F}
+              className="h-14 w-auto object-contain cursor-pointer"
+              alt="Logo"
+            />
+          </Link>
         </div>
 
         {/* Hamburger Menu Icon (Visible on Small Screens) */}
