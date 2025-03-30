@@ -19,8 +19,25 @@ function PartnerSection() {
       altText: "every. logo",
     },
     {
+      imageUrl:
+        "https://pub-e63b17b4d990438a83af58c15949f8a2.r2.dev/type/hooks.png", // Replace with actual image URL
+      altText: "every. logo",
+    },
+
+    {
       imageUrl: leapFrog, // Replace with actual image URL
       altText: "LOYAL logo",
+    },
+    {
+      imageUrl:
+        "https://pub-e63b17b4d990438a83af58c15949f8a2.r2.dev/type/uilogos.png", // Replace with actual image URL
+      altText: "every. logo",
+    },
+
+    {
+      imageUrl:
+        "https://pub-e63b17b4d990438a83af58c15949f8a2.r2.dev/type/ideaa.png", // Replace with actual image URL
+      altText: "every. logo",
     },
   ];
 
@@ -32,7 +49,8 @@ function PartnerSection() {
             isDarkMode ? "text-gray-100" : "text-gray-900"
           }`}
         >
-          FI Partners
+          <span className="text-[#485eac]   bg-clip-text  ">A2F</span>
+          <span className="gap-2"> Partners</span>
         </h1>
         <p
           className={`mt-2 text-lg max-w-2xl mx-auto ${

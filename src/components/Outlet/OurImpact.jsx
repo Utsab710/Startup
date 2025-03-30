@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "../ThemeToggle/ThemeContext";
 
 const OurImpact = () => {
   const { isDarkMode } = useTheme();
@@ -56,7 +56,13 @@ const OurImpact = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 overflow-hidden">
+    <div
+      className={`relative overflow-hidden  ${
+        isDarkMode
+          ? "bg-gray-900"
+          : "bg-gradient-to-br from-orange-50 to-orange-100"
+      }`}
+    >
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-20 pointer-events-none">
         {[...Array(20)].map((_, i) => (
@@ -101,7 +107,7 @@ const OurImpact = () => {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2 }}
-              className="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg"
+              className="bg-white backdrop-blur-sm rounded-xl p-6 text-center shadow-lg"
             >
               <div className="text-4xl mb-2">{metric.icon}</div>
               <div className="text-3xl font-bold text-orange-700">
