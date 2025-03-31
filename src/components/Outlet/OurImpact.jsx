@@ -107,7 +107,11 @@ const OurImpact = () => {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2 }}
-              className="bg-white backdrop-blur-sm rounded-xl p-6 text-center shadow-lg"
+              className={`backdrop-blur-sm rounded-xl p-6 text-center shadow-lg ${
+                isDarkMode
+                  ? "bg-gray-800 text-gray-200"
+                  : "bg-white text-gray-900"
+              }`}
             >
               <div className="text-4xl mb-2">{metric.icon}</div>
               <div className="text-3xl font-bold text-orange-700">
@@ -115,7 +119,13 @@ const OurImpact = () => {
                   ? `$${animatedValues[index].toFixed(2)}B`
                   : Math.floor(animatedValues[index]).toLocaleString()}
               </div>
-              <div className="text-sm text-gray-600 mt-2">{metric.label}</div>
+              <div
+                className={`${
+                  isDarkMode ? " text-white" : " text-gray-600"
+                }text-sm  mt-2`}
+              >
+                {metric.label}
+              </div>
             </motion.div>
           ))}
         </div>

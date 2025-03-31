@@ -234,10 +234,11 @@ function Outlet() {
                 duration-300 
                 shadow-lg 
                 hover:shadow-xl
+                cursor-pointer
                 ${
                   isDarkMode
-                    ? "bg-orange-700 hover:bg-orange-800"
-                    : "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
+                    ? "bg-orange-700 text-white hover:bg-orange-600"
+                    : "bg-orange-500 text-white hover:bg-orange-600"
                 }
               `}
           >

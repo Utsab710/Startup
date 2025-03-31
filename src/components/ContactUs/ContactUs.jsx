@@ -357,11 +357,14 @@ function ContactUs() {
         {/* Map Section */}
         <div className="mt-16">
           <h3
-            className={`text-2xl font-bold mb-6 transition-colors duration-300 ${
+            className={`text-4xl font-bold mb-4 transition-colors duration-300 text-center ${
               isDarkMode ? "text-gray-100" : "text-gray-900"
             }`}
           >
-            Find Us
+            Find
+            <span className=" text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-700">
+              Us
+            </span>
           </h3>
           <div
             className={`w-full h-96 rounded-2xl overflow-hidden shadow-lg transition-colors duration-300 ${
