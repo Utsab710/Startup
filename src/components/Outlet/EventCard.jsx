@@ -1,41 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "../ThemeToggle/ThemeContext";
 
-const EventCard = ({ events }) => {
+const API_URL = "http://localhost:8000";
+
+const EventCard = ({ events: propEvents }) => {
   const [activeIndex, setActiveIndex] = useState(null);
+  const [registeredEvents, setRegisteredEvents] = useState(new Set());
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [events, setEvents] = useState([]); // State for fetched events
   const { isDarkMode } = useTheme();
 
-  // Sample events if none provided
-  const defaultEvents = [
-    {
-      title: "Ask an Investor Anything: Q&A with Christian Karrer",
-      date: "Mar 25, 2025",
-      time: "05:45am +0545",
-      type: "investor",
-    },
-    {
-      title: "Founder Institute Online Information Session",
-      date: "Various Times",
-      time: "Various Times",
-      type: "info",
-    },
-    {
-      title: "Startup Pitch Practice: Share Your Idea and Get Expert Feedback",
-      date: "Mar 27, 2025",
-      time: "05:45am +0545",
-      type: "pitch",
-    },
-    {
-      title: "Beyond Launch: How to Measure and Strengthen Product Adoption",
-      date: "Mar 31, 2025",
-      time: "10:45pm +0545",
-      type: "product",
-    },
-  ];
+  // Fetch events on mount
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/events`);
+        const data = await response.json();
+        if (response.ok) {
+          setEvents(data);
+        } else {
+          setError("Failed to fetch events");
+        }
+      } catch (err) {
+        console.error("Error fetching events:", err);
+        setError("Failed to load events");
+      }
+    };
 
-  const displayEvents = events || defaultEvents;
+    fetchEvents();
+  }, []);
 
-  // Function to get event type color
+  // Fetch user's registrations
+  useEffect(() => {
+    const fetchRegistrations = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const response = await fetch(
+          `${API_URL}/api/registrations/my-registrations`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        if (response.ok) {
+          const eventIds = new Set(data.map((reg) => reg.event._id.toString()));
+          setRegisteredEvents(eventIds);
+        }
+      } catch (err) {
+        console.error("Error fetching registrations:", err);
+      }
+    };
+
+    fetchRegistrations();
+  }, []);
+
   const getEventColor = (type) => {
     const colors = {
       investor: "bg-blue-500",
@@ -48,33 +71,47 @@ const EventCard = ({ events }) => {
   };
 
   const handleRegister = async (eventId) => {
+    setLoading(true);
+    setError(null);
+
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/registrations/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`, // You'll need to get this from your auth system
-          },
-          body: JSON.stringify({ eventId }),
-        }
-      );
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Please login to register for events");
+        setLoading(false);
+        return;
+      }
+
+      console.log("Registering event:", eventId); // Debug log
+      const response = await fetch(`${API_URL}/api/registrations/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ eventId }),
+      });
 
       const data = await response.json();
+      console.log("Response:", data); // Debug log
 
       if (response.ok) {
-        // Show success message
+        setRegisteredEvents((prev) => new Set([...prev, eventId]));
         alert("Successfully registered for the event!");
       } else {
-        // Show error message
+        setError(data.message || "Registration failed");
         alert(`Registration failed: ${data.message}`);
       }
     } catch (error) {
       console.error("Error registering for event:", error);
+      setError("Failed to connect to server. Please try again later.");
       alert("Failed to register. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
+
+  const displayEvents = propEvents || events;
 
   return (
     <div
@@ -82,10 +119,13 @@ const EventCard = ({ events }) => {
         isDarkMode ? "bg-gray-900" : "bg-white"
       }`}
     >
-      {/* Content container */}
       <div className="relative z-10 max-w-6xl mx-auto p-8">
+        {error && (
+          <div className="mb-4 p-4 bg-red-100 text-red-700 rounded">
+            {error}
+          </div>
+        )}
         <div className="flex flex-col md:flex-row gap-6 w-full">
-          {/* Left side */}
           <div
             className={`w-full md:w-2/5 p-6 rounded-lg shadow-md transition-colors duration-300 ${
               isDarkMode
@@ -105,7 +145,6 @@ const EventCard = ({ events }) => {
               events per year where you can meet local entrepreneurs, network
               with investors, learn from advisors, and connect with co-founders.
             </p>
-
             <div className="relative w-full h-64 mt-20 rounded-lg overflow-hidden">
               <img
                 src="https://www.starternoise.com/wp-content/uploads/2014/04/networking-event.jpg"
@@ -120,88 +159,98 @@ const EventCard = ({ events }) => {
             </div>
           </div>
 
-          {/* Right side - Event cards */}
           <div className="w-full md:w-3/5">
-            {displayEvents.map((event, index) => (
-              <div
-                key={index}
-                className={`rounded-lg shadow-md mb-4 p-4 transition-all duration-300 transform hover:scale-102 relative min-h-[120px] ${
-                  isDarkMode
-                    ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
-                    : "bg-white text-gray-900 hover:bg-gray-50"
-                }`}
-                onMouseEnter={() => setActiveIndex(index)}
-                onMouseLeave={() => setActiveIndex(null)}
-              >
-                <div className="flex items-start">
-                  <div
-                    className={`w-3 h-3 rounded-full mt-2 mr-3 ${getEventColor(
-                      event.type
-                    )} transition-all duration-300 ${
-                      activeIndex === index ? "animate-pulse w-4 h-4" : ""
-                    }`}
-                  ></div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold mb-2">{event.title}</h3>
+            {displayEvents.length === 0 ? (
+              <p>Loading events...</p>
+            ) : (
+              displayEvents.map((event, index) => (
+                <div
+                  key={event._id || index}
+                  className={`rounded-lg shadow-md mb-4 p-4 transition-all duration-300 transform hover:scale-102 relative min-h-[120px] ${
+                    isDarkMode
+                      ? "bg-gray-800 text-gray-200 hover:bg-gray-700"
+                      : "bg-white text-gray-900 hover:bg-gray-50"
+                  }`}
+                  onMouseEnter={() => setActiveIndex(index)}
+                  onMouseLeave={() => setActiveIndex(null)}
+                >
+                  <div className="flex items-start">
                     <div
-                      className={`flex items-center mt-2 text-sm transition-colors duration-300 ${
-                        isDarkMode ? "text-gray-400" : "text-gray-600"
+                      className={`w-3 h-3 rounded-full mt-2 mr-3 ${getEventColor(
+                        event.type
+                      )} transition-all duration-300 ${
+                        activeIndex === index ? "animate-pulse w-4 h-4" : ""
                       }`}
-                    >
-                      <svg
-                        className="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
+                    ></div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold mb-2">{event.title}</h3>
+                      <div
+                        className={`flex items-center mt-2 text-sm transition-colors duration-300 ${
+                          isDarkMode ? "text-gray-400" : "text-gray-600"
+                        }`}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        ></path>
-                      </svg>
-                      <span>{event.date}</span>
-
-                      <svg
-                        className="w-4 h-4 ml-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path>
-                      </svg>
-                      <span>{event.time}</span>
+                        <svg
+                          className="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path>
+                        </svg>
+                        <span>{event.date}</span>
+                        <svg
+                          className="w-4 h-4 ml-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path>
+                        </svg>
+                        <span>{event.time}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Reserve space for the button */}
-                <div
-                  className={`mt-3 border-t pt-2 transition-opacity duration-300 ${
-                    activeIndex === index ? "opacity-100" : "opacity-0"
-                  } ${isDarkMode ? "border-gray-700" : "border-gray-200"}`}
-                >
-                  <button
-                    onClick={() => handleRegister(event._id)}
-                    className={`text-sm font-medium transition-colors duration-300 ${
-                      isDarkMode
-                        ? "text-orange-400 hover:text-orange-500"
-                        : "text-orange-600 hover:text-orange-700"
-                    }`}
+                  <div
+                    className={`mt-3 border-t pt-2 transition-opacity duration-300 ${
+                      activeIndex === index ? "opacity-100" : "opacity-0"
+                    } ${isDarkMode ? "border-gray-700" : "border-gray-200"}`}
                   >
-                    Register for this event →
-                  </button>
+                    <button
+                      onClick={() => handleRegister(event._id)}
+                      disabled={loading || registeredEvents.has(event._id)}
+                      className={`text-sm font-medium transition-colors duration-300 ${
+                        registeredEvents.has(event._id)
+                          ? "text-gray-500 cursor-not-allowed"
+                          : loading
+                          ? "text-gray-500 cursor-wait"
+                          : isDarkMode
+                          ? "text-orange-400 hover:text-orange-500"
+                          : "text-orange-600 hover:text-orange-700"
+                      }`}
+                    >
+                      {loading
+                        ? "Registering..."
+                        : registeredEvents.has(event._id)
+                        ? "Already Registered"
+                        : "Register for this event →"}
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
 
             <button
               className={`w-full rounded-lg py-3 px-4 mt-2 flex items-center justify-between transition-all duration-300 ${
