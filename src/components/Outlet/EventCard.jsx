@@ -47,6 +47,35 @@ const EventCard = ({ events }) => {
     return colors[type] || colors.default;
   };
 
+  const handleRegister = async (eventId) => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/registrations/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`, // You'll need to get this from your auth system
+          },
+          body: JSON.stringify({ eventId }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Show success message
+        alert("Successfully registered for the event!");
+      } else {
+        // Show error message
+        alert(`Registration failed: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error registering for event:", error);
+      alert("Failed to register. Please try again later.");
+    }
+  };
+
   return (
     <div
       className={`relative w-full py-16 transition-colors duration-300 ${
@@ -161,6 +190,7 @@ const EventCard = ({ events }) => {
                   } ${isDarkMode ? "border-gray-700" : "border-gray-200"}`}
                 >
                   <button
+                    onClick={() => handleRegister(event._id)}
                     className={`text-sm font-medium transition-colors duration-300 ${
                       isDarkMode
                         ? "text-orange-400 hover:text-orange-500"

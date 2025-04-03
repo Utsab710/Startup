@@ -50,7 +50,14 @@ function PartnerSection() {
           }`}
         >
           <span className="text-[#485eac]   bg-clip-text  ">A2F</span>
-          <span className="gap-2"> Partners</span>
+          <span
+            className={` ${
+              isDarkMode ? "text-gray-400" : "text-gray-600"
+            } gap-2`}
+          >
+            {" "}
+            Partners
+          </span>
         </h1>
         <p
           className={`mt-2 text-lg max-w-2xl mx-auto ${

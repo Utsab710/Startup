@@ -163,7 +163,7 @@ function ClientSection() {
               isDarkMode ? "text-gray-100" : "text-gray-900"
             }`}
           >
-            <span className="mr-2">Our</span>
+            <span className="mr-2 text-[#485eac]">Our</span>
             <span className="bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent">
               Top Clients
             </span>

@@ -173,7 +173,12 @@ function Outlet() {
       <div className="px-2 sm:px-4 py-12">
         <div className="text-center mb-8">
           <h1 className={`text-3xl font-bold `}>
-            Our{" "}
+            <span
+              className={` ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
+            >
+              {" "}
+              Our{" "}
+            </span>
             <span
               className={`${isDarkMode ? "text-[#485eac]" : "text-[#485eac]"}`}
             >
@@ -186,7 +191,14 @@ function Outlet() {
             >
               Nexus
             </span>
-            <span className="gap-2"> Mentors</span>
+            <span
+              className={` ${
+                isDarkMode ? "text-gray-400" : "text-gray-600"
+              } gap-2`}
+            >
+              {" "}
+              Mentors
+            </span>
           </h1>
           <p
             className={`mt-2 text-lg max-w-2xl mx-auto ${

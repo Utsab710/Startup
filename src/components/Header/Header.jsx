@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Dropdown from "./Dropdown";
-import { CiLogin } from "react-icons/ci";
+import { CiLogin, CiLogout } from "react-icons/ci";
+import { FaUserCircle } from "react-icons/fa"; // Added avatar icon
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { useTheme } from "../ThemeToggle/ThemeContext";
 import A2F from "../../Images/A2F.png";
@@ -11,10 +12,31 @@ function Header() {
   const [activeItem, setActiveItem] = useState(null);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
 
+  // Check login status on component mount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const storedUsername = localStorage.getItem("username");
+    if (token && storedUsername) {
+      setIsLoggedIn(true);
+      setUsername(storedUsername);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    setIsLoggedIn(false);
+    setUsername("");
+    navigate("/login");
+  };
+
   const navItems = [
+    // ... (keeping your existing navItems array unchanged)
     {
       id: "about",
       text: "About",
@@ -108,7 +130,6 @@ function Header() {
           </h1>
         </Link>
 
-        {/* Dropdown Menu */}
         {hasDropdown && dropdownItems.length > 0 && isHovered && (
           <div
             className={`absolute left-0 top-full z-50 w-40 shadow-md rounded-lg opacity-100 visible transition-all duration-300 ${
@@ -167,7 +188,7 @@ function Header() {
           </Link>
         </div>
 
-        {/* Hamburger Menu Icon (Visible on Small Screens) */}
+        {/* Hamburger Menu Icon */}
         <div className="md:hidden">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? (
@@ -203,24 +224,55 @@ function Header() {
           ))}
         </nav>
 
-        {/* Right Side (Theme Toggle and Login) */}
+        {/* Right Side */}
         <div className="hidden md:flex items-center space-x-3">
           <div className="cursor-pointer">
             <ThemeToggle />
           </div>
           <div className="cursor-pointer">
-            <button
-              className={`text-sm font-medium px-4 py-1.5 rounded-lg shadow-md transition-all duration-300 ${
-                isDarkMode
-                  ? "bg-gray-700 text-white hover:bg-gray-600"
-                  : "bg-orange-500 text-white hover:bg-orange-700"
-              }`}
-            >
-              <div className="flex items-center gap-1">
-                <span>Login</span>
-                <CiLogin size={18} />
+            {isLoggedIn ? (
+              <div className="flex items-center gap-2">
+                <FaUserCircle
+                  size={24}
+                  className={isDarkMode ? "text-white" : "text-gray-700"}
+                />
+                <span
+                  className={`text-sm font-medium ${
+                    isDarkMode ? "text-white" : "text-gray-700"
+                  }`}
+                >
+                  {username}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className={`text-sm font-medium px-4 py-1.5 rounded-lg shadow-md transition-all duration-300 ${
+                    isDarkMode
+                      ? "bg-gray-700 text-white hover:bg-gray-600"
+                      : "bg-orange-500 text-white hover:bg-orange-700"
+                  }`}
+                >
+                  <div className="flex items-center gap-1">
+                    <span>Logout</span>
+                    <CiLogout size={18} />
+                  </div>
+                </button>
               </div>
-            </button>
+            ) : (
+              <button
+                className={`text-sm font-medium px-4 py-1.5 rounded-lg shadow-md transition-all duration-300 ${
+                  isDarkMode
+                    ? "bg-gray-700 text-white hover:bg-gray-600"
+                    : "bg-orange-500 text-white hover:bg-orange-700"
+                }`}
+              >
+                <div className="flex items-center gap-1">
+                  <span>
+                    <Link to="/login">Login</Link>
+                  </span>
+                  <CiLogin size={18} />
+                </div>
+              </button>
+            )}
           </div>
         </div>
       </div>

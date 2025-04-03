@@ -94,7 +94,7 @@ const OurImpact = () => {
             isDarkMode ? "text-gray-100" : "text-gray-900"
           }`}
         >
-          <span className="mr-2">Our Impact on</span>
+          <span className="mr-2 text-[#485eac]">Our Impact on</span>
           <span className="bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent">
             The Innovation Ecosystem
           </span>

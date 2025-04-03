@@ -82,42 +82,42 @@ const StartupSupportCards = () => {
       description:
         "Startup growth support, technical support, providing assistance in business plan, business model generation, business planning and more.",
       bgImage:
-        "https://img.freepik.com/free-photo/startup-business-progress-strategy-enterprise_53876-127927.jpg", // Replace with your image URL
+        "https://img.freepik.com/free-photo/startup-business-progress-strategy-enterprise_53876-127927.jpg",
     },
     {
       title: "Incubation",
       description:
         "Incubation through investing, connecting to the investors, providing the expert coaching and expose to ensure the growth of ideas into business.",
       bgImage:
-        "https://www.microsoft.com/en-us/research/wp-content/uploads/2021/04/iStock-1091738564-1024x757.jpg", // Replace with your image URL
+        "https://www.microsoft.com/en-us/research/wp-content/uploads/2021/04/iStock-1091738564-1024x757.jpg",
     },
     {
       title: "Coaching & Mentorship",
       description:
         "Mentoring to grow and to understand the fundamental DO & DON'Ts. Making them follow the right path and making business progress.",
       bgImage:
-        "https://www.pureblueocean.com/app/uploads/2022/02/Coaching-vs.-Mentoring.png", // Replace with your image URL
+        "https://www.pureblueocean.com/app/uploads/2022/02/Coaching-vs.-Mentoring.png",
     },
     {
       title: "Fund Matching",
       description:
         "Help to find the potential that drives the customers to your product, finding the right people/companies willing to invest in your startups.",
       bgImage:
-        "https://www.axisbank.com/images/default-source/progress-with-us_new/fund-of-fund.jpg", // Replace with your image URL
+        "https://www.axisbank.com/images/default-source/progress-with-us_new/fund-of-fund.jpg",
     },
     {
       title: "Business Plan Support",
       description:
         "Tasks and processes to develop and implement the growth of the startups. Supporting the business plan implementation, identification of the steps to ensure sustainability.",
       bgImage:
-        "https://www.score.org/sites/default/files/styles/responsive_16_9_750w/public/d7_migration/37/mentoring_8.jpg?itok=Eylq_9N_", // Replace with your image URL
+        "https://www.score.org/sites/default/files/styles/responsive_16_9_750w/public/d7_migration/37/mentoring_8.jpg?itok=Eylq_9N_",
     },
     {
       title: "Event & Seminar",
       description:
         "Startup training, seminar, motivational programs that can teach, uplift and broaden the startups.",
       bgImage:
-        "https://groco.com/wp-content/uploads/2021/02/seminar-planning.jpg", // Replace with your image URL
+        "https://groco.com/wp-content/uploads/2021/02/seminar-planning.jpg",
     },
   ];
 
@@ -125,12 +125,26 @@ const StartupSupportCards = () => {
     <div className="py-12 px-2 sm:px-4">
       <div className="text-center mb-10">
         <h2
-          className={`
-            text-4xl font-bold mb-4
-            ${isDarkMode ? "text-gray-100" : "text-gray-900"}
-          `}
+          className={`text-4xl font-bold mb-4 ${
+            isDarkMode ? "text-gray-100" : "text-gray-900"
+          }`}
         >
-          What We Do
+          <span
+            className={`${
+              isDarkMode ? "text-[#485eac]" : "text-gray-900"
+            } mr-2`}
+          >
+            What
+          </span>
+          <span
+            className={`${
+              isDarkMode
+                ? "bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent"
+                : "text-gray-900"
+            }`}
+          >
+            We Do
+          </span>
         </h2>
         <div className="w-12 h-1 bg-red-500 mx-auto"></div>
       </div>

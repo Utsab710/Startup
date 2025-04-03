@@ -46,7 +46,9 @@ function AboutUs() {
         {/* Header Section */}
         <h1 className="text-4xl font-bold mb-16 text-center">
           <span
-            className={`mr-2 ${isDarkMode ? "text-white" : "text-gray-900"}`}
+            className={`mr-2 ${
+              isDarkMode ? "text-[#485eac]" : "text-gray-900"
+            }`}
           >
             Why
           </span>
