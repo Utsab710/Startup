@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Dropdown from "./Dropdown";
 import { CiLogin, CiLogout } from "react-icons/ci";
-import { FaUserCircle } from "react-icons/fa"; // Added avatar icon
+import { FaUserCircle } from "react-icons/fa";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { useTheme } from "../ThemeToggle/ThemeContext";
 import A2F from "../../Images/A2F.png";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import AdminHeader from "../../Admin/Header/AdminHeader"; // Import the AdminHeader component
 
 function Header() {
   const [activeItem, setActiveItem] = useState(null);
@@ -14,29 +15,37 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
+  const [userRole, setUserRole] = useState(""); // New state for user role
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
 
-  // Check login status on component mount
+  // Check login status and role on component mount
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const storedUsername = localStorage.getItem("username");
-    if (token && storedUsername) {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user && user.username) {
       setIsLoggedIn(true);
-      setUsername(storedUsername);
+      setUsername(user.username);
+      setUserRole(user.role || "user"); // Default to "user" if no role is specified
     }
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    setIsLoggedIn(false);
-    setUsername("");
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await fetch("http://localhost:8000/api/users/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      localStorage.removeItem("user");
+      setIsLoggedIn(false);
+      setUsername("");
+      setUserRole("");
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
   };
 
   const navItems = [
-    // ... (keeping your existing navItems array unchanged)
     {
       id: "about",
       text: "About",
@@ -44,17 +53,14 @@ function Header() {
       dropdownItems: ["Our Team", "Mission", "Vision"],
     },
     {
-      id: "corporate",
-      text: "Corporate",
+      id: "Blog",
+      text: "Blog",
+      hasDropdown: false,
     },
-    {
-      id: "government",
-      text: "Government",
-    },
-    {
-      id: "review",
-      text: "Review",
-    },
+    { id: "corporate", text: "Corporate" },
+    { id: "government", text: "Government" },
+    { id: "review", text: "Review" },
+
     {
       id: "internship",
       text: "Internship",
@@ -67,18 +73,10 @@ function Header() {
       hasDropdown: true,
       dropdownItems: ["StartupProgram", "GovernmentProgram"],
     },
-    {
-      id: "contact",
-      text: "Contact",
-    },
-    {
-      id: "investor",
-      text: "Investor",
-    },
-    {
-      id: "startup",
-      text: "Startup",
-    },
+    { id: "contact", text: "Contact" },
+
+    { id: "startup", text: "Startup" },
+    { id: "investor", text: "Investor" },
   ];
 
   const NavItem = ({ id, text, hasDropdown = false, dropdownItems = [] }) => {
@@ -164,7 +162,10 @@ function Header() {
     );
   };
 
-  return (
+  // Conditionally render AdminHeader or regular header content
+  return userRole === "admin" ? (
+    <AdminHeader />
+  ) : (
     <header
       className={`sticky top-0 z-50 w-full shadow-md h-16 ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-white"
