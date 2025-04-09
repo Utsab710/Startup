@@ -9,6 +9,7 @@ import {
   MdHandshake,
   MdContactMail,
 } from "react-icons/md";
+import { FaPerson } from "react-icons/fa6";
 
 function AdminSidebar({ isOpen, onClose }) {
   const navigate = useNavigate();
@@ -74,6 +75,12 @@ function AdminSidebar({ isOpen, onClose }) {
       text: "Contact Page",
       icon: <MdContactMail size={20} />,
       path: "/admin/contact",
+    },
+    {
+      id: "investors",
+      text: "Investors ",
+      icon: <FaPerson size={20} />,
+      path: "/admin/investors",
     },
   ];
 

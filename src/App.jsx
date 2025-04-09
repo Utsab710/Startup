@@ -10,6 +10,7 @@ import SignUp from "./components/SignUp/SignUp";
 import Mentors from "./Admin/components/Mentors/Mentors";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Investors from "./Admin/components/Investors/Investors";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/admin/mentors" element={<Mentors />} />
+            <Route path="/admin/investors" element={<Investors />} />
           </Routes>
           <Footer />
           <ToastContainer position="top-right" autoClose={3000} />
