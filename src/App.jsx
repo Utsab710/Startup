@@ -7,6 +7,9 @@ import Investor from "./components/Investor/Investor";
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
+import Mentors from "./Admin/components/Mentors/Mentors";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -19,8 +22,10 @@ function App() {
             <Route path="/investor" element={<Investor />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/admin/mentors" element={<Mentors />} />
           </Routes>
           <Footer />
+          <ToastContainer position="top-right" autoClose={3000} />
         </div>
       </Router>
     </ThemeProvider>

@@ -2,9 +2,11 @@ import React, { useEffect, useRef } from "react";
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 import { FaLinkedin, FaXTwitter } from "react-icons/fa6";
 import A2F from "../../Images/A2F.png";
+import { useTheme } from "../ThemeToggle/ThemeContext";
 
 function Footer() {
   const canvasRef = useRef(null);
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -25,21 +27,37 @@ function Footer() {
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
-    // Dots configuration - increasing visibility
+    // Improved colors for the canvas
     const dots = [];
-    const dotsCount = 60; // More dots
-    const dotColor = "rgba(240, 240, 240, 0.6)"; // More visible blue color
-    const lineColor = "rgba(240, 240, 240, 0.3)"; // More visible line color
-    const connectionDistance = 80; // Longer connection distance
+    const dotsCount = 80; // More dots for better effect
 
-    // Initialize dots
+    // Define colors based on theme
+    const primaryDotColor = isDarkMode
+      ? "rgba(200, 220, 240, 0.5)" // Light blue for dark mode
+      : "rgba(249, 115, 22, 0.4)"; // Orange (matching header) for light mode
+
+    const secondaryDotColor = isDarkMode
+      ? "rgba(160, 180, 210, 0.4)" // Lighter blue for dark mode
+      : "rgba(100, 116, 139, 0.3)"; // Gray for light mode
+
+    const primaryLineColor = isDarkMode
+      ? "rgba(200, 220, 240, 0.2)" // Light blue lines for dark mode
+      : "rgba(249, 115, 22, 0.2)"; // Orange lines for light mode
+
+    const connectionDistance = 100; // Longer connection distance
+
+    // Initialize dots with varied colors
     for (let i = 0; i < dotsCount; i++) {
+      // Alternate between primary and secondary colors
+      const dotColor = i % 2 === 0 ? primaryDotColor : secondaryDotColor;
+
       dots.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        radius: Math.random() * 3 + 2, // Bigger dots
-        vx: (Math.random() - 0.5) * 0.7, // Slightly slower
-        vy: (Math.random() - 0.5) * 0.7, // Slightly slower
+        radius: Math.random() * 2.5 + 1.5, // Slightly varied sizes
+        vx: (Math.random() - 0.5) * 0.5, // Slower for smoother effect
+        vy: (Math.random() - 0.5) * 0.5, // Slower for smoother effect
+        color: dotColor,
       });
     }
 
@@ -60,7 +78,7 @@ function Footer() {
         // Draw dot
         ctx.beginPath();
         ctx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
-        ctx.fillStyle = dotColor;
+        ctx.fillStyle = dot.color;
         ctx.fill();
       });
 
@@ -75,9 +93,8 @@ function Footer() {
             ctx.beginPath();
             ctx.moveTo(dots[i].x, dots[i].y);
             ctx.lineTo(dots[j].x, dots[j].y);
-            ctx.strokeStyle = lineColor;
-            ctx.lineWidth = 1; // Thicker lines
-            // Make lines more transparent the further apart dots are
+            ctx.strokeStyle = primaryLineColor;
+            ctx.lineWidth = 0.8; // Thinner lines for a more delicate look
             ctx.globalAlpha = 1 - distance / connectionDistance;
             ctx.stroke();
             ctx.globalAlpha = 1;
@@ -96,26 +113,36 @@ function Footer() {
       window.removeEventListener("resize", resizeCanvas);
       cancelAnimationFrame(animationId);
     };
-  }, []);
+  }, [isDarkMode]);
 
   return (
-    <div className="relative bg-black flex justify-center items-center p-8 min-h-[400px]">
-      {/* Canvas for animated background - explicitly set to cover full container */}
+    <div
+      className={`relative flex justify-center items-center p-8 min-h-[400px] ${
+        isDarkMode ? "bg-gray-900" : "bg-white"
+      }`}
+      // Add shadow on top side only to create separation like in the header
+      style={{ boxShadow: "0px -2px 10px rgba(0, 0, 0, 0.1)" }}
+    >
+      {/* Canvas for animated background */}
       <canvas
         ref={canvasRef}
         className="absolute top-0 left-0 w-full h-full"
         style={{ zIndex: 1, display: "block" }}
       />
 
-      {/* Original footer content with higher z-index */}
+      {/* Footer content with higher z-index */}
       <div className="flex w-full py-3 ml-4 relative z-10">
-        {/* Image container takes 20% width */}
+        {/* Image container */}
         <div className="w-[10%] p-2">
           <img src={A2F} className="w-[-20%] h-30" alt="Logo" />
         </div>
 
-        {/* Text container takes 40% width */}
-        <div className="w-[40%] px-4 text-white">
+        {/* Text container */}
+        <div
+          className={`w-[40%] px-4 ${
+            isDarkMode ? "text-gray-300" : "text-gray-700"
+          }`}
+        >
           <p>
             We're an innovative IT company providing tailored solutions in
             software development, web design, cybersecurity, cloud computing,
@@ -128,7 +155,12 @@ function Footer() {
                 href="https://www.facebook.com/FoundationSoftech"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-orange-600"
+                className={`w-10 h-10 flex items-center justify-center rounded transition-colors duration-300 
+                ${
+                  isDarkMode
+                    ? "bg-gray-700 hover:bg-gray-600"
+                    : "bg-orange-500 hover:bg-orange-700"
+                }`}
               >
                 <FaFacebook size={20} className="text-white" />
               </a>
@@ -136,7 +168,12 @@ function Footer() {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-orange-600"
+                className={`w-10 h-10 flex items-center justify-center rounded transition-colors duration-300 
+                ${
+                  isDarkMode
+                    ? "bg-gray-700 hover:bg-gray-600"
+                    : "bg-orange-500 hover:bg-orange-700"
+                }`}
               >
                 <FaXTwitter size={20} className="text-white" />
               </a>
@@ -144,7 +181,12 @@ function Footer() {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-orange-600"
+                className={`w-10 h-10 flex items-center justify-center rounded transition-colors duration-300 
+                ${
+                  isDarkMode
+                    ? "bg-gray-700 hover:bg-gray-600"
+                    : "bg-orange-500 hover:bg-orange-700"
+                }`}
               >
                 <FaLinkedin size={20} className="text-white" />
               </a>
@@ -152,7 +194,12 @@ function Footer() {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-orange-600"
+                className={`w-10 h-10 flex items-center justify-center rounded transition-colors duration-300 
+                ${
+                  isDarkMode
+                    ? "bg-gray-700 hover:bg-gray-600"
+                    : "bg-orange-500 hover:bg-orange-700"
+                }`}
               >
                 <FaYoutube size={20} className="text-white" />
               </a>
@@ -160,7 +207,12 @@ function Footer() {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-700 flex items-center justify-center rounded transition-colors duration-300 hover:bg-orange-600"
+                className={`w-10 h-10 flex items-center justify-center rounded transition-colors duration-300 
+                ${
+                  isDarkMode
+                    ? "bg-gray-700 hover:bg-gray-600"
+                    : "bg-orange-500 hover:bg-orange-700"
+                }`}
               >
                 <FaInstagram size={20} className="text-white" />
               </a>
@@ -176,8 +228,12 @@ function Footer() {
           <p>Certified Since 2018</p>
         </div>
 
-        {/* Links container takes 20% width */}
-        <div className="w-[20%] px-4 text-white">
+        {/* About links container */}
+        <div
+          className={`w-[20%] px-4 ${
+            isDarkMode ? "text-gray-300" : "text-gray-700"
+          }`}
+        >
           <ul>
             <h1 className="text-2xl font-semibold">About us</h1>
             <div className="cursor-pointer">
@@ -190,8 +246,12 @@ function Footer() {
           </ul>
         </div>
 
-        {/* Innovation links container takes 20% width */}
-        <div className="w-[20%] px-4 text-white">
+        {/* Innovation links container */}
+        <div
+          className={`w-[20%] px-4 ${
+            isDarkMode ? "text-gray-300" : "text-gray-700"
+          }`}
+        >
           <ul>
             <h1 className="text-2xl font-semibold">Innovation</h1>
             <div className="cursor-pointer">
@@ -204,7 +264,11 @@ function Footer() {
         </div>
       </div>
       <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 pb-3">
-        <p className="text-white text-center">
+        <p
+          className={`text-center ${
+            isDarkMode ? "text-gray-300" : "text-gray-700"
+          }`}
+        >
           Copyright © 2023 Softech Foundation Pvt. Ltd
         </p>
       </div>

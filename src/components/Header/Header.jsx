@@ -7,7 +7,7 @@ import { useTheme } from "../ThemeToggle/ThemeContext";
 import A2F from "../../Images/A2F.png";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import AdminHeader from "../../Admin/Header/AdminHeader"; // Import the AdminHeader component
+import AdminHeader from "../../Admin/Header/AdminHeader";
 
 function Header() {
   const [activeItem, setActiveItem] = useState(null);
@@ -15,7 +15,7 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
-  const [userRole, setUserRole] = useState(""); // New state for user role
+  const [userRole, setUserRole] = useState("");
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ function Header() {
     if (user && user.username) {
       setIsLoggedIn(true);
       setUsername(user.username);
-      setUserRole(user.role || "user"); // Default to "user" if no role is specified
+      setUserRole(user.role || "user");
     }
   }, []);
 
@@ -52,15 +52,11 @@ function Header() {
       hasDropdown: true,
       dropdownItems: ["Our Team", "Mission", "Vision"],
     },
-    {
-      id: "Blog",
-      text: "Blog",
-      hasDropdown: false,
-    },
+    { id: "startup", text: "Startup" },
+    { id: "investor", text: "Investor" },
     { id: "corporate", text: "Corporate" },
     { id: "government", text: "Government" },
     { id: "review", text: "Review" },
-
     {
       id: "internship",
       text: "Internship",
@@ -73,10 +69,12 @@ function Header() {
       hasDropdown: true,
       dropdownItems: ["StartupProgram", "GovernmentProgram"],
     },
+    {
+      id: "Blog",
+      text: "Blog",
+      hasDropdown: false,
+    },
     { id: "contact", text: "Contact" },
-
-    { id: "startup", text: "Startup" },
-    { id: "investor", text: "Investor" },
   ];
 
   const NavItem = ({ id, text, hasDropdown = false, dropdownItems = [] }) => {
@@ -107,10 +105,10 @@ function Header() {
       >
         <Link
           to={`/${id}`}
-          className="flex justify-center items-center py-1.5 px-2 w-full"
+          className="flex justify-center items-center py-2 px-3 w-full"
         >
           <h1
-            className={`text-sm font-medium ${
+            className={`text-base font-medium ${
               isDarkMode
                 ? isActive
                   ? "text-white"
@@ -130,7 +128,7 @@ function Header() {
 
         {hasDropdown && dropdownItems.length > 0 && isHovered && (
           <div
-            className={`absolute left-0 top-full z-50 w-40 shadow-md rounded-lg opacity-100 visible transition-all duration-300 ${
+            className={`absolute left-0 top-full z-50 w-44 shadow-md rounded-lg opacity-100 visible transition-all duration-300 ${
               isDarkMode ? "bg-gray-800 text-gray-200" : "text-black bg-white"
             }`}
             onMouseEnter={() => setHoveredItem(id)}
@@ -140,7 +138,7 @@ function Header() {
               {dropdownItems.map((item, index) => (
                 <li
                   key={index}
-                  className={`px-4 py-1.5 text-sm cursor-pointer ${
+                  className={`px-4 py-2 text-base cursor-pointer ${
                     isDarkMode
                       ? "hover:bg-gray-700 text-gray-300"
                       : "hover:bg-gray-100"
@@ -167,11 +165,11 @@ function Header() {
     <AdminHeader />
   ) : (
     <header
-      className={`sticky top-0 z-50 w-full shadow-md h-16 ${
+      className={`sticky top-0 z-50 w-full shadow-md h-24 ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-white"
       }`}
     >
-      <div className="flex items-center justify-between h-full px-4 mx-auto max-w-screen-xl">
+      <div className="flex items-center justify-between h-full px-6 mx-auto max-w-screen-xl">
         {/* Logo Section */}
         <div className="flex items-center h-full">
           <Link
@@ -183,7 +181,7 @@ function Header() {
           >
             <img
               src={A2F}
-              className="h-10 w-auto object-contain cursor-pointer"
+              className="h-16 w-auto object-contain cursor-pointer"
               alt="Logo"
             />
           </Link>
@@ -194,12 +192,12 @@ function Header() {
           <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? (
               <FaTimes
-                size={24}
+                size={28}
                 className={isDarkMode ? "text-white" : "text-gray-900"}
               />
             ) : (
               <FaBars
-                size={24}
+                size={28}
                 className={isDarkMode ? "text-white" : "text-gray-900"}
               />
             )}
@@ -210,7 +208,7 @@ function Header() {
         <nav
           className={`${
             isMenuOpen ? "flex" : "hidden"
-          } md:flex flex-col md:flex-row absolute md:static top-16 left-0 w-full md:w-auto bg-gray-900 md:bg-transparent p-4 md:p-0 md:gap-1 ${
+          } md:flex flex-col md:flex-row absolute md:static top-24 left-0 w-full md:w-auto bg-gray-900 md:bg-transparent p-4 md:p-0 md:gap-2 ${
             isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
           }`}
         >
@@ -226,19 +224,19 @@ function Header() {
         </nav>
 
         {/* Right Side */}
-        <div className="hidden md:flex items-center space-x-3">
+        <div className="hidden md:flex items-center space-x-4">
           <div className="cursor-pointer">
             <ThemeToggle />
           </div>
           <div className="cursor-pointer">
             {isLoggedIn ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <FaUserCircle
-                  size={24}
+                  size={30}
                   className={isDarkMode ? "text-white" : "text-gray-700"}
                 />
                 <span
-                  className={`text-sm font-medium ${
+                  className={`text-base font-medium ${
                     isDarkMode ? "text-white" : "text-gray-700"
                   }`}
                 >
@@ -246,31 +244,31 @@ function Header() {
                 </span>
                 <button
                   onClick={handleLogout}
-                  className={`text-sm font-medium px-4 py-1.5 rounded-lg shadow-md transition-all duration-300 ${
+                  className={`text-base font-medium px-5 py-2 rounded-lg shadow-md transition-all duration-300 ${
                     isDarkMode
                       ? "bg-gray-700 text-white hover:bg-gray-600"
                       : "bg-orange-500 text-white hover:bg-orange-700"
                   }`}
                 >
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-2">
                     <span>Logout</span>
-                    <CiLogout size={18} />
+                    <CiLogout size={20} />
                   </div>
                 </button>
               </div>
             ) : (
               <button
-                className={`text-sm font-medium px-4 py-1.5 rounded-lg shadow-md transition-all duration-300 ${
+                className={`text-base font-medium px-5 py-2 rounded-lg shadow-md transition-all duration-300 ${
                   isDarkMode
                     ? "bg-gray-700 text-white hover:bg-gray-600"
                     : "bg-orange-500 text-white hover:bg-orange-700"
                 }`}
               >
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2">
                   <span>
                     <Link to="/login">Login</Link>
                   </span>
-                  <CiLogin size={18} />
+                  <CiLogin size={20} />
                 </div>
               </button>
             )}
