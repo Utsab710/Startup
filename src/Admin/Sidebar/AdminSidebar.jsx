@@ -41,10 +41,10 @@ function AdminSidebar({ isOpen, onClose }) {
       path: "/admin/events",
     },
     {
-      id: "blog",
+      id: "admin/blog",
       text: "Blog",
       icon: <MdArticle size={20} />,
-      path: "/admin/blog",
+      path: "/admin/blogs",
     },
     {
       id: "quotes",
