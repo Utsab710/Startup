@@ -1,10 +1,15 @@
+// src/components/Login/Login.jsx
 import { useState } from "react";
+import { useAuth } from "../../Context/AuthContext"; // Import useAuth
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { login } = useAuth(); // Get login function from AuthContext
+  const navigate = useNavigate(); // Use navigate for redirection
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -12,39 +17,16 @@ export default function Login() {
     setError("");
 
     try {
-      const API_URL = "http://localhost:8000/api/users/login";
+      // Use the login function from AuthContext
+      await login(email, password);
 
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        credentials: "include", // Important: this allows cookie to be set
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed");
+      // Redirect based on role (optional)
+      const user = JSON.parse(localStorage.getItem("user")) || {}; // Temporary, until fully integrated
+      if (user.role === "admin") {
+        navigate("/admin/blogs");
+      } else {
+        navigate("/");
       }
-
-      // Save user info (excluding token) in localStorage
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          username: data.username,
-          email: data.email,
-          phone: data.phone,
-          role: data.role,
-        })
-      );
-
-      // The token is now handled by cookies via the backend — no need to store it manually
-
-      // Redirect user
-      window.location.href = "/";
     } catch (error) {
       setError(error.message || "Login failed");
     } finally {
@@ -73,7 +55,7 @@ export default function Login() {
                 {error.includes("Unable to connect") && (
                   <p className="mt-2 text-xs">
                     Make sure your backend server is running at
-                    http://localhost:5000
+                    http://localhost:8000
                   </p>
                 )}
               </div>

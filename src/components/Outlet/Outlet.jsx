@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoPeopleOutline } from "react-icons/io5";
 import ClientSection from "./ClientSection";
 import TestimonialCard from "../Card/TestimonialCard";
@@ -13,6 +13,37 @@ import ContactUs from "../ContactUs/ContactUs";
 
 function Outlet() {
   const { isDarkMode } = useTheme();
+  const [quotes, setQuotes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchQuotes = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/api/quotes"); // Match your backend port
+        console.log("Response status:", response.status);
+        console.log("Response headers:", response.headers.get("Content-Type"));
+
+        if (!response.ok) {
+          const text = await response.text(); // Get raw response for debugging
+          console.log("Error response:", text); // Log HTML or error message
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const text = await response.text();
+        console.log("Raw response:", text);
+        const data = JSON.parse(text);
+        setQuotes(data);
+      } catch (err) {
+        console.error("Fetch error:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuotes();
+  }, []);
 
   return (
     <div
@@ -149,12 +180,20 @@ function Outlet() {
       </div>
 
       <div>
-        <TestimonialCard
-          quote="The real question is: can the Founder Institute be game-changing for your business? The answer is yes. Without FI, Udemy may have never raised any money."
-          personName="John Doe"
-          companyInfo="Company Name (Details, 2023)"
-          imageSrc="https://hips.hearstapps.com/hmg-prod/images/mark-zuckerberg-ceo-of-meta-testifies-before-the-senate-news-photo-1739998545.pjpeg?crop=0.553xw:0.827xh;0.283xw,0&resize=640:*"
-        />
+        {loading ? (
+          <div>Loading testimonials...</div>
+        ) : error ? (
+          <div>Error: {error}</div>
+        ) : quotes.length > 0 ? (
+          <TestimonialCard
+            quote={quotes[0].quotes}
+            personName={quotes[0].person}
+            companyInfo={quotes[0].companyName}
+            imageSrc={quotes[0].imageUrl}
+          />
+        ) : (
+          <div>No testimonials available</div>
+        )}
       </div>
 
       <div>

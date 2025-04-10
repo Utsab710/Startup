@@ -74,7 +74,7 @@ function Header() {
       text: "Blog",
       hasDropdown: false,
     },
-    { id: "contact", text: "Contact" },
+    { id: "contactus", text: "Contact" },
   ];
 
   const NavItem = ({ id, text, hasDropdown = false, dropdownItems = [] }) => {
