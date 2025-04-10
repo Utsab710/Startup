@@ -136,6 +136,26 @@ function Investors() {
     }
   };
 
+  // Handle deleting an investor
+  const handleDelete = async (investorId) => {
+    if (!window.confirm("Are you sure you want to delete this investor?"))
+      return;
+
+    try {
+      await axios.delete(
+        `http://localhost:8000/api/investors/delete/${investorId}`,
+        {
+          withCredentials: true,
+        }
+      );
+      setInvestors((prev) => prev.filter((inv) => inv._id !== investorId));
+      alert("Investor deleted successfully!");
+    } catch (err) {
+      console.error("Delete error:", err.response || err.message);
+      alert("Error deleting investor");
+    }
+  };
+
   const unapprovedInvestors = investors.filter((inv) => !inv.isApproved);
   const approvedInvestors = investors.filter((inv) => inv.isApproved);
 
@@ -219,26 +239,34 @@ function Investors() {
                     </a>
                   </p>
                 )}
-                <button
-                  onClick={() => handleApprove(investor._id)}
-                  className="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors flex items-center"
-                >
-                  <svg
-                    className="w-5 h-5 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
+                <div className="mt-4 flex space-x-2">
+                  <button
+                    onClick={() => handleApprove(investor._id)}
+                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors flex items-center"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  Approve
-                </button>
+                    <svg
+                      className="w-5 h-5 mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => handleDelete(investor._id)}
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -291,15 +319,23 @@ function Investors() {
                     </a>
                   </p>
                 )}
-                <span className="inline-block bg-green-100 text-green-800 text-sm px-2 py-1 rounded mt-2 mr-2">
-                  Approved
-                </span>
-                <button
-                  onClick={() => handleUpdateLogo(investor._id)}
-                  className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-                >
-                  Update Logo
-                </button>
+                <div className="mt-2 flex flex-wrap space-x-2">
+                  <span className="inline-block bg-green-100 text-green-800 text-sm px-2 py-1 rounded">
+                    Approved
+                  </span>
+                  <button
+                    onClick={() => handleUpdateLogo(investor._id)}
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors mt-2 sm:mt-0"
+                  >
+                    Update Logo
+                  </button>
+                  <button
+                    onClick={() => handleDelete(investor._id)}
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors mt-2 sm:mt-0"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             ))}
           </div>

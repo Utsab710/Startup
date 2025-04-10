@@ -11,6 +11,7 @@ import Mentors from "./Admin/components/Mentors/Mentors";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Investors from "./Admin/components/Investors/Investors";
+import Startup from "./components/Startup/Startup";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/investor" element={<Investor />} />
+            <Route path="/startup" element={<Startup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/admin/mentors" element={<Mentors />} />
