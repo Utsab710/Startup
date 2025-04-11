@@ -18,6 +18,9 @@ import { AuthProvider } from "./Context/AuthContext";
 import AdminBlog from "./Admin/components/AdminBlog/AdminBlog";
 import Corporate from "./components/Corporate/Corporate";
 import BlogDetail from "./components/Blog/BlogDetail";
+import About from "./components/About/About";
+import AdminPartners from "./Admin/components/Partner/AdminPartners";
+import AdminHome from "./Admin/Home/AdminHome";
 
 function App() {
   return (
@@ -33,12 +36,15 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/contactus" element={<ContactUs />} />
+              <Route path="/about" element={<About />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogDetail />} />
               <Route path="/corporate" element={<Corporate />} />
               <Route path="/admin/mentors" element={<Mentors />} />
               <Route path="/admin/investors" element={<Investors />} />
+              <Route path="/admin/home" element={<AdminHome />} />
               <Route path="/admin/blogs" element={<AdminBlog />} />
+              <Route path="/admin/partners" element={<AdminPartners />} />
             </Routes>
             <Footer />
             <ToastContainer position="top-right" autoClose={3000} />

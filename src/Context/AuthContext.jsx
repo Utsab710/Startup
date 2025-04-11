@@ -6,19 +6,40 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Start as true for initial fetch
+
+  // Fetch user profile on mount
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/api/users/profile",
+          { withCredentials: true }
+        );
+        console.log("Fetched user:", response.data);
+        setUser(response.data);
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const login = async (email, password) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/users/login", // Updated to match your API
+        "http://localhost:8000/api/users/login",
         { email, password },
         { withCredentials: true }
       );
-      const userData = response.data; // Your API returns user data directly
+      console.log("Login response:", response.data);
+      const userData = response.data;
       setUser(userData);
-      return userData; // Return user data for Login component
+      return userData;
     } catch (error) {
       console.error("Login failed:", error);
       throw error;
@@ -31,7 +52,7 @@ export function AuthProvider({ children }) {
     setLoading(true);
     try {
       await axios.post(
-        "http://localhost:8000/api/auth/logout", // Adjust if your logout route is different
+        "http://localhost:8000/api/users/logout", // Updated to match user routes
         {},
         { withCredentials: true }
       );

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IoPeopleOutline } from "react-icons/io5";
+import axios from "axios";
 import ClientSection from "./ClientSection";
 import TestimonialCard from "../Card/TestimonialCard";
 import AboutUs from "../About/AboutUs";
@@ -14,35 +15,48 @@ import ContactUs from "../ContactUs/ContactUs";
 function Outlet() {
   const { isDarkMode } = useTheme();
   const [quotes, setQuotes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [quotesLoading, setQuotesLoading] = useState(true);
+  const [quotesError, setQuotesError] = useState(null);
+  const [mentors, setMentors] = useState([]);
+  const [mentorsLoading, setMentorsLoading] = useState(true);
+  const [mentorsError, setMentorsError] = useState(null);
 
   useEffect(() => {
     const fetchQuotes = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/quotes"); // Match your backend port
-        console.log("Response status:", response.status);
-        console.log("Response headers:", response.headers.get("Content-Type"));
-
+        const response = await fetch("http://localhost:8000/api/quotes");
         if (!response.ok) {
-          const text = await response.text(); // Get raw response for debugging
-          console.log("Error response:", text); // Log HTML or error message
+          const text = await response.text();
+          console.log("Quotes error response:", text);
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
-        const text = await response.text();
-        console.log("Raw response:", text);
-        const data = JSON.parse(text);
+        const data = await response.json();
         setQuotes(data);
       } catch (err) {
-        console.error("Fetch error:", err);
-        setError(err.message);
+        console.error("Fetch quotes error:", err);
+        setQuotesError(err.message);
       } finally {
-        setLoading(false);
+        setQuotesLoading(false);
       }
     };
-
     fetchQuotes();
+  }, []);
+
+  useEffect(() => {
+    const fetchMentors = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/mentor/", {
+          withCredentials: true, // Remove this if the route is truly public
+        });
+        setMentors(response.data || []);
+      } catch (err) {
+        console.error("Fetch mentors error:", err);
+        setMentorsError("Failed to load mentors. Please try again later.");
+      } finally {
+        setMentorsLoading(false);
+      }
+    };
+    fetchMentors();
   }, []);
 
   return (
@@ -91,23 +105,23 @@ function Outlet() {
             <div className="flex items-center gap-4">
               <button
                 className={`
-                flex 
-                items-center 
-                gap-2 
-                px-6 
-                py-3 
-                rounded-lg 
-                font-bold 
-                transition-all 
-                duration-300 
-                shadow-lg 
-                hover:shadow-xl
-                ${
-                  isDarkMode
-                    ? "bg-orange-700 text-white hover:bg-orange-600"
-                    : "bg-orange-500 text-white hover:bg-orange-600"
-                }
-              `}
+                  flex 
+                  items-center 
+                  gap-2 
+                  px-6 
+                  py-3 
+                  rounded-lg 
+                  font-bold 
+                  transition-all 
+                  duration-300 
+                  shadow-lg 
+                  hover:shadow-xl
+                  ${
+                    isDarkMode
+                      ? "bg-orange-700 text-white hover:bg-orange-600"
+                      : "bg-orange-500 text-white hover:bg-orange-600"
+                  }
+                `}
               >
                 <IoPeopleOutline className="w-5 h-5" />
                 Apply Now
@@ -148,18 +162,18 @@ function Outlet() {
           <div className="md:w-1/2 relative">
             <div
               className={`
-              absolute 
-              -top-10 
-              -right-10 
-              w-72 
-              h-72 
-              rounded-full 
-              blur-2xl 
-              opacity-50
-              transition-colors
-              duration-300
-              ${isDarkMode ? "bg-gray-800" : "bg-orange-100"}
-            `}
+                absolute 
+                -top-10 
+                -right-10 
+                w-72 
+                h-72 
+                rounded-full 
+                blur-2xl 
+                opacity-50
+                transition-colors
+                duration-300
+                ${isDarkMode ? "bg-gray-800" : "bg-orange-100"}
+              `}
             ></div>
             <img
               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -180,10 +194,12 @@ function Outlet() {
       </div>
 
       <div>
-        {loading ? (
-          <div>Loading testimonials...</div>
-        ) : error ? (
-          <div>Error: {error}</div>
+        {quotesLoading ? (
+          <div className="text-center py-4">Loading testimonials...</div>
+        ) : quotesError ? (
+          <div className="text-center py-4 text-red-500">
+            Error loading testimonials: {quotesError}
+          </div>
         ) : quotes.length > 0 ? (
           <TestimonialCard
             quote={quotes[0].quotes}
@@ -192,7 +208,7 @@ function Outlet() {
             imageSrc={quotes[0].imageUrl}
           />
         ) : (
-          <div>No testimonials available</div>
+          <div className="text-center py-4">No testimonials available</div>
         )}
       </div>
 
@@ -211,12 +227,11 @@ function Outlet() {
       <StartupSupportCards />
       <div className="px-2 sm:px-4 py-12">
         <div className="text-center mb-8">
-          <h1 className={`text-3xl font-bold `}>
+          <h1 className={`text-3xl font-bold`}>
             <span
               className={` ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
             >
-              {" "}
-              Our{" "}
+              Our
             </span>
             <span
               className={`${isDarkMode ? "text-[#485eac]" : "text-[#485eac]"}`}
@@ -225,17 +240,14 @@ function Outlet() {
             </span>{" "}
             <span
               className={
-                "bg-clip-text text-transparent bg-gradient-to-r from-orange-600 to-orange-400 "
+                "bg-clip-text text-transparent bg-gradient-to-r from-orange-600 to-orange-400"
               }
             >
               Nexus
             </span>
             <span
-              className={` ${
-                isDarkMode ? "text-gray-400" : "text-gray-600"
-              } gap-2`}
+              className={` ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
             >
-              {" "}
               Mentors
             </span>
           </h1>
@@ -249,49 +261,45 @@ function Outlet() {
           </p>
         </div>
 
-        {/* Grid of Mentor Cards */}
-        <div className="flex justify-center items-center gap-8">
-          <MentorCard
-            imageUrl="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQp3nz8zX1g3phNGrwzPJZNpzJdKMeUpHid7g&s" // Replace with actual image URL
-            name="Mark"
-            title="Co-Founder of Facebook"
-            company="Facebook"
-            linkedinUrl="https://www.linkedin.com/in/shifat-adnan"
-          />
-          <MentorCard
-            imageUrl="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5Nqg0ghEtpMiAq4KNVry-vu2NAjH0FPrjsw&s" // Replace with actual image URL
-            name="jensen huang"
-            title="Co-Founder & CEO"
-            company="Nvdia"
-            linkedinUrl="https://www.linkedin.com/in/jane-smith"
-          />
-          <MentorCard
-            imageUrl="https://variety.com/wp-content/uploads/2023/11/Elon-Musk.jpg?w=1000&h=667&crop=1" // Replace with actual image URL
-            name="Elon Musk"
-            title="Starlink of Engineering"
-            company="Starlink"
-            linkedinUrl="https://www.linkedin.com/in/john-doe"
-          />
+        <div className="flex justify-center items-center gap-8 flex-wrap">
+          {mentorsLoading ? (
+            <p className="text-gray-500">Loading mentors...</p>
+          ) : mentorsError ? (
+            <p className="text-red-500">{mentorsError}</p>
+          ) : mentors.length === 0 ? (
+            <p className="text-gray-500">No mentors available at this time.</p>
+          ) : (
+            mentors.map((mentor) => (
+              <MentorCard
+                key={mentor._id}
+                imageUrl={mentor.imageUrl}
+                name={mentor.mentorName}
+                title={mentor.mentorPosition}
+                company={mentor.mentorCompany}
+                linkedinUrl={mentor.linkedinUrl || "#"}
+              />
+            ))
+          )}
         </div>
         <div className="flex justify-center mt-8">
           <button
             className={`
-                px-8 
-                py-3 
-                rounded-lg 
-                text-white 
-                font-semibold 
-                transition-all 
-                duration-300 
-                shadow-lg 
-                hover:shadow-xl
-                cursor-pointer
-                ${
-                  isDarkMode
-                    ? "bg-orange-700 text-white hover:bg-orange-600"
-                    : "bg-orange-500 text-white hover:bg-orange-600"
-                }
-              `}
+              px-8 
+              py-3 
+              rounded-lg 
+              text-white 
+              font-semibold 
+              transition-all 
+              duration-300 
+              shadow-lg 
+              hover:shadow-xl
+              cursor-pointer
+              ${
+                isDarkMode
+                  ? "bg-orange-700 text-white hover:bg-orange-600"
+                  : "bg-orange-500 text-white hover:bg-orange-600"
+              }
+            `}
           >
             See all Mentors
           </button>

@@ -1,15 +1,15 @@
 // src/components/Login/Login.jsx
 import { useState } from "react";
-import { useAuth } from "../../Context/AuthContext"; // Import useAuth
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useAuth } from "../../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { login } = useAuth(); // Get login function from AuthContext
-  const navigate = useNavigate(); // Use navigate for redirection
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,36 +17,30 @@ export default function Login() {
     setError("");
 
     try {
-      // Use the login function from AuthContext
-      await login(email, password);
-
-      // Redirect based on role (optional)
-      const user = JSON.parse(localStorage.getItem("user")) || {}; // Temporary, until fully integrated
-      if (user.role === "admin") {
-        navigate("/admin/blogs");
+      const userData = await login(email, password);
+      if (userData.role === "admin") {
+        navigate("/admin/home"); // Redirect to AdminHome
       } else {
         navigate("/");
       }
     } catch (error) {
-      setError(error.message || "Login failed");
+      setError(error.response?.data?.message || "Login failed");
     } finally {
       setIsLoading(false);
     }
   };
 
+  // ... rest of the JSX remains unchanged
   return (
     <div className="flex min-h-screen bg-gray-50">
       <div className="w-full max-w-md m-auto">
         <div className="bg-white rounded-lg shadow-xl overflow-hidden">
-          {/* Logo/Header section */}
           <div className="bg-orange-600 p-8">
             <div className="text-center">
               <h1 className="text-white text-3xl font-bold">Welcome Back</h1>
               <p className="text-orange-200 mt-2">Sign in to your account</p>
             </div>
           </div>
-
-          {/* Form section */}
           <div className="p-8">
             {error && (
               <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">
@@ -60,7 +54,6 @@ export default function Login() {
                 )}
               </div>
             )}
-
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label
@@ -79,7 +72,6 @@ export default function Login() {
                   className="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
               </div>
-
               <div>
                 <div className="flex items-center justify-between mb-1">
                   <label
@@ -105,7 +97,6 @@ export default function Login() {
                   className="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
               </div>
-
               <div className="flex items-center">
                 <input
                   id="remember-me"
@@ -119,7 +110,6 @@ export default function Login() {
                   Remember me
                 </label>
               </div>
-
               <button
                 type="submit"
                 disabled={isLoading}
@@ -129,8 +119,6 @@ export default function Login() {
               </button>
             </form>
           </div>
-
-          {/* Footer section */}
           <div className="px-8 py-6 bg-gray-50 border-t border-gray-100 text-center">
             <p className="text-sm text-gray-600">
               Don't have an account?{" "}

@@ -1,3 +1,4 @@
+// src/components/Header.jsx
 import React, { useState, useEffect } from "react";
 import Dropdown from "./Dropdown";
 import { CiLogin, CiLogout } from "react-icons/ci";
@@ -8,37 +9,25 @@ import A2F from "../../Images/A2F.png";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import AdminHeader from "../../Admin/Header/AdminHeader";
+import { useAuth } from "../../Context/AuthContext"; // Import AuthContext
 
 function Header() {
   const [activeItem, setActiveItem] = useState(null);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
-  const [userRole, setUserRole] = useState("");
+  const { user, logout, loading } = useAuth(); // Use AuthContext
   const { isDarkMode } = useTheme();
   const navigate = useNavigate();
 
-  // Check login status and role on component mount
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user && user.username) {
-      setIsLoggedIn(true);
-      setUsername(user.username);
-      setUserRole(user.role || "user");
-    }
-  }, []);
+  // Update login state and role based on AuthContext
+  const isLoggedIn = !!user;
+  const username = user?.username || "";
+  const userRole = user?.role || "user";
 
+  // Logout handler
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:8000/api/users/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-      localStorage.removeItem("user");
-      setIsLoggedIn(false);
-      setUsername("");
-      setUserRole("");
+      await logout();
       navigate("/login");
     } catch (error) {
       console.error("Logout failed", error);
@@ -56,7 +45,6 @@ function Header() {
     { id: "investor", text: "Investor" },
     { id: "corporate", text: "Corporate" },
     { id: "government", text: "Government" },
-    { id: "review", text: "Review" },
     {
       id: "internship",
       text: "Internship",
@@ -69,11 +57,7 @@ function Header() {
       hasDropdown: true,
       dropdownItems: ["StartupProgram", "GovernmentProgram"],
     },
-    {
-      id: "Blog",
-      text: "Blog",
-      hasDropdown: false,
-    },
+    { id: "Blog", text: "Blog", hasDropdown: false },
     { id: "contactus", text: "Contact" },
   ];
 
@@ -160,7 +144,10 @@ function Header() {
     );
   };
 
-  // Conditionally render AdminHeader or regular header content
+  if (loading) {
+    return <div className="text-center p-6">Loading...</div>;
+  }
+
   return userRole === "admin" ? (
     <AdminHeader />
   ) : (
@@ -172,13 +159,7 @@ function Header() {
       <div className="flex items-center justify-between h-full px-6 mx-auto max-w-screen-xl">
         {/* Logo Section */}
         <div className="flex items-center h-full">
-          <Link
-            to="/"
-            onClick={() => {
-              setActiveItem(null);
-              navigate("/");
-            }}
-          >
+          <Link to="/" onClick={() => setActiveItem(null)}>
             <img
               src={A2F}
               className="h-16 w-auto object-contain cursor-pointer"
@@ -264,12 +245,10 @@ function Header() {
                     : "bg-orange-500 text-white hover:bg-orange-700"
                 }`}
               >
-                <div className="flex items-center gap-2">
-                  <span>
-                    <Link to="/login">Login</Link>
-                  </span>
+                <Link to="/login" className="flex items-center gap-2">
+                  <span>Login</span>
                   <CiLogin size={20} />
-                </div>
+                </Link>
               </button>
             )}
           </div>

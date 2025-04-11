@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+// src/Admin/Header/AdminHeader.jsx
+import React, { useState, useEffect, useRef } from "react";
 import A2F from "../../Images/A2F.png";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
@@ -6,25 +7,19 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { CiSearch } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 import AdminSidebar from "../Sidebar/AdminSidebar";
-import { ToastContainer } from "react-toastify"; // Import ToastContainer
-import "react-toastify/dist/ReactToastify.css"; // Import styles
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../../Context/AuthContext"; // Import AuthContext
 
 function AdminHeader() {
-  const [username, setUsername] = useState("");
-  const [role, setRole] = useState("");
+  const { user, logout, loading } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      const { username, role } = JSON.parse(userData);
-      setUsername(username);
-      setRole(role);
-    }
-  }, []);
+  const username = user?.username || "";
+  const role = user?.role || "";
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -32,16 +27,17 @@ function AdminHeader() {
         setIsDropdownOpen(false);
       }
     };
-
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    setUsername("");
-    setRole("");
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
   };
 
   const toggleSidebar = () => {
@@ -49,18 +45,22 @@ function AdminHeader() {
   };
 
   const dropdownItems = [
-    {
-      id: "logout",
-      text: "Logout",
-      onClick: handleLogout,
-    },
+    { id: "logout", text: "Logout", onClick: handleLogout },
   ];
+
+  if (loading) {
+    return <div className="text-center p-6">Loading...</div>;
+  }
+
+  if (!user || role !== "admin") {
+    return null; // Render nothing if not admin (Header.jsx will handle non-admin)
+  }
 
   return (
     <>
       <header className="flex items-center justify-between w-full bg-gray-800 text-white p-4">
         <div className="w-[12%] flex items-center space-x-4">
-          <Link to="/">
+          <Link to="/admin/home">
             <img
               src={A2F}
               alt="Logo"
@@ -143,7 +143,7 @@ function AdminHeader() {
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       />
-      <ToastContainer position="top-right" autoClose={3000} /> {/* Add here */}
+      <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 }
