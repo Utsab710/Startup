@@ -124,14 +124,10 @@ const StartupSupportCards = () => {
   return (
     <div className="py-12 px-2 sm:px-4">
       <div className="text-center mb-10">
-        <h2
-          className={`text-4xl font-bold mb-4 ${
-            isDarkMode ? "text-gray-100" : "text-gray-900"
-          }`}
-        >
+        <h2 className={`text-4xl font-bold mb-4 `}>
           <span
             className={`${
-              isDarkMode ? "text-[#485eac]" : "text-gray-900"
+              isDarkMode ? "text-[#485eac]" : "text-[#485eac]"
             } mr-2`}
           >
             What
@@ -140,7 +136,7 @@ const StartupSupportCards = () => {
             className={`${
               isDarkMode
                 ? "bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent"
-                : "text-gray-900"
+                : "bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent"
             }`}
           >
             We Do
