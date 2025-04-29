@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { IoPeopleOutline } from "react-icons/io5";
 import axios from "axios";
 import ClientSection from "./ClientSection";
@@ -11,9 +11,13 @@ import StartupSupportCards from "../Card/StartupSupportCards";
 import MentorCard from "../Card/MentorCard";
 import PartnerSection from "./PartnerSection";
 import ContactUs from "../ContactUs/ContactUs";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router";
 
 function Outlet() {
   const { isDarkMode } = useTheme();
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [quotes, setQuotes] = useState([]);
   const [quotesLoading, setQuotesLoading] = useState(true);
   const [quotesError, setQuotesError] = useState(null);
@@ -59,6 +63,17 @@ function Outlet() {
     fetchMentors();
   }, []);
 
+  const handleApplyNow = () => {
+    if (!user) {
+      navigate("/login", { state: { from: "/apply" } });
+    } else {
+      navigate("/apply");
+    }
+  };
+
+  const handleSeeMentors = () => {
+    navigate("/mentor");
+  };
   return (
     <div
       className={`w-full min-h-screen mx-auto overflow-hidden transition-colors duration-300 ${
@@ -74,7 +89,7 @@ function Outlet() {
               }`}
             >
               <span
-                className={`font-medium text-sm tracking-wide transition-colors duration-300 ${
+                className={`p-4 font-medium text-base tracking-wide transition-colors duration-300 ${
                   isDarkMode ? "text-orange-400" : "text-orange-600"
                 }`}
               >
@@ -104,6 +119,7 @@ function Outlet() {
             </p>
             <div className="flex items-center gap-4">
               <button
+                onClick={handleApplyNow}
                 className={`
                   flex 
                   items-center 
@@ -227,12 +243,12 @@ function Outlet() {
       <StartupSupportCards />
       <div className="px-2 sm:px-4 py-12">
         <div className="text-center mb-8">
-          <h1 className={`text-3xl font-bold`}>
+          <h1 className={`text-3xl font-bold mr-2`}>
             <span
               className={` ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
             >
               Our
-            </span>
+            </span>{" "}
             <span
               className={`${isDarkMode ? "text-[#485eac]" : "text-[#485eac]"}`}
             >
@@ -244,7 +260,7 @@ function Outlet() {
               }
             >
               Nexus
-            </span>
+            </span>{" "}
             <span
               className={` ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
             >
@@ -283,6 +299,7 @@ function Outlet() {
         </div>
         <div className="flex justify-center mt-8">
           <button
+            onClick={handleSeeMentors}
             className={`
               px-8 
               py-3 

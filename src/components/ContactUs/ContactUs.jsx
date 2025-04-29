@@ -48,7 +48,7 @@ function ContactUs() {
             }`}
           >
             <span
-              className={`font-medium text-sm tracking-wide transition-colors duration-300 ${
+              className={`font-medium text-base tracking-wide transition-colors duration-300 p-4 ${
                 isDarkMode ? "text-orange-400" : "text-orange-600"
               }`}
             >
@@ -57,7 +57,7 @@ function ContactUs() {
           </div>
           <h2
             className={`text-4xl font-bold mb-4 transition-colors duration-300 ${
-              isDarkMode ? "text-[#485eac]" : "text-gray-900"
+              isDarkMode ? "text-[#485eac]" : "text-[#485eac]"
             }`}
           >
             Contact{" "}
@@ -358,7 +358,7 @@ function ContactUs() {
         <div className="mt-16">
           <h3
             className={`text-4xl font-bold mb-4 transition-colors duration-300 text-center ${
-              isDarkMode ? "text-[#485eac]" : "text-gray-900"
+              isDarkMode ? "text-[#485eac]" : "text-[#485eac]"
             }`}
           >
             Find{" "}
@@ -396,7 +396,7 @@ function ContactUs() {
           <div className="text-center mb-12">
             <h2
               className={`text-3xl font-bold mb-4 transition-colors duration-300 ${
-                isDarkMode ? "text-[#485eac]" : "text-gray-900"
+                isDarkMode ? "text-[#485eac]" : "text-[#485eac]"
               }`}
             >
               Frequently Asked{" "}

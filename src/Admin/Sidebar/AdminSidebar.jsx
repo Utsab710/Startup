@@ -82,6 +82,11 @@ function AdminSidebar({ isOpen, onClose }) {
       icon: <FaPerson size={20} />,
       path: "/admin/investors",
     },
+    {
+      id: "header",
+      text: "header",
+      path: "/admin/reorderheader",
+    },
   ];
 
   const handleNavigation = (path) => {

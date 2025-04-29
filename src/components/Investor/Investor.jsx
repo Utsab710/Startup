@@ -57,24 +57,24 @@ function Investor() {
     {
       question: "Is there a membership fee for investors?",
       answer:
-        "No, there is no membership fee for signing up as a T-Hub investor.",
+        "No, there is no membership fee for signing up as a A2F Nexus investor.",
       isOpen: true,
     },
     {
-      question: "Do I have to invest through T-Hub?",
+      question: "Do I have to invest through A2F Nexus?",
       answer:
-        "No, you can invest directly in companies, but T-Hub provides vetted opportunities and streamlined processes.",
+        "No, you can invest directly in companies, but A2F Nexus provides vetted opportunities and streamlined processes.",
       isOpen: false,
     },
     {
       question:
         "Do I have to perform due diligence for companies I would like to invest in?",
       answer:
-        "While T-Hub provides initial screening, we encourage investors to conduct their own due diligence. We offer resources to help with this process.",
+        "While A2F Nexus provides initial screening, we encourage investors to conduct their own due diligence. We offer resources to help with this process.",
       isOpen: false,
     },
     {
-      question: "Do I get to attend T-Hub events?",
+      question: "Do I get to attend A2F Nexus events?",
       answer:
         "Yes, investors get priority access to all networking events, demo days, and exclusive investor-only gatherings.",
       isOpen: false,
@@ -178,7 +178,7 @@ function Investor() {
               }`}
             >
               <span
-                className={`font-medium text-sm tracking-wide transition-colors duration-300 ${
+                className={`font-medium text-base tracking-wide p-2 transition-colors duration-300 ${
                   isDarkMode ? "text-orange-400" : "text-orange-600"
                 }`}
               >
@@ -651,7 +651,7 @@ function Investor() {
             }`}
           >
             <span
-              className={`font-medium text-sm tracking-wide transition-colors duration-300 ${
+              className={`font-medium text-base tracking-wide p-2 transition-colors duration-300 ${
                 isDarkMode ? "text-orange-400" : "text-orange-600"
               }`}
             >

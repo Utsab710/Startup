@@ -3,6 +3,7 @@ import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 import { FaLinkedin, FaXTwitter } from "react-icons/fa6";
 import A2F from "../../Images/A2F.png";
 import { useTheme } from "../ThemeToggle/ThemeContext";
+import { Link } from "react-router-dom";
 
 function Footer() {
   const canvasRef = useRef(null);
@@ -131,145 +132,149 @@ function Footer() {
       />
 
       {/* Footer content with higher z-index */}
-      <div className="flex w-full py-3 ml-4 relative z-10">
-        {/* Image container */}
-        <div className="w-[10%] p-2">
-          <img src={A2F} className="w-[-20%] h-30" alt="Logo" />
-        </div>
-
-        {/* Text container */}
-        <div
-          className={`w-[40%] px-4 ${
-            isDarkMode ? "text-gray-300" : "text-gray-700"
-          }`}
-        >
-          <p>
-            We're an innovative IT company providing tailored solutions in
-            software development, web design, cybersecurity, cloud computing,
-            and IT consulting.
-          </p>
-          <div className="flex gap-3 mt-5">
-            {/* Social Media Icons with hover effect and links */}
-            <div className="flex space-x-2">
-              <a
-                href="https://www.facebook.com/FoundationSoftech"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`w-10 h-10 flex items-center justify-center rounded transition-colors duration-300 
-                ${
-                  isDarkMode
-                    ? "bg-gray-700 hover:bg-gray-600"
-                    : "bg-orange-500 hover:bg-orange-700"
-                }`}
-              >
-                <FaFacebook size={20} className="text-white" />
-              </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`w-10 h-10 flex items-center justify-center rounded transition-colors duration-300 
-                ${
-                  isDarkMode
-                    ? "bg-gray-700 hover:bg-gray-600"
-                    : "bg-orange-500 hover:bg-orange-700"
-                }`}
-              >
-                <FaXTwitter size={20} className="text-white" />
-              </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`w-10 h-10 flex items-center justify-center rounded transition-colors duration-300 
-                ${
-                  isDarkMode
-                    ? "bg-gray-700 hover:bg-gray-600"
-                    : "bg-orange-500 hover:bg-orange-700"
-                }`}
-              >
-                <FaLinkedin size={20} className="text-white" />
-              </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`w-10 h-10 flex items-center justify-center rounded transition-colors duration-300 
-                ${
-                  isDarkMode
-                    ? "bg-gray-700 hover:bg-gray-600"
-                    : "bg-orange-500 hover:bg-orange-700"
-                }`}
-              >
-                <FaYoutube size={20} className="text-white" />
-              </a>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`w-10 h-10 flex items-center justify-center rounded transition-colors duration-300 
-                ${
-                  isDarkMode
-                    ? "bg-gray-700 hover:bg-gray-600"
-                    : "bg-orange-500 hover:bg-orange-700"
-                }`}
-              >
-                <FaInstagram size={20} className="text-white" />
-              </a>
-            </div>
+      <div className="flex flex-wrap w-full py-3 ml-4 relative z-10">
+        {/* Left side: Logo and company info */}
+        <div className="w-[50%] flex">
+          {/* Image container */}
+          <div className="w-[20%] p-2">
+            <img src={A2F} className="w-full h-auto" alt="Logo" />
           </div>
 
-          <img
-            src="https://softechfoundation.com/assets/site/images/ISO-cirlcle.png"
-            className="w-[-30%] h-18 mt-6"
-            alt="Logo"
-          />
-          <p>ISO 9001:2015 </p>
-          <p>Certified Since 2018</p>
+          {/* Text container */}
+          <div
+            className={`w-[80%] px-4 ${
+              isDarkMode ? "text-gray-300" : "text-gray-700"
+            }`}
+          >
+            <p>
+              We're an innovative IT company providing tailored solutions in
+              software development, web design, cybersecurity, cloud computing,
+              and IT consulting.
+            </p>
+            <div className="flex gap-3 mt-5">
+              {/* Social Media Icons with hover effect and links */}
+              <div className="flex space-x-2">
+                <a
+                  href="https://www.facebook.com/FoundationSoftech"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-10 h-10 flex items-center justify-center rounded transition-colors duration-300 
+                  ${
+                    isDarkMode
+                      ? "bg-gray-700 hover:bg-gray-600"
+                      : "bg-orange-500 hover:bg-orange-700"
+                  }`}
+                >
+                  <FaFacebook size={20} className="text-white" />
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-10 h-10 flex items-center justify-center rounded transition-colors duration-300 
+                  ${
+                    isDarkMode
+                      ? "bg-gray-700 hover:bg-gray-600"
+                      : "bg-orange-500 hover:bg-orange-700"
+                  }`}
+                >
+                  <FaXTwitter size={20} className="text-white" />
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-10 h-10 flex items-center justify-center rounded transition-colors duration-300 
+                  ${
+                    isDarkMode
+                      ? "bg-gray-700 hover:bg-gray-600"
+                      : "bg-orange-500 hover:bg-orange-700"
+                  }`}
+                >
+                  <FaLinkedin size={20} className="text-white" />
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-10 h-10 flex items-center justify-center rounded transition-colors duration-300 
+                  ${
+                    isDarkMode
+                      ? "bg-gray-700 hover:bg-gray-600"
+                      : "bg-orange-500 hover:bg-orange-700"
+                  }`}
+                >
+                  <FaYoutube size={20} className="text-white" />
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-10 h-10 flex items-center justify-center rounded transition-colors duration-300 
+                  ${
+                    isDarkMode
+                      ? "bg-gray-700 hover:bg-gray-600"
+                      : "bg-orange-500 hover:bg-orange-700"
+                  }`}
+                >
+                  <FaInstagram size={20} className="text-white" />
+                </a>
+              </div>
+            </div>
+
+            <img
+              src="https://softechfoundation.com/assets/site/images/ISO-cirlcle.png"
+              className="w-[80px] h-auto mt-6"
+              alt="ISO Certification"
+            />
+            <p>ISO 9001:2015 </p>
+            <p>Certified Since 2018</p>
+          </div>
         </div>
 
-        {/* About links container */}
-        <div
-          className={`w-[20%] px-4 ${
-            isDarkMode ? "text-gray-300" : "text-gray-700"
-          }`}
-        >
-          <ul>
+        {/* Center: About us and Innovation sections side by side */}
+        <div className="w-[30%] flex">
+          {/* About links container */}
+          <div
+            className={`w-1/2 px-4 ${
+              isDarkMode ? "text-gray-300" : "text-gray-700"
+            }`}
+          >
             <h1 className="text-2xl font-semibold">About us</h1>
-            <div className="cursor-pointer">
-              <li>Company</li>
-              <li>Award</li>
-              <li>Careers</li>
-              <li>Startup</li>
-              <li>Programs</li>
-            </div>
-          </ul>
-        </div>
+            <ul className="cursor-pointer mt-2">
+              <li className="mb-1">Company</li>
+              <li className="mb-1">Award</li>
+              <li className="mb-1">Careers</li>
+              <li className="mb-1">Startup</li>
+              <li className="mb-1">Programs</li>
+            </ul>
+          </div>
 
-        {/* Innovation links container */}
-        <div
-          className={`w-[20%] px-4 ${
-            isDarkMode ? "text-gray-300" : "text-gray-700"
-          }`}
-        >
-          <ul>
+          {/* Innovation links container */}
+          <div
+            className={`w-1/2 px-4 ${
+              isDarkMode ? "text-gray-300" : "text-gray-700"
+            }`}
+          >
             <h1 className="text-2xl font-semibold">Innovation</h1>
-            <div className="cursor-pointer">
-              <li>Corporate</li>
-              <li>Government</li>
-              <li>Value Partners</li>
-              <li>Client</li>
-            </div>
-          </ul>
+            <ul className="cursor-pointer mt-2">
+              <li className="mb-1">Corporate</li>
+              <li className="mb-1">Government</li>
+              <li className="mb-1">Value Partners</li>
+              <li className="mb-1">Client</li>
+            </ul>
+          </div>
         </div>
       </div>
+
+      {/* Copyright text at the bottom */}
       <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 pb-3">
         <p
           className={`text-center ${
             isDarkMode ? "text-gray-300" : "text-gray-700"
           }`}
         >
-          Copyright © 2023 Softech Foundation Pvt. Ltd
+          Copyright © 2023 A2F Nexus
         </p>
       </div>
     </div>

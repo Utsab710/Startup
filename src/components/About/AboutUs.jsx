@@ -1,8 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "../ThemeToggle/ThemeContext";
 
 function AboutUs() {
   const { isDarkMode } = useTheme();
+  const [isCardVisible, setIsCardVisible] = useState(false);
+  const [isFeatureVisible, setIsFeatureVisible] = useState(false);
+
+  useEffect(() => {
+    // Small delay before starting card animations
+    const cardTimer = setTimeout(() => {
+      setIsCardVisible(true);
+    }, 100);
+
+    // Delay feature animations to start after 1 second
+    const featureTimer = setTimeout(() => {
+      setIsFeatureVisible(true);
+    }, 1000);
+
+    return () => {
+      clearTimeout(cardTimer);
+      clearTimeout(featureTimer);
+    };
+  }, []);
 
   // Card data with images
   const cardData = [
@@ -36,6 +55,30 @@ function AboutUs() {
     },
   ];
 
+  // Feature data
+  const featureData = [
+    {
+      icon: <div className="text-yellow-400 text-xl">💡</div>,
+      title: "Innovation",
+      description: "Cutting-edge solutions",
+    },
+    {
+      icon: <div className="text-red-400 text-xl">🚀</div>,
+      title: "Speed",
+      description: "Quick deployment",
+    },
+    {
+      icon: <div className="text-blue-400 text-xl">🌐</div>,
+      title: "Global",
+      description: "Worldwide service",
+    },
+    {
+      icon: <div className="text-yellow-400 text-xl">🔒</div>,
+      title: "Reliable",
+      description: "Trusted by leaders",
+    },
+  ];
+
   return (
     <div
       className={`p-8 md:p-16 transition-colors duration-500 ${
@@ -46,8 +89,8 @@ function AboutUs() {
         {/* Header Section */}
         <h1 className="text-4xl font-bold mb-16 text-center">
           <span
-            className={`mr-2 ${
-              isDarkMode ? "text-[#485eac]" : "text-gray-900"
+            className={` mr-2 text-3xl font-bold ${
+              isDarkMode ? "text-[#485eac]" : "text-[#485eac]"
             }`}
           >
             Why
@@ -81,36 +124,23 @@ function AboutUs() {
             </div>
           </div>
 
-          {/* Features Grid */}
+          {/* Features Grid with Animation */}
           <div className="md:w-1/2 grid grid-cols-2 gap-4">
-            <Feature
-              icon={<div className="text-yellow-400 text-xl">💡</div>}
-              title="Innovation"
-              description="Cutting-edge solutions"
-              isDarkMode={isDarkMode}
-            />
-            <Feature
-              icon={<div className="text-red-400 text-xl">🚀</div>}
-              title="Speed"
-              description="Quick deployment"
-              isDarkMode={isDarkMode}
-            />
-            <Feature
-              icon={<div className="text-blue-400 text-xl">🌐</div>}
-              title="Global"
-              description="Worldwide service"
-              isDarkMode={isDarkMode}
-            />
-            <Feature
-              icon={<div className="text-yellow-400 text-xl">🔒</div>}
-              title="Reliable"
-              description="Trusted by leaders"
-              isDarkMode={isDarkMode}
-            />
+            {featureData.map((feature, index) => (
+              <Feature
+                key={index}
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+                isDarkMode={isDarkMode}
+                isVisible={isFeatureVisible}
+                delay={index * 0.3} // One second between each feature
+              />
+            ))}
           </div>
         </div>
 
-        {/* Cards Section */}
+        {/* Cards Section with Animation */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {cardData.map((card, index) => (
             <ServiceCard
@@ -119,6 +149,8 @@ function AboutUs() {
               description={card.description}
               image={card.image}
               isDarkMode={isDarkMode}
+              isVisible={isCardVisible}
+              delay={index * 0.15} // Reduced delay for smoother sequence
             />
           ))}
         </div>
@@ -127,12 +159,25 @@ function AboutUs() {
   );
 }
 
-// Feature component for the top section
-const Feature = ({ icon, title, description, isDarkMode }) => (
+// Feature component with animation
+const Feature = ({
+  icon,
+  title,
+  description,
+  isDarkMode,
+  isVisible,
+  delay,
+}) => (
   <div
-    className={`p-6 rounded-lg transition-all ${
-      isDarkMode ? "bg-gray-800 text-gray-200" : "bg-gray-100 text-gray-800"
+    className={`p-6 rounded-lg shadow-md ${
+      isDarkMode ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"
     }`}
+    style={{
+      transform: isVisible ? "translateX(0)" : "translateX(-100%)",
+      opacity: isVisible ? 1 : 0,
+      transition: "transform 0.6s ease-out, opacity 0.6s ease-out",
+      transitionDelay: `${delay}s`,
+    }}
   >
     <div className="mb-3">{icon}</div>
     <h3 className="font-bold mb-1">{title}</h3>
@@ -142,56 +187,72 @@ const Feature = ({ icon, title, description, isDarkMode }) => (
   </div>
 );
 
-// Service Card component with consistent layout and hover effect
-const ServiceCard = ({ title, description, image, isDarkMode }) => {
+// Service Card component with fixed hover animation
+const ServiceCard = ({
+  title,
+  description,
+  image,
+  isDarkMode,
+  isVisible,
+  delay,
+}) => {
   return (
     <div
-      className={`relative overflow-hidden rounded-lg transition-all duration-300 hover:-translate-y-2 ${
-        isDarkMode ? "bg-gray-800 text-gray-200" : "bg-gray-100 text-gray-800"
+      className={`relative overflow-hidden rounded-lg ${
+        isDarkMode ? "bg-gray-800 text-gray-200" : "bg-white text-gray-800"
       }`}
-      style={{ height: "360px" }}
+      style={{
+        height: "360px",
+        transform: isVisible ? "translateX(0)" : "translateX(-100%)",
+        opacity: isVisible ? 1 : 0,
+        transition: "transform 0.8s ease-out, opacity 0.8s ease-out",
+        transitionDelay: `${delay}s`,
+        boxShadow:
+          "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+      }}
     >
-      {/* Image Section - Using the actual image from props */}
-      <div className="h-1/2 w-full overflow-hidden">
-        <img
-          src={image}
-          alt={title}
-          className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-        />
-      </div>
+      {/* Hover effect container - separate from slide animation */}
+      <div className="w-full h-full transition-transform duration-300 ease-out hover:-translate-y-2">
+        {/* Image Section */}
+        <div className="h-1/2 w-full overflow-hidden">
+          <img
+            src={image}
+            alt={title}
+            className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+          />
+        </div>
 
-      {/* Content Section - Fixed height for consistent layout */}
-      <div className="p-6 flex flex-col h-1/2">
-        <h3 className="text-xl font-bold mb-2">{title}</h3>
-        <p
-          className={`text-sm mb-4 flex-grow ${
-            isDarkMode ? "text-gray-400" : "text-gray-600"
-          }`}
-        >
-          {description}
-        </p>
-
-        {/* Button positioned at bottom for consistent alignment */}
-        <div className="mt-auto">
-          <button
-            className={`text-orange-500 hover:text-orange-600 transition-colors font-medium flex items-center`}
+        {/* Content Section */}
+        <div className="p-6 flex flex-col h-1/2">
+          <h3 className="text-xl font-bold mb-2">{title}</h3>
+          <p
+            className={`text-sm mb-4 flex-grow ${
+              isDarkMode ? "text-gray-400" : "text-gray-600"
+            }`}
           >
-            Read More
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 ml-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
+            {description}
+          </p>
+
+          {/* Button positioned at bottom */}
+          <div className="mt-auto">
+            <button className="text-orange-500 hover:text-orange-600 transition-colors font-medium flex items-center">
+              Read More
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 ml-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>

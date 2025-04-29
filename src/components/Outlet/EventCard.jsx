@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../ThemeToggle/ThemeContext";
+import { Link } from "react-router-dom";
 
 const API_URL = "http://localhost:8000";
 
@@ -18,7 +19,13 @@ const EventCard = ({ events: propEvents }) => {
         const response = await fetch(`${API_URL}/api/events`);
         const data = await response.json();
         if (response.ok) {
-          setEvents(data);
+          // Sort events by date (most recent first) and take only the first 3
+          const sortedEvents = [...data]
+            .sort((a, b) => {
+              return new Date(b.date) - new Date(a.date);
+            })
+            .slice(0, 3);
+          setEvents(sortedEvents);
         } else {
           setError("Failed to fetch events");
         }
@@ -291,6 +298,62 @@ const EventCard = ({ events: propEvents }) => {
                 ></path>
               </svg>
             </button>
+
+            {/* Consultation Card Below See More Events Button */}
+            <div
+              className={`mt-4 rounded-lg shadow-lg ${
+                isDarkMode ? "bg-gray-800" : "bg-white"
+              } p-5`}
+            >
+              <h3 className="text-xl font-medium mb-2">
+                Get a{" "}
+                <span
+                  className={`${
+                    isDarkMode ? "text-orange-600" : "text-orange-600"
+                  } font-bold`}
+                >
+                  FREE consultation
+                </span>
+              </h3>
+              <p
+                className={`${
+                  isDarkMode ? "text-gray-300" : "text-gray-700"
+                } mb-4`}
+              >
+                on how outsourcing can benefit your business
+              </p>
+              <Link to="/contactus">
+                <button
+                  className="cursor-pointer text-white font-medium py-2 px-4 rounded-full flex items-center justify-between w-full"
+                  style={{
+                    backgroundColor: "#3b5998",
+                    transition: "background-color 0.3s",
+                  }}
+                  onMouseOver={(e) =>
+                    (e.currentTarget.style.backgroundColor = "#2d4373")
+                  }
+                  onMouseOut={(e) =>
+                    (e.currentTarget.style.backgroundColor = "#3b5998")
+                  }
+                >
+                  Contact Us Now
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

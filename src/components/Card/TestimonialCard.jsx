@@ -76,8 +76,15 @@ const TestimonialCard = ({ quote, personName, companyInfo, imageSrc }) => {
           }`}
         >
           <h2 className="text-4xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent">
-              Looking for Funding?
+            <span
+              className={` bg-clip-text  ${
+                isDarkMode ? "text-[#485eac]" : "text-[#485eac]"
+              }`}
+            >
+              Looking for{" "}
+            </span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-400">
+              Funding?
             </span>
           </h2>
           <p

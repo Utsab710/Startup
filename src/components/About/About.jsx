@@ -1,5 +1,6 @@
 import React from "react";
 import { useTheme } from "../ThemeToggle/ThemeContext";
+import A2FBrings from "./A2FBrings";
 
 function About() {
   const { isDarkMode } = useTheme();
@@ -148,7 +149,7 @@ function About() {
               }`}
             >
               <span
-                className={`font-medium text-sm tracking-wide transition-colors duration-300 ${
+                className={`font-medium text-base p-2 tracking-wide transition-colors duration-300 ${
                   isDarkMode ? "text-orange-400" : "text-orange-600"
                 }`}
               >
@@ -170,8 +171,10 @@ function About() {
                 isDarkMode ? "text-gray-400" : "text-gray-600"
               }`}
             >
-              A2F Nexus started in 2007 with a mission to be a one-stop solution
-              hub for modern organizations' IT needs.
+              Our mission is to empower entrepreneurs by providing them with the
+              necessary resources to create socially impactful businesses. We
+              are a nexus of startup ecosystem partners. Together, Lets be
+              Trailblazers of Innovation.
             </p>
             <div className="flex flex-wrap items-center gap-4">
               <button
@@ -264,6 +267,9 @@ function About() {
           </div>
         </div>
       </div>
+      <div className="mt-15">
+        <A2FBrings />
+      </div>
 
       {/* Who We Serve Section */}
       <div className="mt-24 px-4 md:px-8 max-w-7xl mx-auto">
@@ -274,7 +280,7 @@ function About() {
             }`}
           >
             <span
-              className={`font-medium text-sm tracking-wide transition-colors duration-300 ${
+              className={`font-medium p-2 text-base tracking-wide transition-colors duration-300 ${
                 isDarkMode ? "text-orange-400" : "text-orange-600"
               }`}
             >

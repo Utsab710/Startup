@@ -53,141 +53,144 @@ const Card = ({
   </motion.div>
 );
 
-function Corporate() {
+function Government() {
   const { isDarkMode } = useTheme();
-  const [activeTab, setActiveTab] = useState("corporates");
+  const [activeTab, setActiveTab] = useState("startups");
 
   // Refs for animation triggers
-  const featuresSectionRef = useRef(null);
-  const featuresInView = useInView(featuresSectionRef, {
+  const initiativesSectionRef = useRef(null);
+  const initiativesInView = useInView(initiativesSectionRef, {
     once: true,
     amount: 0.3,
   });
 
-  const focusSectionRef = useRef(null);
-  const focusInView = useInView(focusSectionRef, { once: true, amount: 0.3 });
+  const approachSectionRef = useRef(null);
+  const approachInView = useInView(approachSectionRef, {
+    once: true,
+    amount: 0.3,
+  });
 
-  const benefitsSectionRef = useRef(null);
-  const benefitsInView = useInView(benefitsSectionRef, {
+  const programsSectionRef = useRef(null);
+  const programsInView = useInView(programsSectionRef, {
     once: true,
     amount: 0.3,
   });
 
   // Data Arrays
-  const keyFeatures = [
+  const keyInitiatives = [
     {
-      title: "High-Impact Programs",
+      title: "Startup Programs",
       description:
-        "Our curated programs are geared to accelerate your innovation journey.",
+        "Pioneering tailored startup programs for government departments like IDEX and MEITy.",
       icon: "rocket",
     },
     {
-      title: "Create a Global Network",
+      title: "Incubation Centers",
       description:
-        "Forge alliances with industry peers to build innovative solutions.",
+        "Managing AIC, CII, and DST incubators nurturing groundbreaking ideas.",
+      icon: "building",
+    },
+    {
+      title: "Policy Development",
+      description:
+        "Drafting innovation policies and assisting policymakers in crafting technology regulations under the umbrella of innovation.",
+      icon: "file-text",
+    },
+    {
+      title: "Global Partnerships",
+      description:
+        "Offering innovation consulting to support foreign governments in establishing incubation centers.",
       icon: "globe",
-    },
-    {
-      title: "Adopt an Innovation Mindset",
-      description:
-        "We foster intrapreneurship and serve as a gateway for startups with our state-of-the-art initiatives.",
-      icon: "lightbulb",
-    },
-    {
-      title: "Amplify Digital Transformation",
-      description:
-        "Connect with innovative startups to transform your innovation model.",
-      icon: "refresh",
     },
   ];
 
-  const corporateBenefits = [
+  const governmentBenefits = [
     {
-      title: "Accelerated Growth",
+      title: "Economic Growth",
       description:
-        "Fast-track your innovation initiatives and reduce time-to-market for new solutions.",
+        "Stimulate local economies through innovation and job creation in emerging sectors.",
       icon: "chart-line",
     },
     {
-      title: "Risk Mitigation",
+      title: "Digital Transformation",
       description:
-        "Test new ideas in a controlled environment before full-scale implementation.",
-      icon: "shield",
+        "Accelerate the adoption of cutting-edge technologies in public service delivery.",
+      icon: "refresh",
     },
     {
-      title: "Talent Development",
+      title: "Ecosystem Development",
       description:
-        "Foster an innovation mindset within your team and attract top talent.",
+        "Build robust innovation ecosystems that connect startups, industry, academia, and government.",
       icon: "users",
     },
   ];
 
-  const focusAreas = [
+  const strategicApproach = [
     {
-      title: "Incubation",
+      title: "Assessment",
       description:
-        "Our state-of-the-art incubation program provides startups with workspace, resources, and mentorship.",
-      icon: "building",
+        "Evaluating needs and opportunities for innovation within government sectors.",
+      icon: "search",
     },
     {
-      title: "Mentorship",
+      title: "Sensitization",
       description:
-        "Connect with industry experts and seasoned entrepreneurs for guidance and strategic advice.",
-      icon: "user-tie",
-    },
-    {
-      title: "Collaboration",
-      description:
-        "We facilitate partnerships between startups, corporates, investors, and government agencies.",
-      icon: "handshake",
-    },
-    {
-      title: "Placement",
-      description:
-        "Our placement initiatives connect promising talent with innovative companies.",
-      icon: "briefcase",
-    },
-  ];
-
-  const corporateSolutions = [
-    {
-      title: "Innovation Labs",
-      description:
-        "Build dedicated innovation spaces to foster creativity and problem-solving within your organization.",
-      icon: "building",
-    },
-    {
-      title: "Startup Partnerships",
-      description:
-        "Collaborate with high-potential startups to co-create solutions and drive digital transformation.",
-      icon: "handshake",
-    },
-    {
-      title: "Intrapreneurship Programs",
-      description:
-        "Empower your employees to innovate from within through structured intrapreneurship initiatives.",
+        "Raising awareness and understanding of cutting-edge technologies and innovative practices.",
       icon: "lightbulb",
     },
+    {
+      title: "Engagement",
+      description:
+        "Actively collaborating with government entities to foster a culture of innovation.",
+      icon: "handshake",
+    },
+    {
+      title: "Development",
+      description:
+        "Creating strategic plans to implement and scale innovative solutions.",
+      icon: "tool",
+    },
   ];
 
-  const startupSolutions = [
+  const startupPrograms = [
     {
-      title: "Accelerator Programs",
+      title: "T-Fund",
       description:
-        "Join our accelerator to gain access to funding, mentorship, and corporate partnerships.",
-      icon: "rocket",
+        "A collaboration between T-Hub and the Telangana government, offering INR 25 lakhs to 1 crore for early-stage tech startups.",
+      icon: "dollar-sign",
     },
     {
-      title: "Market Access",
+      title: "Startup Nepal Seed Fund",
       description:
-        "Leverage our network to connect with corporates and expand your market reach.",
-      icon: "globe",
+        "Supporting tech startups in their initial two years with funding for PoC, prototype development, and market entry.",
+      icon: "seedling",
     },
     {
-      title: "Resource Support",
+      title: "Sectoral Accelerators",
       description:
-        "Access workspaces, tools, and expertise to scale your startup efficiently.",
-      icon: "briefcase",
+        "Targeted programs for healthcare, agriculture, and smart cities in partnership with line ministries.",
+      icon: "layers",
+    },
+  ];
+
+  const governmentServices = [
+    {
+      title: "Innovation Policy Advisory",
+      description:
+        "Expert guidance on crafting policy frameworks that enable innovation ecosystems at state and national levels.",
+      icon: "clipboard",
+    },
+    {
+      title: "E-Governance Solutions",
+      description:
+        "Facilitating the adoption of digital solutions for efficient public service delivery and citizen engagement.",
+      icon: "server",
+    },
+    {
+      title: "Capacity Building",
+      description:
+        "Comprehensive training programs for government officials to develop innovation mindsets and technical skills.",
+      icon: "users",
     },
   ];
 
@@ -338,30 +341,6 @@ function Corporate() {
             />
           </svg>
         );
-      case "user-tie":
-        return (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-12 w-12"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 14l0 7m-2 -4l2 1l2 -1"
-            />
-          </svg>
-        );
       case "handshake":
         return (
           <svg
@@ -380,7 +359,7 @@ function Corporate() {
             />
           </svg>
         );
-      case "briefcase":
+      case "file-text":
         return (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -394,7 +373,139 @@ function Corporate() {
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth={2}
-              d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+          </svg>
+        );
+      case "search":
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-12 w-12"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        );
+      case "tool":
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-12 w-12"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+        );
+      case "dollar-sign":
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-12 w-12"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        );
+      case "seedling":
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-12 w-12"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"
+            />
+          </svg>
+        );
+      case "clipboard":
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-12 w-12"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+            />
+          </svg>
+        );
+      case "server":
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-12 w-12"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"
+            />
+          </svg>
+        );
+      case "layers":
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-12 w-12"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
             />
           </svg>
         );
@@ -439,26 +550,27 @@ function Corporate() {
                   isDarkMode ? "text-orange-400" : "text-orange-600"
                 }`}
               >
-                Corporate Solutions
+                Government Partnerships
               </span>
             </div>
             <h1
               className={`text-4xl md:text-5xl font-black leading-tight transition-colors duration-300 ${
-                isDarkMode ? "text-[#485eac]" : "text-[#485eac]"
+                isDarkMode ? "text-[#3b5998]" : "text-[#3b5998]"
               }`}
             >
-              Bridge your
+              Building
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-400">
-                Innovation Gap
+                Nation-scale Innovation
               </span>
-              and Stay Ahead
+              Ecosystems
             </h1>
             <p
               className={`text-lg max-w-md leading-relaxed transition-colors duration-300 ${
                 isDarkMode ? "text-gray-400" : "text-gray-600"
               }`}
             >
-              We Help Corporates Stay Agile Through Our High-Impact Partnerships
+              Fostering Public-Private Partnerships to Drive Innovation in
+              Governance and Public Services
             </p>
             <div className="flex flex-wrap items-center gap-4">
               <button
@@ -467,18 +579,18 @@ function Corporate() {
                     ? "bg-orange-700 text-white hover:bg-orange-600"
                     : "bg-orange-500 text-white hover:bg-orange-600"
                 }`}
-                aria-label="Get details about corporate solutions"
+                aria-label="Get details about government partnerships"
               >
                 Get Details
               </button>
               <a
-                href="#focus"
+                href="#approach"
                 className={`font-semibold transition-colors flex items-center gap-2 ${
                   isDarkMode
                     ? "text-orange-400 hover:text-orange-500"
                     : "text-orange-600 hover:text-orange-700"
                 }`}
-                aria-label="Learn more about our focus areas"
+                aria-label="Learn more about our strategic approach"
               >
                 Learn More
                 <svg
@@ -506,30 +618,30 @@ function Corporate() {
               }`}
             ></div>
             <img
-              src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400"
+              src="https://imgs.search.brave.com/xFV7eiZMzJbc1CUbEwuxtL7gVcmVhYA2PqGDMwV0RHg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9wYXJ0LWNhcGl0/b2wtYnVpbGRpbmct/d2l0aC1jb2x1bW5z/LXN0cmVldC1sYW1w/LWJsdWUtc2t5LWJh/Y2tncm91bmQtd2l0/aC1jb3B5LXNwYWNl/XzEwNDg5NDQtMTAz/Mzg4Ni5qcGc_c2Vt/dD1haXNfY291bnRy/eV9ib29zdCZ3PTc0/MA"
               className="relative w-full h-auto rounded-2xl shadow-2xl z-10"
-              alt="Corporate innovation team collaborating"
+              alt="Government innovation initiative building"
               loading="lazy"
             />
           </div>
         </div>
       </div>
 
-      {/* We Focus On Section */}
+      {/* Strategic Approach Section */}
       <div
-        id="focus"
-        ref={focusSectionRef}
+        id="approach"
+        ref={approachSectionRef}
         className="mt-24 px-4 md:px-8 max-w-7xl mx-auto"
       >
         <div className="text-center mb-12">
           <h2
             className={`text-3xl font-bold ${
-              isDarkMode ? "text-[#485eac]" : "text-[#485eac]"
+              isDarkMode ? "text-[#3b5998]" : "text-[#3b5998]"
             }`}
           >
-            We Focus{" "}
+            Strategic{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-400">
-              On
+              Approach
             </span>
           </h2>
           <p
@@ -537,18 +649,18 @@ function Corporate() {
               isDarkMode ? "text-gray-400" : "text-gray-600"
             }`}
           >
-            Our comprehensive approach to corporate innovation drives
-            sustainable growth and keeps you ahead of the competition
+            Our comprehensive framework for partnering with government agencies
+            to build sustainable innovation ecosystems
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {focusAreas.map((area, index) => (
+          {strategicApproach.map((area, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, x: -50 }}
               animate={
-                focusInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }
+                approachInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }
               }
               transition={{ duration: 0.5, delay: index * 0.2 }}
             >
@@ -563,9 +675,9 @@ function Corporate() {
         </div>
       </div>
 
-      {/* Key Features Section */}
+      {/* Key Initiatives Section */}
       <div
-        ref={featuresSectionRef}
+        ref={initiativesSectionRef}
         className="mt-24 px-4 md:px-8 max-w-7xl mx-auto"
       >
         <div
@@ -576,12 +688,12 @@ function Corporate() {
           <div className="text-center mb-12">
             <h2
               className={`text-3xl font-bold ${
-                isDarkMode ? "text-[#485eac]" : "text-[#485eac]"
+                isDarkMode ? "text-[#3b5998]" : "text-[#3b5998]"
               }`}
             >
               Key{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-400">
-                Features
+                Initiatives
               </span>
             </h2>
             <p
@@ -589,71 +701,46 @@ function Corporate() {
                 isDarkMode ? "text-gray-400" : "text-gray-600"
               }`}
             >
-              Drive innovation and strategic growth with our comprehensive
-              corporate solutions
+              Flagship programs designed to accelerate innovation within
+              government and create public value
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {keyFeatures.map((feature, index) => (
+            {keyInitiatives.map((initiative, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
                 animate={
-                  featuresInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
+                  initiativesInView
+                    ? { opacity: 1, y: 0 }
+                    : { opacity: 0, y: 30 }
                 }
-                transition={{ duration: 0.5, delay: index * 0.15 }}
-                className={`p-6 rounded-lg transition-colors duration-300 ${
-                  isDarkMode ? "bg-gray-700" : "bg-white"
-                } shadow-md`}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
               >
-                <div className="flex items-start gap-4">
-                  <div
-                    className={`p-3 rounded-full ${
-                      isDarkMode
-                        ? "bg-gray-600 text-orange-400"
-                        : "bg-orange-100 text-orange-600"
-                    }`}
-                  >
-                    {renderIcon(feature.icon)}
-                  </div>
-                  <div>
-                    <h3
-                      className={`text-xl font-bold mb-2 ${
-                        isDarkMode ? "text-gray-100" : "text-gray-900"
-                      }`}
-                    >
-                      {feature.title}
-                    </h3>
-                    <p
-                      className={`${
-                        isDarkMode ? "text-gray-400" : "text-gray-600"
-                      }`}
-                    >
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
+                <Card
+                  item={initiative}
+                  isDarkMode={isDarkMode}
+                  renderIcon={renderIcon}
+                  withButton={false}
+                />
               </motion.div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Corporate Benefits Section */}
-      <div
-        ref={benefitsSectionRef}
-        className="mt-24 px-4 md:px-8 max-w-7xl mx-auto"
-      >
+      {/* Government Benefits Section */}
+      <div className="mt-24 px-4 md:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2
             className={`text-3xl font-bold ${
-              isDarkMode ? "text-[#485eac]" : "text-[#485eac]"
+              isDarkMode ? "text-[#3b5998]" : "text-[#3b5998]"
             }`}
           >
-            Corporate{" "}
+            Benefits for{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-400">
-              Benefits
+              Governments
             </span>
           </h2>
           <p
@@ -661,20 +748,18 @@ function Corporate() {
               isDarkMode ? "text-gray-400" : "text-gray-600"
             }`}
           >
-            Empowering your organization to thrive in a rapidly evolving
-            business landscape
+            How our partnerships empower governments to achieve transformative
+            outcomes
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {corporateBenefits.map((benefit, index) => (
+          {governmentBenefits.map((benefit, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={
-                benefitsInView
-                  ? { opacity: 1, scale: 1 }
-                  : { opacity: 0, scale: 0.9 }
+                initiativesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
               }
               transition={{ duration: 0.5, delay: index * 0.2 }}
             >
@@ -682,156 +767,158 @@ function Corporate() {
                 item={benefit}
                 isDarkMode={isDarkMode}
                 renderIcon={renderIcon}
-                withButton
+                withButton={false}
               />
             </motion.div>
           ))}
         </div>
       </div>
 
-      {/* Tabs for Corporate Solutions */}
-      <div className="mt-20 px-4 md:px-8 max-w-7xl mx-auto">
-        <div
-          className={`rounded-2xl p-8 md:p-12 shadow-lg transition-colors duration-300 ${
-            isDarkMode ? "bg-gray-800" : "bg-orange-50"
-          }`}
-        >
-          <div className="text-center mb-12">
-            <h2
-              className={`text-3xl font-bold ${
-                isDarkMode ? "text-[#485eac]" : "text-[#485eac]"
-              }`}
-            >
-              Corporate{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-400">
-                Solutions
-              </span>
-            </h2>
-            <p
-              className={`mt-2 text-lg max-w-2xl mx-auto ${
-                isDarkMode ? "text-gray-400" : "text-gray-600"
-              }`}
-            >
-              Choose the right path for your business strategy
-            </p>
-          </div>
-          <div className="flex justify-center gap-4 mb-8" role="tablist">
+      {/* Programs and Services Section */}
+      <div
+        ref={programsSectionRef}
+        className="mt-24 px-4 md:px-8 max-w-7xl mx-auto"
+      >
+        <div className="text-center mb-12">
+          <h2
+            className={`text-3xl font-bold ${
+              isDarkMode ? "text-[#3b5998]" : "text-[#3b5998]"
+            }`}
+          >
+            Programs &{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-400">
+              Services
+            </span>
+          </h2>
+          <p
+            className={`mt-2 text-lg max-w-2xl mx-auto ${
+              isDarkMode ? "text-gray-400" : "text-gray-600"
+            }`}
+          >
+            Explore our tailored offerings for startups and government services
+          </p>
+        </div>
+
+        {/* Tabs for Programs and Services */}
+        <div className="flex justify-center mb-8">
+          <div
+            className={`inline-flex rounded-lg p-1 transition-colors duration-300 ${
+              isDarkMode ? "bg-gray-800" : "bg-orange-50"
+            }`}
+          >
             <button
-              onClick={() => setActiveTab("corporates")}
-              className={`px-6 py-2 rounded-lg font-semibold transition-colors duration-300 ${
-                activeTab === "corporates"
-                  ? isDarkMode
-                    ? "bg-orange-700 text-white"
-                    : "bg-orange-500 text-white"
-                  : isDarkMode
-                  ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
-              role="tab"
-              aria-selected={activeTab === "corporates"}
-              aria-controls="corporates-panel"
-            >
-              For Corporates
-            </button>
-            <button
-              onClick={() => setActiveTab("startups")}
-              className={`px-6 py-2 rounded-lg font-semibold transition-colors duration-300 ${
+              className={`px-6 py-2 rounded-lg font-medium transition-all duration-300 ${
                 activeTab === "startups"
                   ? isDarkMode
                     ? "bg-orange-700 text-white"
                     : "bg-orange-500 text-white"
                   : isDarkMode
-                  ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  ? "text-gray-400 hover:text-orange-400"
+                  : "text-gray-600 hover:text-orange-600"
               }`}
-              role="tab"
-              aria-selected={activeTab === "startups"}
-              aria-controls="startups-panel"
+              onClick={() => setActiveTab("startups")}
+              aria-label="View startup programs"
             >
-              For Startups
+              Startup Programs
+            </button>
+            <button
+              className={`px-6 py-2 rounded-lg font-medium transition-all duration-300 ${
+                activeTab === "services"
+                  ? isDarkMode
+                    ? "bg-orange-700 text-white"
+                    : "bg-orange-500 text-white"
+                  : isDarkMode
+                  ? "text-gray-400 hover:text-orange-400"
+                  : "text-gray-600 hover:text-orange-600"
+              }`}
+              onClick={() => setActiveTab("services")}
+              aria-label="View government services"
+            >
+              Government Services
             </button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {activeTab === "corporates"
-              ? corporateSolutions.map((solution, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={`p-6 rounded-lg transition-colors duration-300 ${
-                      isDarkMode ? "bg-gray-700" : "bg-white"
-                    } shadow-md text-center`}
-                    id="corporates-panel"
-                    role="tabpanel"
-                  >
-                    <div
-                      className={`p-3 rounded-full inline-flex ${
-                        isDarkMode
-                          ? "bg-gray-600 text-orange-400"
-                          : "bg-orange-100 text-orange-600"
-                      } mb-4`}
-                    >
-                      {renderIcon(solution.icon)}
-                    </div>
-                    <h3
-                      className={`text-xl font-bold mb-2 ${
-                        isDarkMode ? "text-gray-100" : "text-gray-900"
-                      }`}
-                    >
-                      {solution.title}
-                    </h3>
-                    <p
-                      className={`${
-                        isDarkMode ? "text-gray-400" : "text-gray-600"
-                      }`}
-                    >
-                      {solution.description}
-                    </p>
-                  </motion.div>
-                ))
-              : startupSolutions.map((solution, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={`p-6 rounded-lg transition-colors duration-300 ${
-                      isDarkMode ? "bg-gray-700" : "bg-white"
-                    } shadow-md text-center`}
-                    id="startups-panel"
-                    role="tabpanel"
-                  >
-                    <div
-                      className={`p-3 rounded-full inline-flex ${
-                        isDarkMode
-                          ? "bg-gray-600 text-orange-400"
-                          : "bg-orange-100 text-orange-600"
-                      } mb-4`}
-                    >
-                      {renderIcon(solution.icon)}
-                    </div>
-                    <h3
-                      className={`text-xl font-bold mb-2 ${
-                        isDarkMode ? "text-gray-100" : "text-gray-900"
-                      }`}
-                    >
-                      {solution.title}
-                    </h3>
-                    <p
-                      className={`${
-                        isDarkMode ? "text-gray-400" : "text-gray-600"
-                      }`}
-                    >
-                      {solution.description}
-                    </p>
-                  </motion.div>
-                ))}
-          </div>
+        </div>
+
+        {/* Tab Content */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {activeTab === "startups" &&
+            startupPrograms.map((program, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                animate={
+                  programsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
+                }
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+              >
+                <Card
+                  item={program}
+                  isDarkMode={isDarkMode}
+                  renderIcon={renderIcon}
+                  withButton
+                />
+              </motion.div>
+            ))}
+          {activeTab === "services" &&
+            governmentServices.map((service, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                animate={
+                  programsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
+                }
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+              >
+                <Card
+                  item={service}
+                  isDarkMode={isDarkMode}
+                  renderIcon={renderIcon}
+                  withButton
+                />
+              </motion.div>
+            ))}
+        </div>
+      </div>
+
+      {/* Call to Action Section */}
+      <div
+        className={`mt-24 px-4 md:px-8 max-w-7xl mx-auto py-16 rounded-2xl transition-colors duration-300 ${
+          isDarkMode ? "bg-gray-800" : "bg-orange-50"
+        }`}
+      >
+        <div className="text-center">
+          <h2
+            className={`text-3xl font-bold ${
+              isDarkMode ? "text-[#3b5998]" : "text-[#3b5998]"
+            }`}
+          >
+            Ready to Transform{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-400">
+              Governance?
+            </span>
+          </h2>
+          <p
+            className={`mt-4 text-lg max-w-2xl mx-auto ${
+              isDarkMode ? "text-gray-400" : "text-gray-600"
+            }`}
+          >
+            Partner with us to build innovative ecosystems that empower
+            governments and citizens alike.
+          </p>
+          <button
+            className={`mt-8 px-8 py-4 rounded-lg font-bold transition-all duration-300 shadow-lg hover:shadow-xl ${
+              isDarkMode
+                ? "bg-orange-700 text-white hover:bg-orange-600"
+                : "bg-orange-500 text-white hover:bg-orange-600"
+            }`}
+            aria-label="Contact us to start a partnership"
+          >
+            Contact Us
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-export default Corporate;
+export default Government;

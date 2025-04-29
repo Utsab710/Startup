@@ -5,6 +5,8 @@ import {
   IoTrendingUpOutline,
 } from "react-icons/io5";
 import { useTheme } from "../ThemeToggle/ThemeContext";
+import StartupStages from "./StartupStages";
+import StartupEcosystem from "./StartupEcosystem";
 
 function Startup() {
   const { isDarkMode } = useTheme();
@@ -65,7 +67,7 @@ function Startup() {
               }`}
             >
               <span
-                className={`font-medium text-sm tracking-wide transition-colors duration-300 ${
+                className={`font-medium text-base tracking-wide transition-colors p-4 duration-300 ${
                   isDarkMode ? "text-orange-400" : "text-orange-600"
                 }`}
               >
@@ -198,7 +200,8 @@ function Startup() {
           </div>
         </div>
       </div>
-
+      <StartupStages />
+      <StartupEcosystem />
       {/* Programs Section */}
       {/* Programs Section */}
       <div id="programs" className="mt-24 px-4 md:px-8 max-w-7xl mx-auto">
@@ -348,7 +351,7 @@ function Startup() {
             }`}
           >
             <span
-              className={`font-medium text-sm p-3 tracking-wide transition-colors duration-300 ${
+              className={`font-medium text-base p-3 tracking-wide transition-colors duration-300 ${
                 isDarkMode ? "text-orange-400" : "text-orange-600"
               }`}
             >
@@ -362,7 +365,7 @@ function Startup() {
           >
             Master the{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-400">
-              Startup Lingo
+              Startup
             </span>
           </h2>
           <p

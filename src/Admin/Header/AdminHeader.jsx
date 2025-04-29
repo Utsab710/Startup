@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AdminSidebar from "../Sidebar/AdminSidebar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../../Context/AuthContext"; // Import AuthContext
+import { useAuth } from "../../context/AuthContext";
 
 function AdminHeader() {
   const { user, logout, loading } = useAuth();
@@ -20,6 +20,8 @@ function AdminHeader() {
 
   const username = user?.username || "";
   const role = user?.role || "";
+
+  console.log("AdminHeader state:", { user, role, loading }); // Debug log
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -36,7 +38,7 @@ function AdminHeader() {
       await logout();
       navigate("/login");
     } catch (error) {
-      console.error("Logout failed", error);
+      console.error("Logout failed:", error);
     }
   };
 
@@ -49,13 +51,16 @@ function AdminHeader() {
   ];
 
   if (loading) {
+    console.log("AdminHeader rendering loading state"); // Debug log
     return <div className="text-center p-6">Loading...</div>;
   }
 
   if (!user || role !== "admin") {
-    return null; // Render nothing if not admin (Header.jsx will handle non-admin)
+    console.log("AdminHeader returning null, user or role invalid"); // Debug log
+    return null;
   }
 
+  console.log("AdminHeader rendering main content"); // Debug log
   return (
     <>
       <header className="flex items-center justify-between w-full bg-gray-800 text-white p-4">
