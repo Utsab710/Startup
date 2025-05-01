@@ -19,10 +19,18 @@ const AdminEvents = () => {
     description: "",
   });
 
+  // Validation error state
+  const [validationError, setValidationError] = useState(null);
+
   // Modal state
   const [showModal, setShowModal] = useState(false);
 
   const API_URL = "http://localhost:8000/api/events";
+
+  // Get today's date in YYYY-MM-DD format for min attribute
+  const getTodayDate = () => {
+    return new Date().toISOString().split("T")[0];
+  };
 
   // API headers with credentials
   const getHeaders = () => {
@@ -66,6 +74,7 @@ const AdminEvents = () => {
       ...formData,
       [name]: value,
     });
+    setValidationError(null); // Clear validation error on input change
   };
 
   // Reset form data
@@ -79,6 +88,7 @@ const AdminEvents = () => {
     });
     setIsEditing(false);
     setCurrentEvent(null);
+    setValidationError(null);
   };
 
   // Open modal for creating a new event
@@ -108,9 +118,41 @@ const AdminEvents = () => {
     resetForm();
   };
 
+  // Validate date and time
+  const validateDateTime = () => {
+    const selectedDate = new Date(formData.date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time for comparison
+
+    // Check if date is in the past
+    if (selectedDate < today) {
+      return "Cannot select a past date.";
+    }
+
+    // If date is today, check if time is in the past
+    if (selectedDate.getTime() === today.getTime()) {
+      const [hours, minutes] = formData.time.split(":").map(Number);
+      const selectedTime = new Date();
+      selectedTime.setHours(hours, minutes);
+
+      const currentTime = new Date();
+      if (selectedTime <= currentTime) {
+        return "Cannot select a past time for today.";
+      }
+    }
+
+    return null;
+  };
+
   // Create new event
   const createEvent = async (e) => {
     e.preventDefault();
+    const validationMsg = validateDateTime();
+    if (validationMsg) {
+      setValidationError(validationMsg);
+      return;
+    }
+
     try {
       const response = await axios.post(API_URL, formData, getHeaders());
       setEvents([response.data, ...events]);
@@ -121,7 +163,10 @@ const AdminEvents = () => {
         await logout();
         window.location.href = "/login";
       } else {
-        setError("Failed to create event. Please try again.");
+        setError(
+          err.response?.data?.message ||
+            "Failed to create event. Please try again."
+        );
         console.error("Error creating event:", err);
       }
     }
@@ -130,6 +175,12 @@ const AdminEvents = () => {
   // Update existing event
   const updateEvent = async (e) => {
     e.preventDefault();
+    const validationMsg = validateDateTime();
+    if (validationMsg) {
+      setValidationError(validationMsg);
+      return;
+    }
+
     try {
       const response = await axios.put(
         `${API_URL}/${currentEvent._id}`,
@@ -148,7 +199,10 @@ const AdminEvents = () => {
         await logout();
         window.location.href = "/login";
       } else {
-        setError("Failed to update event. Please try again.");
+        setError(
+          err.response?.data?.message ||
+            "Failed to update event. Please try again."
+        );
         console.error("Error updating event:", err);
       }
     }
@@ -307,6 +361,12 @@ const AdminEvents = () => {
               </button>
             </div>
 
+            {validationError && (
+              <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
+                {validationError}
+              </div>
+            )}
+
             <form onSubmit={isEditing ? updateEvent : createEvent}>
               <div className="mb-4">
                 <label
@@ -339,6 +399,7 @@ const AdminEvents = () => {
                   type="date"
                   value={formData.date}
                   onChange={handleChange}
+                  min={getTodayDate()} // Restrict past dates
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
