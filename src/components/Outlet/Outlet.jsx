@@ -13,6 +13,7 @@ import PartnerSection from "./PartnerSection";
 import ContactUs from "../ContactUs/ContactUs";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router";
+import Footer from "../Footer/Footer";
 
 function Outlet() {
   const { isDarkMode } = useTheme();
