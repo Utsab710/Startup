@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useTheme } from "../ThemeToggle/ThemeContext";
+import { useAuth } from "../../Context/AuthContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 import {
   IoMailOutline,
   IoLocationOutline,
@@ -8,6 +11,7 @@ import {
 
 function ContactUs() {
   const { isDarkMode } = useTheme();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,19 +27,69 @@ function ContactUs() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically handle form submission
-    console.log("Form submitted:", formData);
-    // Reset form after submission
-    setFormData({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    });
-    // Show success message (in a real implementation)
-    alert("Thank you for your message! We'll get back to you soon.");
+
+    if (!user) {
+      toast.error(
+        <div>
+          Please{" "}
+          <a href="/login" className="underline text-black">
+            log in
+          </a>{" "}
+          to send a message.
+        </div>,
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/contact",
+        {
+          Name: formData.name,
+          Email: formData.email,
+          Subject: formData.subject,
+          Message: formData.message,
+        },
+        { withCredentials: true }
+      );
+      toast.success("Message sent successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Error sending message.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   };
 
   return (
@@ -252,7 +306,7 @@ function ContactUs() {
                         ? "bg-gray-700 border-gray-600 text-white focus:border-orange-500"
                         : "bg-gray-50 border-gray-300 text-gray-900 focus:border-orange-500"
                     } border outline-none focus:ring-2 focus:ring-orange-500/50`}
-                    placeholder="John Doe"
+                    placeholder="Utsab Shrestha"
                   />
                 </div>
                 <div>
@@ -331,22 +385,22 @@ function ContactUs() {
               <button
                 type="submit"
                 className={`
-                w-full
-                py-4
-                px-6
-                rounded-lg
-                font-bold
-                text-white
-                transition-all
-                duration-300
-                shadow-lg
-                hover:shadow-xl
-                ${
-                  isDarkMode
-                    ? "bg-orange-700 hover:bg-orange-600"
-                    : "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
-                }
-              `}
+                    w-full
+                    py-4
+                    px-6
+                    rounded-lg
+                    font-bold
+                    text-white
+                    transition-all
+                    duration-300
+                    shadow-lg
+                    hover:shadow-xl
+                    ${
+                      isDarkMode
+                        ? "bg-orange-700 hover:bg-orange-600"
+                        : "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
+                    }
+                  `}
               >
                 Send Message
               </button>
@@ -372,7 +426,6 @@ function ContactUs() {
               isDarkMode ? "shadow-gray-900/20" : "shadow-orange-100/30"
             }`}
           >
-            {/* Google Maps iFrame for New Plaza Marg, Kathmandu 44600 */}
             <div className="w-full h-full relative">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.2718882108224!2d85.31274931506107!3d27.70984798279363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19017507a6a9%3A0xfb4a18a45109470!2sNew%20Plaza%20Marg%2C%20Kathmandu%2044600%2C%20Nepal!5e0!3m2!1sen!2sus!4v1585397098532!5m2!1sen!2sus"

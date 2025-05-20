@@ -1,4 +1,3 @@
-// src/components/Login/Login.jsx
 import { useState } from "react";
 import { useAuth } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -20,19 +19,24 @@ export default function Login() {
 
     try {
       const userData = await login(email, password);
+      console.log("Logged in user:", userData);
       if (userData.role === "admin") {
-        navigate("/admin/home"); // Redirect to AdminHome
+        navigate("/admin/home");
       } else {
         navigate("/");
       }
     } catch (error) {
-      setError(error.response?.data?.message || "Login failed");
+      console.error("Login error caught in component:", error);
+      setError(
+        error.message ||
+          error.response?.data?.message ||
+          "Login failed. Please try again."
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
-  // ... rest of the JSX remains unchanged
   return (
     <div className="flex min-h-screen bg-gray-50">
       <div className="w-full max-w-md m-auto">

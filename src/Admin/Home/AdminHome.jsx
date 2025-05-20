@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 function AdminHome() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, logout } = useAuth();
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -24,6 +24,7 @@ function AdminHome() {
   const [editingUser, setEditingUser] = useState(null);
   const [editFormData, setEditFormData] = useState({
     role: "",
+    status: "", // Add status to edit form
   });
   const [showAdmins, setShowAdmins] = useState(true);
   const [actionFeedback, setActionFeedback] = useState({
@@ -62,7 +63,6 @@ function AdminHome() {
         return response.json();
       })
       .then((data) => {
-        // Now include all users, not just regular users
         setUsers(data);
         setLoading(false);
       })
@@ -98,7 +98,6 @@ function AdminHome() {
   }, [users, sortConfig]);
 
   const filteredUsers = sortedUsers.filter((user) => {
-    // Filter by search term and admin visibility
     const matchesSearch = Object.values(user).some(
       (value) =>
         value &&
@@ -110,9 +109,9 @@ function AdminHome() {
 
   const handleEditClick = (userToEdit) => {
     setEditingUser(userToEdit._id);
-    // Only set the role for editing, as that's the only field we're allowing to be changed
     setEditFormData({
       role: userToEdit.role,
+      status: userToEdit.status, // Include status in edit form
     });
   };
 
@@ -128,88 +127,119 @@ function AdminHome() {
     }));
   };
 
-  const handleSubmitEdit = (userId) => {
-    // If only changing the role, use the dedicated role-change endpoints
-    if (Object.keys(editFormData).length === 1 && editFormData.role) {
-      const endpoint =
-        editFormData.role === "admin"
-          ? `http://localhost:8000/api/users/promote/${userId}`
-          : `http://localhost:8000/api/users/demote/${userId}`;
+  const handleSubmitEdit = async (userId) => {
+    try {
+      // Handle role update
+      if (editFormData.role) {
+        const endpoint =
+          editFormData.role === "admin"
+            ? `http://localhost:8000/api/users/promote/${userId}`
+            : `http://localhost:8000/api/users/demote/${userId}`;
 
-      fetch(endpoint, {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => {
-          if (!response.ok)
-            throw new Error(
+        const roleResponse = await fetch(endpoint, {
+          method: "PUT",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (!roleResponse.ok) {
+          const errorData = await roleResponse.json();
+          throw new Error(
+            errorData.message ||
               `Failed to ${
                 editFormData.role === "admin" ? "promote" : "demote"
               } user`
-            );
-          return response.json();
-        })
-        .then((data) => {
-          // Update the users list with the edited user
-          setUsers((prevUsers) =>
-            prevUsers.map((u) =>
-              u._id === userId ? { ...u, role: editFormData.role } : u
-            )
           );
-          setEditingUser(null);
-          showFeedback(
-            `User ${
-              editFormData.role === "admin"
-                ? "promoted to admin"
-                : "demoted to user"
-            } successfully!`,
-            "success"
-          );
-        })
-        .catch((err) => {
-          console.error(
-            `Error ${
-              editFormData.role === "admin" ? "promoting" : "demoting"
-            } user:`,
-            err
-          );
-          showFeedback(`Error: ${err.message}`, "error");
-        });
-    } else {
-      // If updating multiple fields, use the general update endpoint
-      // Note: This part requires the update endpoint to be implemented on the backend
-      fetch(`http://localhost:8000/api/users/update/${userId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(editFormData),
-      })
-        .then((response) => {
-          if (!response.ok) throw new Error("Failed to update user");
-          return response.json();
-        })
-        .then((data) => {
-          // Update the users list with the edited user
-          setUsers((prevUsers) =>
-            prevUsers.map((u) =>
-              u._id === userId ? { ...u, ...editFormData } : u
-            )
-          );
-          setEditingUser(null);
-          showFeedback("User updated successfully!", "success");
-        })
-        .catch((err) => {
-          console.error("Error updating user:", err);
-          showFeedback(`Error: ${err.message}`, "error");
-        });
+        }
+
+        setUsers((prevUsers) =>
+          prevUsers.map((u) =>
+            u._id === userId ? { ...u, role: editFormData.role } : u
+          )
+        );
+        showFeedback(
+          `User ${
+            editFormData.role === "admin"
+              ? "promoted to admin"
+              : "demoted to user"
+          } successfully!`,
+          "success"
+        );
+      }
+
+      // Handle status update
+      if (editFormData.status) {
+        const statusResponse = await fetch(
+          `http://localhost:8000/api/users/update/${userId}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ status: editFormData.status }),
+          }
+        );
+
+        if (!statusResponse.ok) {
+          const errorData = await statusResponse.json();
+          throw new Error(errorData.message || "Failed to update user status");
+        }
+
+        const data = await statusResponse.json();
+        setUsers((prevUsers) =>
+          prevUsers.map((u) =>
+            u._id === userId ? { ...u, status: editFormData.status } : u
+          )
+        );
+        showFeedback("User status updated successfully!", "success");
+      }
+
+      setEditingUser(null);
+    } catch (err) {
+      console.error("Error updating user:", err);
+      showFeedback(`Error: ${err.message}`, "error");
     }
   };
 
+  const handleToggleStatus = (userId, currentStatus) => {
+    console.log(`Toggling status for user ID: ${userId}`);
+    fetch(`http://localhost:8000/api/users/toggle-status/${userId}`, {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.error("Failed to toggle user status:", response.status);
+          throw new Error("Failed to toggle user status");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Toggle status response:", data);
+        setUsers((prevUsers) =>
+          prevUsers.map((u) =>
+            u._id === userId ? { ...u, status: data.user.status } : u
+          )
+        );
+        showFeedback(
+          `User status changed to ${data.user.status} successfully!`,
+          "success"
+        );
+
+        if (userId === user._id && data.user.status === "deactivated") {
+          console.log("Current user deactivated, logging out...");
+          logout().then(() => {
+            window.location.href = "/login";
+          });
+        }
+      })
+      .catch((err) => {
+        console.error("Error toggling user status:", err);
+        showFeedback(`Error: ${err.message}`, "error");
+      });
+  };
   const showFeedback = (message, type) => {
     setActionFeedback({ message, type });
     setTimeout(() => {
@@ -321,7 +351,11 @@ function AdminHome() {
           </div>
 
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="p-4 border-b flex flex-col md:flex-row md:justify-between md:items-center gap-4 bg-gray-50">
+            <div
+              className="p-4
+
+ border-b flex flex-col md:flex-row md:justify-between md:items-center gap-4 bg-gray-50"
+            >
               <h2 className="text-xl font-semibold text-gray-800">
                 User Management
               </h2>
@@ -330,7 +364,7 @@ function AdminHome() {
                   <input
                     type="text"
                     placeholder="Search users..."
-                    className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="pl-10 pr Karlsruhe-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
@@ -387,6 +421,13 @@ function AdminHome() {
                     </th>
                     <th
                       scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                      onClick={() => requestSort("status")}
+                    >
+                      Status {getSortIcon("status")}
+                    </th>
+                    <th
+                      scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Actions
@@ -440,6 +481,29 @@ function AdminHome() {
                             </span>
                           )}
                         </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {editingUser === userItem._id ? (
+                            <select
+                              name="status"
+                              value={editFormData.status}
+                              onChange={handleEditFormChange}
+                              className="text-sm border rounded px-2 py-1 w-full"
+                            >
+                              <option value="active">Active</option>
+                              <option value="deactivated">Deactivated</option>
+                            </select>
+                          ) : (
+                            <span
+                              className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                userItem.status === "active"
+                                  ? "bg-green-100 text-green-800"
+                                  : "bg-red-100 text-red-800"
+                              }`}
+                            >
+                              {userItem.status}
+                            </span>
+                          )}
+                        </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           {editingUser === userItem._id ? (
                             <div className="flex space-x-2">
@@ -457,12 +521,31 @@ function AdminHome() {
                               </button>
                             </div>
                           ) : (
-                            <button
-                              onClick={() => handleEditClick(userItem)}
-                              className="text-blue-600 hover:text-blue-900 bg-blue-100 hover:bg-blue-200 p-1 rounded"
-                            >
-                              <Edit size={16} />
-                            </button>
+                            <div className="flex space-x-2">
+                              <button
+                                onClick={() => handleEditClick(userItem)}
+                                className="text-blue-600 hover:text-blue-900 bg-blue-100 hover:bg-blue-200 p-1 rounded"
+                              >
+                                <Edit size={16} />
+                              </button>
+                              <button
+                                onClick={() =>
+                                  handleToggleStatus(
+                                    userItem._id,
+                                    userItem.status
+                                  )
+                                }
+                                className={`text-white p-1 rounded ${
+                                  userItem.status === "active"
+                                    ? "bg-red-500 hover:bg-red-600"
+                                    : "bg-green-500 hover:bg-green-600"
+                                }`}
+                              >
+                                {userItem.status === "active"
+                                  ? "Deactivate"
+                                  : "Activate"}
+                              </button>
+                            </div>
                           )}
                         </td>
                       </tr>
@@ -470,7 +553,7 @@ function AdminHome() {
                   ) : (
                     <tr>
                       <td
-                        colSpan="5"
+                        colSpan="6"
                         className="px-6 py-4 text-center text-sm text-gray-500"
                       >
                         {searchTerm

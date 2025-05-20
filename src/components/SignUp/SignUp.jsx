@@ -156,7 +156,7 @@ export default function SignUp() {
                     value={formData.fullname}
                     onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                    placeholder="John Doe"
+                    placeholder="Utsab Shrestha"
                   />
                 </div>
                 <div>

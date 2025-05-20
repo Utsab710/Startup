@@ -39,6 +39,7 @@ import AdminEvents from "./Admin/components/Events/AdminEvents";
 import AdminQuotes from "./Admin/components/AdminQuotes/AdminQuotes";
 import Mentor from "./components/Mentor/Mentor";
 import A2FLink from "./Admin/components/Link/A2FLink/A2FLink";
+import AdminContact from "./Admin/components/AdminContact/AdminContact";
 
 function AppContent() {
   const location = useLocation();
@@ -141,6 +142,14 @@ function AppContent() {
           element={
             <ProtectedRoute requireAdmin={true}>
               <AdminQuotes />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/contact"
+          element={
+            <ProtectedRoute requireAdmin={true}>
+              <AdminContact />
             </ProtectedRoute>
           }
         />

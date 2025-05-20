@@ -1,4 +1,3 @@
-// src/Context/AuthContext.jsx
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
@@ -16,13 +15,21 @@ export const AuthProvider = ({ children }) => {
           { withCredentials: true }
         );
         console.log("Fetched user:", response.data);
-        setUser(response.data);
+        if (response.data.status === "deactivated") {
+          console.log("User is deactivated, logging out...");
+          await logout();
+        } else {
+          setUser(response.data);
+        }
       } catch (error) {
         console.error("Failed to fetch user:", error);
-        if (error.response?.status === 401) {
-          console.log("User not authenticated, clearing cookies...");
-          document.cookie =
-            "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        if (
+          error.response?.status === 401 ||
+          error.response?.status === 403 ||
+          error.response?.data?.message === "Account is deactivated"
+        ) {
+          console.log("Clearing cookies due to auth error...");
+          await logout();
         }
         setUser(null);
       } finally {
@@ -41,6 +48,7 @@ export const AuthProvider = ({ children }) => {
       );
       setUser(null);
       document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+      console.log("User logged out successfully");
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -53,11 +61,17 @@ export const AuthProvider = ({ children }) => {
         { email, password },
         { withCredentials: true }
       );
+      console.log("Login response:", response.data);
+      if (response.data.status === "deactivated") {
+        throw new Error("Account is deactivated");
+      }
       setUser(response.data);
-      return response.data; // This will contain the user data including the role
+      return response.data;
     } catch (error) {
       console.error("Login error:", error);
-      throw error;
+      throw new Error(
+        error.response?.data?.message || error.message || "Login failed"
+      );
     }
   };
 
