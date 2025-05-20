@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
           "http://localhost:8000/api/users/profile",
           { withCredentials: true }
         );
-        console.log("Fetched user:", response.data);
+
         if (response.data.status === "deactivated") {
           console.log("User is deactivated, logging out...");
           await logout();
@@ -28,7 +28,6 @@ export const AuthProvider = ({ children }) => {
           error.response?.status === 403 ||
           error.response?.data?.message === "Account is deactivated"
         ) {
-          console.log("Clearing cookies due to auth error...");
           await logout();
         }
         setUser(null);
@@ -48,7 +47,6 @@ export const AuthProvider = ({ children }) => {
       );
       setUser(null);
       document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-      console.log("User logged out successfully");
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -61,7 +59,7 @@ export const AuthProvider = ({ children }) => {
         { email, password },
         { withCredentials: true }
       );
-      console.log("Login response:", response.data);
+
       if (response.data.status === "deactivated") {
         throw new Error("Account is deactivated");
       }

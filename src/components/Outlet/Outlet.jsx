@@ -32,7 +32,7 @@ function Outlet() {
         const response = await fetch("http://localhost:8000/api/quotes");
         if (!response.ok) {
           const text = await response.text();
-          console.log("Quotes error response:", text);
+
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();

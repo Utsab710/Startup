@@ -44,10 +44,7 @@ function ReorderHeader() {
       const response = await axios.get("http://localhost:8000/api/header", {
         withCredentials: true,
       });
-      console.log(
-        "Raw menuItems response:",
-        JSON.stringify(response.data, null, 2)
-      );
+
       setMenuItems(response.data);
       setLoading(false);
     } catch (error) {
@@ -86,15 +83,6 @@ function ReorderHeader() {
       const overId = getItemId(over.id);
       const isDropZone = over.id.startsWith("dropzone");
       const newParentId = isDropZone ? (overId === "top" ? "" : overId) : "";
-
-      console.log("Drag details:", {
-        sortableId: active.id,
-        activeId,
-        overId,
-        isDropZone,
-        newParentId,
-        menuItems: JSON.stringify(menuItems, null, 2),
-      });
 
       // Find the active item
       const activeItem = findItem(menuItems, activeId);
@@ -154,12 +142,6 @@ function ReorderHeader() {
 
       setMenuItems(updatedMenuItems);
 
-      console.log("PUT payload:", {
-        activeId,
-        order: newOrder,
-        parentId,
-        newParentId,
-      });
       const response = await axios.put(
         `http://localhost:8000/api/header/${activeId}`,
         {
@@ -169,8 +151,6 @@ function ReorderHeader() {
         },
         { withCredentials: true }
       );
-      console.log("PUT response:", response.data);
-
       await fetchMenu();
     } catch (error) {
       console.error("Drag error:", error);

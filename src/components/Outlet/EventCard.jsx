@@ -89,7 +89,6 @@ const EventCard = ({ events: propEvents }) => {
         return;
       }
 
-      console.log("Registering event:", eventId); // Debug log
       const response = await fetch(`${API_URL}/api/registrations/register`, {
         method: "POST",
         headers: {
@@ -100,7 +99,6 @@ const EventCard = ({ events: propEvents }) => {
       });
 
       const data = await response.json();
-      console.log("Response:", data); // Debug log
 
       if (response.ok) {
         setRegisteredEvents((prev) => new Set([...prev, eventId]));

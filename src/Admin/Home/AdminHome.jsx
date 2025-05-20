@@ -201,7 +201,6 @@ function AdminHome() {
   };
 
   const handleToggleStatus = (userId, currentStatus) => {
-    console.log(`Toggling status for user ID: ${userId}`);
     fetch(`http://localhost:8000/api/users/toggle-status/${userId}`, {
       method: "PUT",
       credentials: "include",
@@ -217,7 +216,6 @@ function AdminHome() {
         return response.json();
       })
       .then((data) => {
-        console.log("Toggle status response:", data);
         setUsers((prevUsers) =>
           prevUsers.map((u) =>
             u._id === userId ? { ...u, status: data.user.status } : u
