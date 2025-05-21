@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTheme } from "../ThemeToggle/ThemeContext";
 import { Link } from "react-router-dom";
 
-const API_URL = `${process.env.RENDER}`;
+const API_URL = import.meta.env.VITE_RENDER;
 
 const EventCard = ({ events: propEvents }) => {
   const [activeIndex, setActiveIndex] = useState(null);

@@ -13,7 +13,7 @@ function Investor() {
     const fetchInvestors = async () => {
       try {
         const response = await axios.get(
-          `${process.env.RENDER}/api/investors/approved`
+          `${import.meta.env.VITE_RENDER}/api/investors/approved`
         );
         // Filter only investors with logos (in case some approved ones lack imageUrl)
         const approvedInvestorsWithLogos = response.data.filter(

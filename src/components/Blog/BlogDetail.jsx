@@ -13,7 +13,7 @@ export default function BlogDetail() {
     const fetchBlog = async () => {
       try {
         const response = await axios.get(
-          `${process.env.RENDER}/api/blogs/${id}`,
+          `${import.meta.env.VITE_RENDER}/api/blogs/${id}`,
           {
             withCredentials: true,
           }

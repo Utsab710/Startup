@@ -208,9 +208,12 @@ function Events() {
     const fetchEvents = async () => {
       try {
         // Use the same pattern as in your AuthContext for API calls
-        const response = await axios.get(`${process.env.RENDER}/api/events`, {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_RENDER}/api/events`,
+          {
+            withCredentials: true,
+          }
+        );
         setEvents(response.data);
         setLoading(false);
       } catch (err) {

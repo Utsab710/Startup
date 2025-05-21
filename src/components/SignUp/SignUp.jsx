@@ -81,7 +81,7 @@ export default function SignUp() {
 
     try {
       const { data } = await axios.post(
-        `${process.env.RENDER}/api/users/register`,
+        `${import.meta.env.VITE_RENDER}/api/users/register`,
         formData
       );
 

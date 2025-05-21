@@ -22,7 +22,7 @@ function AdminClient() {
         setFetchLoading(true);
         try {
           const response = await axios.get(
-            `${process.env.RENDER}/api/clients/allClient`,
+            `${import.meta.env.VITE_RENDER}/api/clients/allClient`,
             { withCredentials: true }
           );
           setClients(response.data);
@@ -76,7 +76,9 @@ function AdminClient() {
       if (editingClient) {
         // Update client
         const response = await axios.put(
-          `${process.env.RENDER}/api/client/update-Clientlogo/${editingClient._id}`,
+          `${import.meta.env.VITE_RENDER}/api/client/update-Clientlogo/${
+            editingClient._id
+          }`,
           data,
           { withCredentials: true }
         );
@@ -88,7 +90,7 @@ function AdminClient() {
       } else {
         // Create client
         const response = await axios.post(
-          `${process.env.RENDER}/api/clients/addClient`,
+          `${import.meta.env.VITE_RENDER}/api/clients/addClient`,
           data,
           { withCredentials: true }
         );
@@ -128,7 +130,7 @@ function AdminClient() {
 
     try {
       await axios.delete(
-        `${process.env.RENDER}/api/client/deleteClient/${clientId}`,
+        `${import.meta.env.VITE_RENDER}/api/client/deleteClient/${clientId}`,
         { withCredentials: true }
       );
       setClients(clients.filter((c) => c._id !== clientId));

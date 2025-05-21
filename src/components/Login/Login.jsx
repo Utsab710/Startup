@@ -57,7 +57,7 @@ export default function Login() {
                     <p className="mt-2 text-xs">
                       Make sure your backend server is running at
                     </p>
-                  )`${process.env.RENDER}`}
+                  )`${import.meta.env.VITE_RENDER}`}
               </div>
             )}
             <form onSubmit={handleSubmit} className="space-y-6">

@@ -17,7 +17,7 @@ function Investors() {
     const fetchInvestors = async () => {
       try {
         const response = await axios.get(
-          `${process.env.RENDER}/api/investors/all`,
+          `${import.meta.env.VITE_RENDER}/api/investors/all`,
           {
             withCredentials: true,
           }
@@ -66,7 +66,7 @@ function Investors() {
 
       try {
         await axios.put(
-          `${process.env.RENDER}/api/investors/approve/${investorId}`,
+          `${import.meta.env.VITE_RENDER}/api/investors/approve/${investorId}`,
           formData,
           {
             withCredentials: true,
@@ -103,7 +103,9 @@ function Investors() {
 
       try {
         const response = await axios.put(
-          `${process.env.RENDER}/api/investors/update-logo/${investorId}`,
+          `${
+            import.meta.env.VITE_RENDER
+          }/api/investors/update-logo/${investorId}`,
           formData,
           {
             withCredentials: true,
@@ -140,7 +142,7 @@ function Investors() {
 
     try {
       const response = await axios.post(
-        `${process.env.RENDER}/api/investors/add-previous`,
+        `${import.meta.env.VITE_RENDER}/api/investors/add-previous`,
         formData,
         {
           withCredentials: true,
@@ -168,7 +170,7 @@ function Investors() {
 
     try {
       await axios.delete(
-        `${process.env.RENDER}/api/investors/delete/${investorId}`,
+        `${import.meta.env.VITE_RENDER}/api/investors/delete/${investorId}`,
         {
           withCredentials: true,
         }

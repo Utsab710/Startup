@@ -20,9 +20,12 @@ const Mentors = () => {
   useEffect(() => {
     const fetchMentors = async () => {
       try {
-        const response = await axios.get(`${process.env.RENDER}/api/mentor/`, {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_RENDER}/api/mentor/`,
+          {
+            withCredentials: true,
+          }
+        );
         setMentors(response.data || []);
         setFetchLoading(false);
       } catch (error) {
@@ -64,7 +67,7 @@ const Mentors = () => {
     try {
       if (editId) {
         const response = await axios.put(
-          `${process.env.RENDER}/api/mentor/update/${editId}`,
+          `${import.meta.env.VITE_RENDER}/api/mentor/update/${editId}`,
           data,
           { withCredentials: true }
         );
@@ -74,7 +77,7 @@ const Mentors = () => {
         toast.success("Mentor updated successfully!");
       } else {
         const response = await axios.post(
-          `${process.env.RENDER}/api/mentor/`,
+          `${import.meta.env.VITE_RENDER}/api/mentor/`,
           data,
           { withCredentials: true }
         );
@@ -106,7 +109,7 @@ const Mentors = () => {
 
     try {
       await axios.delete(
-        `${process.env.RENDER}/api/mentor/delete/${mentorId}`,
+        `${import.meta.env.VITE_RENDER}/api/mentor/delete/${mentorId}`,
         {
           withCredentials: true,
         }

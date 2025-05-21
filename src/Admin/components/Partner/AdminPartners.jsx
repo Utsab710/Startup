@@ -22,7 +22,7 @@ const AdminPartners = () => {
         setFetchLoading(true);
         try {
           const response = await axios.get(
-            `${process.env.RENDER}/api/partners/all`,
+            `${import.meta.env.VITE_RENDER}/api/partners/all`,
             { withCredentials: true }
           );
           setPartners(response.data);
@@ -76,7 +76,9 @@ const AdminPartners = () => {
       if (editingPartner) {
         // Update partner
         const response = await axios.put(
-          `${process.env.RENDER}/api/partners/update-logo/${editingPartner._id}`,
+          `${import.meta.env.VITE_RENDER}/api/partners/update-logo/${
+            editingPartner._id
+          }`,
           data,
           { withCredentials: true }
         );
@@ -90,7 +92,7 @@ const AdminPartners = () => {
       } else {
         // Create partner
         const response = await axios.post(
-          `${process.env.RENDER}/api/partners/add`,
+          `${import.meta.env.VITE_RENDER}/api/partners/add`,
           data,
           { withCredentials: true }
         );
@@ -131,7 +133,7 @@ const AdminPartners = () => {
 
     try {
       await axios.delete(
-        `${process.env.RENDER}/api/partners/delete/${partnerId}`,
+        `${import.meta.env.VITE_RENDER}/api/partners/delete/${partnerId}`,
         { withCredentials: true }
       );
       setPartners(partners.filter((p) => p._id !== partnerId));

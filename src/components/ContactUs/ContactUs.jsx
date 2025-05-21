@@ -54,7 +54,7 @@ function ContactUs() {
 
     try {
       const response = await axios.post(
-        `${process.env.RENDER}/api/contact`,
+        `${import.meta.env.VITE_RENDER}/api/contact`,
         {
           Name: formData.name,
           Email: formData.email,

@@ -25,7 +25,7 @@ const AdminEvents = () => {
   });
   const [validationError, setValidationError] = useState("");
 
-  const API_URL = `${process.env.RENDER}/api/events`;
+  const API_URL = `${import.meta.env.VITE_RENDER}/api/events`;
 
   // Get today's date in YYYY-MM-DD format
   const getTodayDate = () => new Date().toISOString().split("T")[0];

@@ -12,7 +12,8 @@ function ClientSection() {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const API_URL = import.meta.env.VITE_API_URL || `${process.env.RENDER}`;
+        const API_URL =
+          import.meta.env.VITE_API_URL || `${import.meta.env.VITE_RENDER}`;
         const { data } = await axios.get(`${API_URL}/api/clients/allClient`);
         if (Array.isArray(data)) {
           setClients(data);

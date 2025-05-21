@@ -29,7 +29,9 @@ function Outlet() {
   useEffect(() => {
     const fetchQuotes = async () => {
       try {
-        const response = await fetch(`${process.env.RENDER}/api/quotes`);
+        const response = await fetch(
+          `${import.meta.env.VITE_RENDER}/api/quotes`
+        );
         if (!response.ok) {
           const text = await response.text();
 
@@ -50,9 +52,12 @@ function Outlet() {
   useEffect(() => {
     const fetchMentors = async () => {
       try {
-        const response = await axios.get(`${process.env.RENDER}/api/mentor/`, {
-          withCredentials: true, // Remove this if the route is truly public
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_RENDER}/api/mentor/`,
+          {
+            withCredentials: true, // Remove this if the route is truly public
+          }
+        );
         setMentors(response.data || []);
       } catch (err) {
         console.error("Fetch mentors error:", err);

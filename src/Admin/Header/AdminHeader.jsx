@@ -31,7 +31,7 @@ function AdminHeader() {
   const fetchUnreadMessages = async () => {
     try {
       const response = await axios.get(
-        `${process.env.RENDER}/api/contact/unread`,
+        `${import.meta.env.VITE_RENDER}/api/contact/unread`,
         {
           withCredentials: true,
         }
@@ -48,7 +48,7 @@ function AdminHeader() {
   useEffect(() => {
     if (user && role === "admin") {
       // Connect to WebSocket
-      socketRef.current = io(`${process.env.RENDER}`, {
+      socketRef.current = io(`${import.meta.env.VITE_RENDER}`, {
         withCredentials: true,
         query: { token: localStorage.getItem("token") || "" }, // Send JWT for auth
       });
@@ -267,7 +267,9 @@ function AdminHeader() {
                           onClick={async () => {
                             try {
                               await axios.patch(
-                                `${process.env.RENDER}/api/contact/${notification._id}/read`,
+                                `${import.meta.env.VITE_RENDER}/api/contact/${
+                                  notification._id
+                                }/read`,
                                 {},
                                 { withCredentials: true }
                               );

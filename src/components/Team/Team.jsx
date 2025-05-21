@@ -139,9 +139,12 @@ function Team() {
   useEffect(() => {
     const fetchTeamMembers = async () => {
       try {
-        const response = await axios.get(`${process.env.RENDER}/api/team`, {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_RENDER}/api/team`,
+          {
+            withCredentials: true,
+          }
+        );
         setTeamMembers(response.data);
         setLoading(false);
       } catch (err) {

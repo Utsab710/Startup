@@ -45,7 +45,7 @@ function AdminHome() {
   }, [user, authLoading]);
 
   const fetchUsers = () => {
-    fetch(`${process.env.RENDER}/api/users/all-users`, {
+    fetch(`${import.meta.env.VITE_RENDER}/api/users/all-users`, {
       credentials: "include",
     })
       .then((response) => {
@@ -133,8 +133,8 @@ function AdminHome() {
       if (editFormData.role) {
         const endpoint =
           editFormData.role === "admin"
-            ? `${process.env.RENDER}/api/users/promote/${userId}`
-            : `${process.env.RENDER}/api/users/demote/${userId}`;
+            ? `${import.meta.env.VITE_RENDER}/api/users/promote/${userId}`
+            : `${import.meta.env.VITE_RENDER}/api/users/demote/${userId}`;
 
         const roleResponse = await fetch(endpoint, {
           method: "PUT",
@@ -170,7 +170,7 @@ function AdminHome() {
       // Handle status update
       if (editFormData.status) {
         const statusResponse = await fetch(
-          `${process.env.RENDER}/api/users/update/${userId}`,
+          `${import.meta.env.VITE_RENDER}/api/users/update/${userId}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -201,7 +201,7 @@ function AdminHome() {
   };
 
   const handleToggleStatus = (userId, currentStatus) => {
-    fetch(`${process.env.RENDER}/api/users/toggle-status/${userId}`, {
+    fetch(`${import.meta.env.VITE_RENDER}/api/users/toggle-status/${userId}`, {
       method: "PUT",
       credentials: "include",
       headers: {

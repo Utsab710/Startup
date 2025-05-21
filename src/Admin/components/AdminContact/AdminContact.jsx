@@ -40,7 +40,7 @@ export default function AdminContact() {
     setFetchLoading(true);
     try {
       const response = await fetch(
-        `${process.env.RENDER}/api/contact?page=${pageNum}&limit=10`,
+        `${import.meta.env.VITE_RENDER}/api/contact?page=${pageNum}&limit=10`,
         {
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -67,7 +67,7 @@ export default function AdminContact() {
   useEffect(() => {
     if (!authLoading && user && user.role === "admin") {
       fetchContacts();
-      fetch(`${process.env.RENDER}/api/contact/mark-all-read`, {
+      fetch(`${import.meta.env.VITE_RENDER}/api/contact/mark-all-read`, {
         method: "PATCH",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -94,7 +94,7 @@ export default function AdminContact() {
 
     try {
       const response = await fetch(
-        `${process.env.RENDER}/api/contact/${contactId}`,
+        `${import.meta.env.VITE_RENDER}/api/contact/${contactId}`,
         {
           method: "DELETE",
           credentials: "include",
