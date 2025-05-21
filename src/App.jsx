@@ -19,7 +19,7 @@ import Investors from "./Admin/components/Investors/Investors";
 import Startup from "./components/Startup/Startup";
 import ContactUs from "./components/ContactUs/ContactUs";
 import Blog from "./components/Blog/Blog";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./Context/AuthContext";
 import AdminBlog from "./Admin/components/AdminBlog/AdminBlog";
 import Corporate from "./components/Corporate/Corporate";
 import BlogDetail from "./components/Blog/BlogDetail";
