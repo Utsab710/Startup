@@ -25,12 +25,9 @@ function AdminBlog() {
       const fetchBlogs = async () => {
         setFetchLoading(true);
         try {
-          const response = await axios.get(
-            "https://a2f-backend.onrender.com/api/blogs",
-            {
-              withCredentials: true,
-            }
-          );
+          const response = await axios.get(`${process.env.RENDER}/api/blogs`, {
+            withCredentials: true,
+          });
           setBlogs(response.data);
         } catch (error) {
           setError(error.response?.data?.message || "Failed to fetch blogs");
@@ -91,7 +88,7 @@ function AdminBlog() {
       data.append("image", image);
 
       const response = await axios.post(
-        "https://a2f-backend.onrender.com/api/blogs",
+        `${process.env.RENDER}/api/blogs`,
         data,
         { withCredentials: true }
       );
@@ -119,12 +116,9 @@ function AdminBlog() {
     setSuccess("");
 
     try {
-      await axios.delete(
-        `https://a2f-backend.onrender.com/api/blogs/${blogId}`,
-        {
-          withCredentials: true,
-        }
-      );
+      await axios.delete(`${process.env.RENDER}/api/blogs/${blogId}`, {
+        withCredentials: true,
+      });
       setBlogs(blogs.filter((blog) => blog._id !== blogId));
       setSuccess("Blog deleted successfully!");
     } catch (error) {

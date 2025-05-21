@@ -40,7 +40,7 @@ export default function AdminContact() {
     setFetchLoading(true);
     try {
       const response = await fetch(
-        `https://a2f-backend.onrender.com/api/contact?page=${pageNum}&limit=10`,
+        `${process.env.RENDER}/api/contact?page=${pageNum}&limit=10`,
         {
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -67,7 +67,7 @@ export default function AdminContact() {
   useEffect(() => {
     if (!authLoading && user && user.role === "admin") {
       fetchContacts();
-      fetch("https://a2f-backend.onrender.com/api/contact/mark-all-read", {
+      fetch(`${process.env.RENDER}/api/contact/mark-all-read`, {
         method: "PATCH",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -94,7 +94,7 @@ export default function AdminContact() {
 
     try {
       const response = await fetch(
-        `https://a2f-backend.onrender.com/api/contact/${contactId}`,
+        `${process.env.RENDER}/api/contact/${contactId}`,
         {
           method: "DELETE",
           credentials: "include",

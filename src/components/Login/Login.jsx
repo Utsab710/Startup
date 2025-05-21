@@ -52,12 +52,12 @@ export default function Login() {
               <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">
                 <p className="font-medium mb-1">Error</p>
                 <p>{error}</p>
-                {error.includes("Unable to connect") && (
-                  <p className="mt-2 text-xs">
-                    Make sure your backend server is running at
-                    https://a2f-backend.onrender.com
-                  </p>
-                )}
+                {error.includes("Unable to connect") &&
+                  (
+                    <p className="mt-2 text-xs">
+                      Make sure your backend server is running at
+                    </p>
+                  )`${process.env.RENDER}`}
               </div>
             )}
             <form onSubmit={handleSubmit} className="space-y-6">

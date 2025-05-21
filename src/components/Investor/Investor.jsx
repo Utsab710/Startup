@@ -13,7 +13,7 @@ function Investor() {
     const fetchInvestors = async () => {
       try {
         const response = await axios.get(
-          "https://a2f-backend.onrender.com/api/investors/approved"
+          `${process.env.RENDER}/api/investors/approved`
         );
         // Filter only investors with logos (in case some approved ones lack imageUrl)
         const approvedInvestorsWithLogos = response.data.filter(

@@ -12,12 +12,9 @@ export default function Blog() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get(
-          "https://a2f-backend.onrender.com/api/blogs",
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${process.env.RENDER}/api/blogs`, {
+          withCredentials: true,
+        });
         setBlogs(response.data);
       } catch (error) {
         console.error("Error fetching blogs:", error);

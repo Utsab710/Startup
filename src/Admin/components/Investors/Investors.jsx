@@ -17,7 +17,7 @@ function Investors() {
     const fetchInvestors = async () => {
       try {
         const response = await axios.get(
-          "https://a2f-backend.onrender.com/api/investors/all",
+          `${process.env.RENDER}/api/investors/all`,
           {
             withCredentials: true,
           }
@@ -66,7 +66,7 @@ function Investors() {
 
       try {
         await axios.put(
-          `https://a2f-backend.onrender.com/api/investors/approve/${investorId}`,
+          `${process.env.RENDER}/api/investors/approve/${investorId}`,
           formData,
           {
             withCredentials: true,
@@ -103,7 +103,7 @@ function Investors() {
 
       try {
         const response = await axios.put(
-          `https://a2f-backend.onrender.com/api/investors/update-logo/${investorId}`,
+          `${process.env.RENDER}/api/investors/update-logo/${investorId}`,
           formData,
           {
             withCredentials: true,
@@ -140,7 +140,7 @@ function Investors() {
 
     try {
       const response = await axios.post(
-        "https://a2f-backend.onrender.com/api/investors/add-previous",
+        `${process.env.RENDER}/api/investors/add-previous`,
         formData,
         {
           withCredentials: true,
@@ -168,7 +168,7 @@ function Investors() {
 
     try {
       await axios.delete(
-        `https://a2f-backend.onrender.com/api/investors/delete/${investorId}`,
+        `${process.env.RENDER}/api/investors/delete/${investorId}`,
         {
           withCredentials: true,
         }

@@ -45,7 +45,7 @@ function AdminHome() {
   }, [user, authLoading]);
 
   const fetchUsers = () => {
-    fetch("https://a2f-backend.onrender.com/api/users/all-users", {
+    fetch(`${process.env.RENDER}/api/users/all-users`, {
       credentials: "include",
     })
       .then((response) => {
@@ -133,8 +133,8 @@ function AdminHome() {
       if (editFormData.role) {
         const endpoint =
           editFormData.role === "admin"
-            ? `https://a2f-backend.onrender.com/api/users/promote/${userId}`
-            : `https://a2f-backend.onrender.com/api/users/demote/${userId}`;
+            ? `${process.env.RENDER}/api/users/promote/${userId}`
+            : `${process.env.RENDER}/api/users/demote/${userId}`;
 
         const roleResponse = await fetch(endpoint, {
           method: "PUT",
@@ -170,7 +170,7 @@ function AdminHome() {
       // Handle status update
       if (editFormData.status) {
         const statusResponse = await fetch(
-          `https://a2f-backend.onrender.com/api/users/update/${userId}`,
+          `${process.env.RENDER}/api/users/update/${userId}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -201,16 +201,13 @@ function AdminHome() {
   };
 
   const handleToggleStatus = (userId, currentStatus) => {
-    fetch(
-      `https://a2f-backend.onrender.com/api/users/toggle-status/${userId}`,
-      {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
+    fetch(`${process.env.RENDER}/api/users/toggle-status/${userId}`, {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           console.error("Failed to toggle user status:", response.status);

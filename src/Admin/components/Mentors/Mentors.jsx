@@ -20,12 +20,9 @@ const Mentors = () => {
   useEffect(() => {
     const fetchMentors = async () => {
       try {
-        const response = await axios.get(
-          "https://a2f-backend.onrender.com/api/mentor/",
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${process.env.RENDER}/api/mentor/`, {
+          withCredentials: true,
+        });
         setMentors(response.data || []);
         setFetchLoading(false);
       } catch (error) {
@@ -67,7 +64,7 @@ const Mentors = () => {
     try {
       if (editId) {
         const response = await axios.put(
-          `https://a2f-backend.onrender.com/api/mentor/update/${editId}`,
+          `${process.env.RENDER}/api/mentor/update/${editId}`,
           data,
           { withCredentials: true }
         );
@@ -77,7 +74,7 @@ const Mentors = () => {
         toast.success("Mentor updated successfully!");
       } else {
         const response = await axios.post(
-          "https://a2f-backend.onrender.com/api/mentor/",
+          `${process.env.RENDER}/api/mentor/`,
           data,
           { withCredentials: true }
         );
@@ -109,7 +106,7 @@ const Mentors = () => {
 
     try {
       await axios.delete(
-        `https://a2f-backend.onrender.com/api/mentor/delete/${mentorId}`,
+        `${process.env.RENDER}/api/mentor/delete/${mentorId}`,
         {
           withCredentials: true,
         }

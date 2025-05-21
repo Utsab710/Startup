@@ -13,7 +13,7 @@ export default function BlogDetail() {
     const fetchBlog = async () => {
       try {
         const response = await axios.get(
-          `https://a2f-backend.onrender.com/api/blogs/${id}`,
+          `${process.env.RENDER}/api/blogs/${id}`,
           {
             withCredentials: true,
           }

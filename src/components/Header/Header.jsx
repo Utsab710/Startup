@@ -25,12 +25,9 @@ function Header() {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await axios.get(
-          "https://a2f-backend.onrender.com/api/header",
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${process.env.RENDER}/api/header`, {
+          withCredentials: true,
+        });
         setNavItems(response.data);
         setError(null);
       } catch (error) {

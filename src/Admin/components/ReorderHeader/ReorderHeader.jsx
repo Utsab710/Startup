@@ -41,12 +41,9 @@ function ReorderHeader() {
   const fetchMenu = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        "https://a2f-backend.onrender.com/api/header",
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${process.env.RENDER}/api/header`, {
+        withCredentials: true,
+      });
 
       setMenuItems(response.data);
       setLoading(false);
@@ -146,7 +143,7 @@ function ReorderHeader() {
       setMenuItems(updatedMenuItems);
 
       const response = await axios.put(
-        `https://a2f-backend.onrender.com/api/header/${activeId}`,
+        `${process.env.RENDER}/api/header/${activeId}`,
         {
           order: newOrder,
           parentId,
@@ -188,7 +185,7 @@ function ReorderHeader() {
     }
 
     try {
-      await axios.post("https://a2f-backend.onrender.com/api/header", newItem, {
+      await axios.post(`${process.env.RENDER}/api/header`, newItem, {
         withCredentials: true,
       });
       setNewItem({ text: "", url: "", parentId: "" });
@@ -208,7 +205,7 @@ function ReorderHeader() {
 
     try {
       await axios.put(
-        `https://a2f-backend.onrender.com/api/header/${id}`,
+        `${process.env.RENDER}/api/header/${id}`,
         { text: isEditing[id].text, url: isEditing[id].url },
         { withCredentials: true }
       );
@@ -235,7 +232,7 @@ function ReorderHeader() {
     }
 
     try {
-      await axios.delete(`https://a2f-backend.onrender.com/api/header/${id}`, {
+      await axios.delete(`${process.env.RENDER}/api/header/${id}`, {
         withCredentials: true,
       });
       await fetchMenu();
@@ -251,7 +248,7 @@ function ReorderHeader() {
   const handleMoveToTop = async (id, parentId) => {
     try {
       await axios.put(
-        `https://a2f-backend.onrender.com/api/header/${id}`,
+        `${process.env.RENDER}/api/header/${id}`,
         { parentId, newParentId: "", order: menuItems.length + 1 },
         { withCredentials: true }
       );

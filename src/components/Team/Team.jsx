@@ -139,12 +139,9 @@ function Team() {
   useEffect(() => {
     const fetchTeamMembers = async () => {
       try {
-        const response = await axios.get(
-          "https://a2f-backend.onrender.com/api/team",
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${process.env.RENDER}/api/team`, {
+          withCredentials: true,
+        });
         setTeamMembers(response.data);
         setLoading(false);
       } catch (err) {

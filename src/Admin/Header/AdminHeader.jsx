@@ -31,7 +31,7 @@ function AdminHeader() {
   const fetchUnreadMessages = async () => {
     try {
       const response = await axios.get(
-        "https://a2f-backend.onrender.com/api/contact/unread",
+        `${process.env.RENDER}/api/contact/unread`,
         {
           withCredentials: true,
         }
@@ -48,7 +48,7 @@ function AdminHeader() {
   useEffect(() => {
     if (user && role === "admin") {
       // Connect to WebSocket
-      socketRef.current = io("https://a2f-backend.onrender.com", {
+      socketRef.current = io(`${process.env.RENDER}`, {
         withCredentials: true,
         query: { token: localStorage.getItem("token") || "" }, // Send JWT for auth
       });
@@ -267,7 +267,7 @@ function AdminHeader() {
                           onClick={async () => {
                             try {
                               await axios.patch(
-                                `https://a2f-backend.onrender.com/api/contact/${notification._id}/read`,
+                                `${process.env.RENDER}/api/contact/${notification._id}/read`,
                                 {},
                                 { withCredentials: true }
                               );

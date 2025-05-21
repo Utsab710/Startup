@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          "https://a2f-backend.onrender.com/api/users/profile",
+          `${process.env.RENDER}/api/users/profile`,
           { withCredentials: true }
         );
 
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await axios.post(
-        "https://a2f-backend.onrender.com/api/users/logout",
+        `${process.env.RENDER}/api/users/logout`,
         {},
         { withCredentials: true }
       );
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await axios.post(
-        "https://a2f-backend.onrender.com/api/users/login",
+        `${process.env.RENDER}/api/users/login`,
         { email, password },
         { withCredentials: true }
       );
