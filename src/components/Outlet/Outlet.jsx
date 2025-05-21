@@ -11,7 +11,7 @@ import StartupSupportCards from "../Card/StartupSupportCards";
 import MentorCard from "../Card/MentorCard";
 import PartnerSection from "./PartnerSection";
 import ContactUs from "../ContactUs/ContactUs";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../Context/AuthContext";
 import { useNavigate } from "react-router";
 import Footer from "../Footer/Footer";
 
