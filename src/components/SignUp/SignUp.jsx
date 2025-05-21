@@ -81,7 +81,7 @@ export default function SignUp() {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:8000/api/users/register",
+        "https://a2f-backend.onrender.com/api/users/register",
         formData
       );
 

@@ -22,7 +22,7 @@ function AdminClient() {
         setFetchLoading(true);
         try {
           const response = await axios.get(
-            "http://localhost:8000/api/clients/allClient",
+            "https://a2f-backend.onrender.com/api/clients/allClient",
             { withCredentials: true }
           );
           setClients(response.data);
@@ -76,7 +76,7 @@ function AdminClient() {
       if (editingClient) {
         // Update client
         const response = await axios.put(
-          `http://localhost:8000/api/client/update-Clientlogo/${editingClient._id}`,
+          `https://a2f-backend.onrender.com/api/client/update-Clientlogo/${editingClient._id}`,
           data,
           { withCredentials: true }
         );
@@ -88,7 +88,7 @@ function AdminClient() {
       } else {
         // Create client
         const response = await axios.post(
-          "http://localhost:8000/api/clients/addClient",
+          "https://a2f-backend.onrender.com/api/clients/addClient",
           data,
           { withCredentials: true }
         );
@@ -128,7 +128,7 @@ function AdminClient() {
 
     try {
       await axios.delete(
-        `http://localhost:8000/api/client/deleteClient/${clientId}`,
+        `https://a2f-backend.onrender.com/api/client/deleteClient/${clientId}`,
         { withCredentials: true }
       );
       setClients(clients.filter((c) => c._id !== clientId));

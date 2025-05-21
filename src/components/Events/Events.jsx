@@ -208,9 +208,12 @@ function Events() {
     const fetchEvents = async () => {
       try {
         // Use the same pattern as in your AuthContext for API calls
-        const response = await axios.get("http://localhost:8000/api/events", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          "https://a2f-backend.onrender.com/api/events",
+          {
+            withCredentials: true,
+          }
+        );
         setEvents(response.data);
         setLoading(false);
       } catch (err) {

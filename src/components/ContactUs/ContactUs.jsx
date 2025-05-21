@@ -54,7 +54,7 @@ function ContactUs() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/contact",
+        "https://a2f-backend.onrender.com/api/contact",
         {
           Name: formData.name,
           Email: formData.email,

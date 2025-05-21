@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTheme } from "../ThemeToggle/ThemeContext";
 import { Link } from "react-router-dom";
 
-const API_URL = "http://localhost:8000";
+const API_URL = "https://a2f-backend.onrender.com";
 
 const EventCard = ({ events: propEvents }) => {
   const [activeIndex, setActiveIndex] = useState(null);

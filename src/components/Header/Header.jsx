@@ -7,7 +7,7 @@ import { useTheme } from "../ThemeToggle/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
 import AdminHeader from "../../Admin/Header/AdminHeader";
 import TopBar from "../TopBar/TopBar"; // Import TopBar
-import { useAuth } from "../../Context/AuthContext";
+import { useAuth } from "../../Context/AuthContext.jsx";
 import axios from "axios";
 import Dropdown from "./Dropdown";
 
@@ -25,9 +25,12 @@ function Header() {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/header", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          "https://a2f-backend.onrender.com/api/header",
+          {
+            withCredentials: true,
+          }
+        );
         setNavItems(response.data);
         setError(null);
       } catch (error) {

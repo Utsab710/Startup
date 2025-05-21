@@ -25,7 +25,7 @@ const AdminEvents = () => {
   });
   const [validationError, setValidationError] = useState("");
 
-  const API_URL = "http://localhost:8000/api/events";
+  const API_URL = "https://a2f-backend.onrender.com/api/events";
 
   // Get today's date in YYYY-MM-DD format
   const getTodayDate = () => new Date().toISOString().split("T")[0];

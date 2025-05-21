@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../Context/AuthContext";
 import {
   Users,
   Search,
@@ -45,7 +45,7 @@ function AdminHome() {
   }, [user, authLoading]);
 
   const fetchUsers = () => {
-    fetch("http://localhost:8000/api/users/all-users", {
+    fetch("https://a2f-backend.onrender.com/api/users/all-users", {
       credentials: "include",
     })
       .then((response) => {
@@ -133,8 +133,8 @@ function AdminHome() {
       if (editFormData.role) {
         const endpoint =
           editFormData.role === "admin"
-            ? `http://localhost:8000/api/users/promote/${userId}`
-            : `http://localhost:8000/api/users/demote/${userId}`;
+            ? `https://a2f-backend.onrender.com/api/users/promote/${userId}`
+            : `https://a2f-backend.onrender.com/api/users/demote/${userId}`;
 
         const roleResponse = await fetch(endpoint, {
           method: "PUT",
@@ -170,7 +170,7 @@ function AdminHome() {
       // Handle status update
       if (editFormData.status) {
         const statusResponse = await fetch(
-          `http://localhost:8000/api/users/update/${userId}`,
+          `https://a2f-backend.onrender.com/api/users/update/${userId}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -201,13 +201,16 @@ function AdminHome() {
   };
 
   const handleToggleStatus = (userId, currentStatus) => {
-    fetch(`http://localhost:8000/api/users/toggle-status/${userId}`, {
-      method: "PUT",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(
+      `https://a2f-backend.onrender.com/api/users/toggle-status/${userId}`,
+      {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           console.error("Failed to toggle user status:", response.status);

@@ -12,7 +12,9 @@ function PartnerSection() {
   useEffect(() => {
     const fetchPartners = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/partners/all");
+        const response = await fetch(
+          "https://a2f-backend.onrender.com/api/partners/all"
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch partners");
         }

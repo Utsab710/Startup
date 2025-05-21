@@ -13,7 +13,7 @@ export default function BlogDetail() {
     const fetchBlog = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/blogs/${id}`,
+          `https://a2f-backend.onrender.com/api/blogs/${id}`,
           {
             withCredentials: true,
           }

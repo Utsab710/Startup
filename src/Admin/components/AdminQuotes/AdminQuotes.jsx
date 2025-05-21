@@ -22,7 +22,9 @@ const AdminQuotes = () => {
     const fetchQuotes = async () => {
       setFetchLoading(true);
       try {
-        const response = await axios.get("http://localhost:8000/api/quotes");
+        const response = await axios.get(
+          "https://a2f-backend.onrender.com/api/quotes"
+        );
         setQuotes(response.data);
       } catch (err) {
         setError("Failed to fetch quotes");
@@ -63,7 +65,7 @@ const AdminQuotes = () => {
       if (editingQuote) {
         // Update quote
         const response = await axios.put(
-          `http://localhost:8000/api/quotes/${editingQuote._id}`,
+          `https://a2f-backend.onrender.com/api/quotes/${editingQuote._id}`,
           data,
           { withCredentials: true }
         );
@@ -75,7 +77,7 @@ const AdminQuotes = () => {
       } else {
         // Create quote
         const response = await axios.post(
-          "http://localhost:8000/api/quotes",
+          "https://a2f-backend.onrender.com/api/quotes",
           data,
           { withCredentials: true }
         );
@@ -111,7 +113,7 @@ const AdminQuotes = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this quote?")) return;
     try {
-      await axios.delete(`http://localhost:8000/api/quotes/${id}`, {
+      await axios.delete(`https://a2f-backend.onrender.com/api/quotes/${id}`, {
         withCredentials: true,
       });
       setQuotes(quotes.filter((q) => q._id !== id));

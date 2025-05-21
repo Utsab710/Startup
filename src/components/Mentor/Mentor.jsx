@@ -93,7 +93,9 @@ function Mentor() {
   useEffect(() => {
     const fetchMentors = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/mentor/");
+        const response = await axios.get(
+          "https://a2f-backend.onrender.com/api/mentor/"
+        );
         setMentors(response.data || []);
       } catch (error) {
         console.error("Fetch mentors error:", error);

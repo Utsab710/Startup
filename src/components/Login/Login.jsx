@@ -55,7 +55,7 @@ export default function Login() {
                 {error.includes("Unable to connect") && (
                   <p className="mt-2 text-xs">
                     Make sure your backend server is running at
-                    http://localhost:8000
+                    https://a2f-backend.onrender.com
                   </p>
                 )}
               </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "../ThemeToggle/ThemeContext";
 import { motion, useInView } from "framer-motion";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../Context/AuthContext";
 import axios from "axios";
 
 // Team Member Card Component
@@ -139,9 +139,12 @@ function Team() {
   useEffect(() => {
     const fetchTeamMembers = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/team", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          "https://a2f-backend.onrender.com/api/team",
+          {
+            withCredentials: true,
+          }
+        );
         setTeamMembers(response.data);
         setLoading(false);
       } catch (err) {

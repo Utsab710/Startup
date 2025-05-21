@@ -22,7 +22,7 @@ const AdminPartners = () => {
         setFetchLoading(true);
         try {
           const response = await axios.get(
-            "http://localhost:8000/api/partners/all",
+            "https://a2f-backend.onrender.com/api/partners/all",
             { withCredentials: true }
           );
           setPartners(response.data);
@@ -76,7 +76,7 @@ const AdminPartners = () => {
       if (editingPartner) {
         // Update partner
         const response = await axios.put(
-          `http://localhost:8000/api/partners/update-logo/${editingPartner._id}`,
+          `https://a2f-backend.onrender.com/api/partners/update-logo/${editingPartner._id}`,
           data,
           { withCredentials: true }
         );
@@ -90,7 +90,7 @@ const AdminPartners = () => {
       } else {
         // Create partner
         const response = await axios.post(
-          "http://localhost:8000/api/partners/add",
+          "https://a2f-backend.onrender.com/api/partners/add",
           data,
           { withCredentials: true }
         );
@@ -131,7 +131,7 @@ const AdminPartners = () => {
 
     try {
       await axios.delete(
-        `http://localhost:8000/api/partners/delete/${partnerId}`,
+        `https://a2f-backend.onrender.com/api/partners/delete/${partnerId}`,
         { withCredentials: true }
       );
       setPartners(partners.filter((p) => p._id !== partnerId));

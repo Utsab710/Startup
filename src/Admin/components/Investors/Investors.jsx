@@ -17,7 +17,7 @@ function Investors() {
     const fetchInvestors = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/investors/all",
+          "https://a2f-backend.onrender.com/api/investors/all",
           {
             withCredentials: true,
           }
@@ -66,7 +66,7 @@ function Investors() {
 
       try {
         await axios.put(
-          `http://localhost:8000/api/investors/approve/${investorId}`,
+          `https://a2f-backend.onrender.com/api/investors/approve/${investorId}`,
           formData,
           {
             withCredentials: true,
@@ -103,7 +103,7 @@ function Investors() {
 
       try {
         const response = await axios.put(
-          `http://localhost:8000/api/investors/update-logo/${investorId}`,
+          `https://a2f-backend.onrender.com/api/investors/update-logo/${investorId}`,
           formData,
           {
             withCredentials: true,
@@ -140,7 +140,7 @@ function Investors() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/investors/add-previous",
+        "https://a2f-backend.onrender.com/api/investors/add-previous",
         formData,
         {
           withCredentials: true,
@@ -168,7 +168,7 @@ function Investors() {
 
     try {
       await axios.delete(
-        `http://localhost:8000/api/investors/delete/${investorId}`,
+        `https://a2f-backend.onrender.com/api/investors/delete/${investorId}`,
         {
           withCredentials: true,
         }
