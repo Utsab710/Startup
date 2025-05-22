@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
-
+import Cookies from "js-Cookie";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -63,6 +63,7 @@ export const AuthProvider = ({ children }) => {
       if (response.data.status === "deactivated") {
         throw new Error("Account is deactivated");
       }
+      Cookies.set("token", response?.data?.token);
       setUser(response.data);
       return response.data;
     } catch (error) {
